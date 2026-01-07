@@ -12,7 +12,7 @@ import { DemoService, Demo } from '../../services/demo.service';
         <div class="max-w-7xl mx-auto px-6 py-5">
           <div class="flex items-center gap-3">
             <div
-              class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center"
+              class="w-10 h-10 rounded-xl bg-linear-to-br from-cyan-400 to-blue-600 flex items-center justify-center"
             >
               <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -35,7 +35,7 @@ import { DemoService, Demo } from '../../services/demo.service';
       <main class="max-w-7xl mx-auto px-6 py-12">
         <div class="mb-12">
           <h2
-            class="text-3xl font-bold mb-3 bg-gradient-to-r from-zinc-100 to-zinc-400 bg-clip-text text-transparent"
+            class="text-3xl font-bold mb-3 bg-linear-to-r from-zinc-100 to-zinc-400 bg-clip-text text-transparent"
           >
             Explore Demos
           </h2>
@@ -58,7 +58,7 @@ import { DemoService, Demo } from '../../services/demo.service';
             >
               <!-- Preview Gradient -->
               <div
-                class="h-40 bg-gradient-to-br {{ demo.previewGradient }} relative overflow-hidden"
+                class="h-40 bg-linear-to-br {{ demo.previewGradient }} relative overflow-hidden"
                 [style.view-transition-name]="'demo-preview-' + demo.id"
               >
                 <!-- Grid Pattern Overlay -->
@@ -71,10 +71,10 @@ import { DemoService, Demo } from '../../services/demo.service';
                 </div>
                 <!-- Glow Effect on Hover -->
                 <div
-                  class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent opacity-60"
+                  class="absolute inset-0 bg-linear-to-t from-zinc-900 via-transparent to-transparent opacity-60"
                 ></div>
                 <div
-                  class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  class="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-white/20 to-transparent"
                 ></div>
               </div>
 
