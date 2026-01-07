@@ -1,3 +1,112 @@
-/* You can add global styles to this file, and also import other style files */
+/* Custom fonts - must come before tailwindcss */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 
-@import "tailwindcss";
+@import 'tailwindcss';
+
+/* Base styles */
+:root {
+  --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+}
+
+html {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #09090b;
+  color: #fafafa;
+  min-height: 100vh;
+}
+
+/* View Transitions */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-from-right {
+  from {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-to-left {
+  to {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+}
+
+::view-transition-old(root) {
+  animation: 200ms cubic-bezier(0.4, 0, 0.2, 1) both fade-out;
+}
+
+::view-transition-new(root) {
+  animation: 300ms cubic-bezier(0.4, 0, 0.2, 1) both fade-in;
+}
+
+/* Card to page expansion animation */
+::view-transition-old(demo-card-basic-grid),
+::view-transition-old(demo-card-employee-directory),
+::view-transition-old(demo-card-analytics-dashboard) {
+  animation: 300ms cubic-bezier(0.4, 0, 0.2, 1) both fade-out;
+}
+
+::view-transition-new(demo-card-basic-grid),
+::view-transition-new(demo-card-employee-directory),
+::view-transition-new(demo-card-analytics-dashboard) {
+  animation: 400ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
+}
+
+/* Preview gradient morph */
+::view-transition-group(demo-preview-basic-grid),
+::view-transition-group(demo-preview-employee-directory),
+::view-transition-group(demo-preview-analytics-dashboard) {
+  animation-duration: 400ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Title morph */
+::view-transition-group(demo-title-basic-grid),
+::view-transition-group(demo-title-employee-directory),
+::view-transition-group(demo-title-analytics-dashboard) {
+  animation-duration: 350ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #18181b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #52525b;
+}
+
+/* Selection styling */
+::selection {
+  background-color: rgba(6, 182, 212, 0.3);
+  color: #fafafa;
+}
