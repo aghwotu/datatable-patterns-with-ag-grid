@@ -27,6 +27,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'demo/server-side-filtering',
+    loadComponent: () =>
+      import('./demos/server-side-filtering/server-side-filtering-demo.component').then(
+        (m) => m.ServerSideFilteringDemoComponent
+      ),
+  },
+  {
     path: 'demo/:id',
     loadComponent: () =>
       import('./pages/demo-detail/demo-detail.component').then((m) => m.DemoDetailComponent),

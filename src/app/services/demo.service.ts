@@ -46,6 +46,16 @@ const floatingFiltersDemo: Demo = {
   hasCustomRoute: true,
 };
 
+const serverSideFilteringDemo: Demo = {
+  id: 'server-side-filtering',
+  title: 'Server-Side Filtering',
+  description:
+    'Server-side filtering and pagination with mock API. Features loading states, debounced search, and custom pagination controls.',
+  tags: ['Server-Side Data', 'API Pagination', 'Loading States'],
+  previewGradient: 'from-sky-500 via-blue-600 to-indigo-700',
+  hasCustomRoute: true,
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -54,6 +64,7 @@ export class DemoService {
     columnVisibilityDemo,
     ellipsisActionsDemo,
     floatingFiltersDemo,
+    serverSideFilteringDemo,
     basicGridDemo,
     employeeDirectoryDemo,
     analyticsDashboardDemo,
