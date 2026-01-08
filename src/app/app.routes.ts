@@ -34,6 +34,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'demo/custom-cell-renderers',
+    loadComponent: () =>
+      import('./demos/custom-cell-renderers/custom-cell-renderers-demo.component').then(
+        (m) => m.CustomCellRenderersDemoComponent
+      ),
+  },
+  {
     path: 'demo/:id',
     loadComponent: () =>
       import('./pages/demo-detail/demo-detail.component').then((m) => m.DemoDetailComponent),

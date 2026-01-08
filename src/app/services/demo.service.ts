@@ -56,6 +56,16 @@ const serverSideFilteringDemo: Demo = {
   hasCustomRoute: true,
 };
 
+const customCellRenderersDemo: Demo = {
+  id: 'custom-cell-renderers',
+  title: 'Custom Cell Renderers',
+  description:
+    'Rich visual components inside grid cells: avatars, progress bars, badges with icons, trend indicators, and formatted currency.',
+  tags: ['ICellRendererAngularComp', 'Visual Cells', 'Rich Data Display'],
+  previewGradient: 'from-rose-500 via-pink-600 to-fuchsia-700',
+  hasCustomRoute: true,
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -65,6 +75,7 @@ export class DemoService {
     ellipsisActionsDemo,
     floatingFiltersDemo,
     serverSideFilteringDemo,
+    customCellRenderersDemo,
     basicGridDemo,
     employeeDirectoryDemo,
     analyticsDashboardDemo,
