@@ -9,15 +9,33 @@ export interface Demo {
   description: string;
   tags: string[];
   previewGradient: string;
-  rowData: any[];
-  columnDefs: any[];
+  /** If true, this demo has a dedicated route at /demo/{id} */
+  hasCustomRoute?: boolean;
+  rowData?: any[];
+  columnDefs?: any[];
 }
+
+// Feature demos with custom routes (showcasing specific AG-Grid features)
+const columnVisibilityDemo: Demo = {
+  id: 'column-visibility',
+  title: 'Column Visibility Toggle',
+  description:
+    'Toggle which columns to display using a checkbox dropdown menu. Built with Angular CDK Menu for accessibility and smooth UX.',
+  tags: ['Column Management', 'Banking', 'CDK Menu'],
+  previewGradient: 'from-emerald-500 via-teal-600 to-cyan-700',
+  hasCustomRoute: true,
+};
 
 @Injectable({
   providedIn: 'root',
 })
 export class DemoService {
-  private demos: Demo[] = [basicGridDemo, employeeDirectoryDemo, analyticsDashboardDemo];
+  private demos: Demo[] = [
+    columnVisibilityDemo,
+    basicGridDemo,
+    employeeDirectoryDemo,
+    analyticsDashboardDemo,
+  ];
 
   getDemos(): Demo[] {
     return this.demos;

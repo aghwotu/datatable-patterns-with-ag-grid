@@ -6,6 +6,13 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
   },
   {
+    path: 'demo/column-visibility',
+    loadComponent: () =>
+      import('./demos/column-visibility/column-visibility-demo.component').then(
+        (m) => m.ColumnVisibilityDemoComponent
+      ),
+  },
+  {
     path: 'demo/:id',
     loadComponent: () =>
       import('./pages/demo-detail/demo-detail.component').then((m) => m.DemoDetailComponent),
