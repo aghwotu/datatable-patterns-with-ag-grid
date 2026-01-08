@@ -20,6 +20,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'demo/floating-filters',
+    loadComponent: () =>
+      import('./demos/floating-filters/floating-filters-demo.component').then(
+        (m) => m.FloatingFiltersDemoComponent
+      ),
+  },
+  {
     path: 'demo/:id',
     loadComponent: () =>
       import('./pages/demo-detail/demo-detail.component').then((m) => m.DemoDetailComponent),

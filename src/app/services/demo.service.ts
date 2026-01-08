@@ -36,6 +36,16 @@ const ellipsisActionsDemo: Demo = {
   hasCustomRoute: true,
 };
 
+const floatingFiltersDemo: Demo = {
+  id: 'floating-filters',
+  title: 'Floating Filter Dropdowns',
+  description:
+    'Custom dropdown filters above columns for quick, intuitive filtering. Implements IFloatingFilter with reusable dropdown components.',
+  tags: ['Floating Filters', 'Custom Components', 'Client-Side Filtering'],
+  previewGradient: 'from-amber-500 via-orange-600 to-red-700',
+  hasCustomRoute: true,
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -43,6 +53,7 @@ export class DemoService {
   private demos: Demo[] = [
     columnVisibilityDemo,
     ellipsisActionsDemo,
+    floatingFiltersDemo,
     basicGridDemo,
     employeeDirectoryDemo,
     analyticsDashboardDemo,
