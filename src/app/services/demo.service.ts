@@ -66,6 +66,16 @@ const customCellRenderersDemo: Demo = {
   hasCustomRoute: true,
 };
 
+const groupedColumnsDemo: Demo = {
+  id: 'grouped-columns',
+  title: 'Grouped Column Headers',
+  description:
+    'Organize related columns under shared headers using ColGroupDef. Toggle entire column groups on/off with the visibility control.',
+  tags: ['ColGroupDef', 'Group Visibility', 'Nested Headers'],
+  previewGradient: 'from-lime-500 via-green-600 to-emerald-700',
+  hasCustomRoute: true,
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -76,6 +86,7 @@ export class DemoService {
     floatingFiltersDemo,
     serverSideFilteringDemo,
     customCellRenderersDemo,
+    groupedColumnsDemo,
     basicGridDemo,
     employeeDirectoryDemo,
     analyticsDashboardDemo,

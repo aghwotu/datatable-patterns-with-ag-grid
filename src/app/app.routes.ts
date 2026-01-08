@@ -41,6 +41,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'demo/grouped-columns',
+    loadComponent: () =>
+      import('./demos/grouped-columns/grouped-columns-demo.component').then(
+        (m) => m.GroupedColumnsDemoComponent
+      ),
+  },
+  {
     path: 'demo/:id',
     loadComponent: () =>
       import('./pages/demo-detail/demo-detail.component').then((m) => m.DemoDetailComponent),
