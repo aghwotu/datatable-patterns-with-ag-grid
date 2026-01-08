@@ -48,6 +48,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'demo/trading-platform',
+    loadComponent: () =>
+      import('./demos/trading-platform/trading-platform-demo.component').then(
+        (m) => m.TradingPlatformDemoComponent
+      ),
+  },
+  {
     path: 'demo/:id',
     loadComponent: () =>
       import('./pages/demo-detail/demo-detail.component').then((m) => m.DemoDetailComponent),

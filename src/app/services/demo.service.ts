@@ -76,11 +76,22 @@ const groupedColumnsDemo: Demo = {
   hasCustomRoute: true,
 };
 
+const tradingPlatformDemo: Demo = {
+  id: 'trading-platform',
+  title: 'Trading Platform',
+  description:
+    'A comprehensive trading orders grid combining all AG-Grid features: column visibility, ellipsis actions, floating filters, server-side pagination, and custom cell renderers.',
+  tags: ['All Features', 'Server-Side', 'Trading Orders'],
+  previewGradient: 'from-amber-500 via-orange-600 to-red-700',
+  hasCustomRoute: true,
+};
+
 @Injectable({
   providedIn: 'root',
 })
 export class DemoService {
   private demos: Demo[] = [
+    tradingPlatformDemo,
     columnVisibilityDemo,
     ellipsisActionsDemo,
     floatingFiltersDemo,
