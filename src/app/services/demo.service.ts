@@ -86,12 +86,23 @@ const tradingPlatformDemo: Demo = {
   hasCustomRoute: true,
 };
 
+const observabilityDemo: Demo = {
+  id: 'observability',
+  title: 'Observability Table',
+  description:
+    'Dark-themed operations dashboard with status badges, latency metrics, timing phase bars, and external filter rail built with mango accordions.',
+  tags: ['Observability', 'Latency', 'Filters'],
+  previewGradient: 'from-cyan-500 via-sky-600 to-indigo-700',
+  hasCustomRoute: true,
+};
+
 @Injectable({
   providedIn: 'root',
 })
 export class DemoService {
   private demos: Demo[] = [
     tradingPlatformDemo,
+    observabilityDemo,
     columnVisibilityDemo,
     ellipsisActionsDemo,
     floatingFiltersDemo,

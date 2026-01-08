@@ -55,6 +55,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'demo/observability',
+    loadComponent: () =>
+      import('./demos/observability/observability-demo.component').then(
+        (m) => m.ObservabilityDemoComponent
+      ),
+  },
+  {
     path: 'demo/:id',
     loadComponent: () =>
       import('./pages/demo-detail/demo-detail.component').then((m) => m.DemoDetailComponent),
