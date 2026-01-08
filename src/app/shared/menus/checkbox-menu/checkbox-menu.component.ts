@@ -88,56 +88,54 @@ export class CheckboxMenuConfigDirective<T = void> {
           <fieldset class="p-4">
             <legend class="sr-only">{{ label() }} options</legend>
             <div class="space-y-2">
-              @if (visibleItems().length) {
-                @for (item of visibleItems(); track item.id) {
-                  <div
-                    class="flex gap-3"
-                    cdkMenuItem
-                    cdkMenuItemPreventClose
-                    (cdkMenuItemTriggered)="onMenuItemTriggered(item)"
-                  >
-                    <div class="flex h-6 shrink-0 items-center">
-                      <div class="group grid size-4 grid-cols-1">
-                        <input
-                          [id]="item.id"
-                          [name]="item.id"
-                          type="checkbox"
-                          [(ngModel)]="item.checked"
-                          (change)="onCheckboxChange(item, $event)"
-                          [disabled]="isDisabled(item)"
-                          [attr.aria-describedby]="item.description ? item.id + '-description' : null"
-                          class="col-start-1 row-start-1 appearance-none rounded border border-zinc-600 bg-zinc-700 checked:border-cyan-500 checked:bg-cyan-600 indeterminate:border-cyan-500 indeterminate:bg-cyan-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500 disabled:border-zinc-700 disabled:bg-zinc-800 disabled:checked:bg-zinc-700 forced-colors:appearance-auto"
-                          (click)="$event.stopPropagation()"
-                        />
-                        <svg
-                          class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white"
-                          viewBox="0 0 14 14"
-                          fill="none"
-                        >
-                          <path
-                            class="opacity-0 group-has-[:checked]:opacity-100"
-                            d="M3 8L6 11L11 3.5"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div class="text-sm/6" (click)="$event.stopPropagation()">
-                      <label [for]="item.id" class="{{ menuFontSize() }} text-zinc-100">{{
-                        item.label
-                      }}</label>
-                      @if (item.description) {
-                        <span [id]="item.id + '-description'" class="text-zinc-400">
-                          <span class="sr-only">{{ item.label }} </span>
-                          {{ item.description }}
-                        </span>
-                      }
-                    </div>
+              @if (visibleItems().length) { @for (item of visibleItems(); track item.id) {
+              <div
+                class="flex gap-3"
+                cdkMenuItem
+                cdkMenuItemPreventClose
+                (cdkMenuItemTriggered)="onMenuItemTriggered(item)"
+              >
+                <div class="flex h-6 shrink-0 items-center">
+                  <div class="group grid size-4 grid-cols-1">
+                    <input
+                      [id]="item.id"
+                      [name]="item.id"
+                      type="checkbox"
+                      [(ngModel)]="item.checked"
+                      (change)="onCheckboxChange(item, $event)"
+                      [disabled]="isDisabled(item)"
+                      [attr.aria-describedby]="item.description ? item.id + '-description' : null"
+                      class="col-start-1 row-start-1 appearance-none rounded border border-zinc-600 bg-zinc-700 checked:border-cyan-500 checked:bg-cyan-600 indeterminate:border-cyan-500 indeterminate:bg-cyan-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500 disabled:border-zinc-700 disabled:bg-zinc-800 disabled:checked:bg-zinc-700 forced-colors:appearance-auto"
+                      (click)="$event.stopPropagation()"
+                    />
+                    <svg
+                      class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white"
+                      viewBox="0 0 14 14"
+                      fill="none"
+                    >
+                      <path
+                        class="opacity-0 group-has-checked:opacity-100"
+                        d="M3 8L6 11L11 3.5"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
                   </div>
-                }
-              }
+                </div>
+                <div class="text-sm/6" (click)="$event.stopPropagation()">
+                  <label [for]="item.id" class="{{ menuFontSize() }} text-zinc-100">{{
+                    item.label
+                  }}</label>
+                  @if (item.description) {
+                  <span [id]="item.id + '-description'" class="text-zinc-400">
+                    <span class="sr-only">{{ item.label }} </span>
+                    {{ item.description }}
+                  </span>
+                  }
+                </div>
+              </div>
+              } }
             </div>
           </fieldset>
         </div>

@@ -233,9 +233,9 @@ const transactionData: BankTransaction[] = [
       </header>
 
       <!-- Demo Info Banner -->
-      <div class="bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-700 relative">
+      <div class="bg-linear-to-br from-emerald-500 via-teal-600 to-cyan-700 relative">
         <div
-          class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent"
+          class="absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/50 to-transparent"
         ></div>
         <div class="relative max-w-7xl mx-auto px-6 py-12">
           <div class="max-w-3xl">
@@ -273,15 +273,15 @@ const transactionData: BankTransaction[] = [
             <span class="text-zinc-100 font-medium">{{ rowData.length }}</span> transactions
           </div>
           @if (gridApi()) {
-            <app-column-visibility-menu
-              [gridApi]="gridApi()!"
-              [excludeFields]="['id']"
-              (columnVisibilityChanged)="onColumnVisibilityChanged($event)"
-              [size]="'sm'"
-              [variant]="'outline'"
-              [weight]="'normal'"
-              [menuWidth]="'w-52'"
-            />
+          <app-column-visibility-menu
+            [gridApi]="gridApi()!"
+            [excludeFields]="['id']"
+            (columnVisibilityChanged)="onColumnVisibilityChanged($event)"
+            [size]="'sm'"
+            [variant]="'outline'"
+            [weight]="'normal'"
+            [menuWidth]="'w-52'"
+          />
           }
         </div>
       </div>

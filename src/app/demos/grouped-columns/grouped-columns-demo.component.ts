@@ -221,9 +221,9 @@ const clientData: PortfolioClient[] = [
       </header>
 
       <!-- Demo Info Banner -->
-      <div class="bg-gradient-to-br from-lime-500 via-green-600 to-emerald-700 relative">
+      <div class="bg-linear-to-br from-lime-500 via-green-600 to-emerald-700 relative">
         <div
-          class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent"
+          class="absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/50 to-transparent"
         ></div>
         <div class="relative max-w-7xl mx-auto px-6 py-12">
           <div class="max-w-3xl">
@@ -263,11 +263,11 @@ const clientData: PortfolioClient[] = [
             <span class="text-zinc-500">3 column groups</span>
           </div>
           @if (gridApi()) {
-            <app-group-visibility-menu
-              [gridApi]="gridApi()!"
-              [columnDefs]="columnDefs"
-              (columnDefsChange)="onColumnDefsChange($event)"
-            />
+          <app-group-visibility-menu
+            [gridApi]="gridApi()!"
+            [columnDefs]="columnDefs"
+            (columnDefsChange)="onColumnDefsChange($event)"
+          />
           }
         </div>
       </div>
