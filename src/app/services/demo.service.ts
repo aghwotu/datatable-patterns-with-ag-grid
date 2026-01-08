@@ -26,12 +26,23 @@ const columnVisibilityDemo: Demo = {
   hasCustomRoute: true,
 };
 
+const ellipsisActionsDemo: Demo = {
+  id: 'ellipsis-actions',
+  title: 'Ellipsis Actions Menu',
+  description:
+    'Row-level contextual actions via a three-dot menu. Actions can be dynamically hidden or disabled based on row data.',
+  tags: ['Row Actions', 'Contextual Menu', 'Cell Renderer'],
+  previewGradient: 'from-violet-500 via-purple-600 to-fuchsia-700',
+  hasCustomRoute: true,
+};
+
 @Injectable({
   providedIn: 'root',
 })
 export class DemoService {
   private demos: Demo[] = [
     columnVisibilityDemo,
+    ellipsisActionsDemo,
     basicGridDemo,
     employeeDirectoryDemo,
     analyticsDashboardDemo,

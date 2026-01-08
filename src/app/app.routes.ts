@@ -13,6 +13,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'demo/ellipsis-actions',
+    loadComponent: () =>
+      import('./demos/ellipsis-actions/ellipsis-actions-demo.component').then(
+        (m) => m.EllipsisActionsDemoComponent
+      ),
+  },
+  {
     path: 'demo/:id',
     loadComponent: () =>
       import('./pages/demo-detail/demo-detail.component').then((m) => m.DemoDetailComponent),
