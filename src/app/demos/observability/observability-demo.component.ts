@@ -259,7 +259,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
                 @for (bucket of timelineBuckets(); track bucket.date) {
                   <div class="flex flex-col items-center gap-1 min-w-[42px]">
                     <div
-                      class="w-8 rounded bg-gradient-to-t from-cyan-500/40 via-sky-500/50 to-indigo-500/70 border border-cyan-500/30"
+                      class="w-8 rounded bg-linear-to-t from-cyan-500/40 via-sky-500/50 to-indigo-500/70 border border-cyan-500/30"
                       [style.height]="getTimelineHeight(bucket.count)"
                     ></div>
                     <span class="text-[11px] text-zinc-400">{{ bucket.label }}</span>
@@ -647,11 +647,7 @@ export class ObservabilityDemoComponent implements OnInit, OnDestroy {
     const latency = this.latencyRange();
     const statusActive = !status.success || !status.warning || !status.error;
     return (
-      statusActive ||
-      methods.size > 0 ||
-      regions.size > 0 ||
-      latency.min > 0 ||
-      latency.max < 2000
+      statusActive || methods.size > 0 || regions.size > 0 || latency.min > 0 || latency.max < 2000
     );
   };
 
