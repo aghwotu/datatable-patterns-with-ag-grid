@@ -63,13 +63,19 @@ ModuleRegistry.registerModules([AllCommunityModule]);
       </header>
 
       <!-- Demo Info Banner -->
-      <div class="bg-gradient-to-br from-amber-500 via-orange-600 to-red-700 relative">
+      <div
+        class="bg-gradient-to-br from-amber-500 via-orange-600 to-red-700 relative"
+        style="view-transition-name: demo-preview-trading-platform"
+      >
         <div
           class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent"
         ></div>
         <div class="relative max-w-7xl mx-auto px-6 py-12">
           <div class="max-w-3xl">
-            <h1 class="text-3xl md:text-4xl font-bold mb-3 text-white">Trading Platform</h1>
+            <h1
+              class="text-3xl md:text-4xl font-bold mb-3 text-white"
+              style="view-transition-name: demo-title-trading-platform"
+            >Trading Platform</h1>
             <p class="text-zinc-200 text-lg mb-5">
               A comprehensive trading orders grid combining all AG-Grid features: column visibility,
               ellipsis actions, floating filters, server-side pagination, and custom cell renderers.

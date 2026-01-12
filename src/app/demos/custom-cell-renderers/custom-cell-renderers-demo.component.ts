@@ -210,13 +210,19 @@ const clientData: PortfolioClient[] = [
       </header>
 
       <!-- Demo Info Banner -->
-      <div class="bg-gradient-to-br from-rose-500 via-pink-600 to-fuchsia-700 relative">
+      <div
+        class="bg-gradient-to-br from-rose-500 via-pink-600 to-fuchsia-700 relative"
+        style="view-transition-name: demo-preview-custom-cell-renderers"
+      >
         <div
           class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent"
         ></div>
         <div class="relative max-w-7xl mx-auto px-6 py-12">
           <div class="max-w-3xl">
-            <h1 class="text-3xl md:text-4xl font-bold mb-3 text-white">Custom Cell Renderers</h1>
+            <h1
+              class="text-3xl md:text-4xl font-bold mb-3 text-white"
+              style="view-transition-name: demo-title-custom-cell-renderers"
+            >Custom Cell Renderers</h1>
             <p class="text-zinc-200 text-lg mb-5">
               Rich visual components inside AG-Grid cells. Each column showcases a different custom
               renderer: avatars with initials, progress bars, badges with icons, trend indicators,

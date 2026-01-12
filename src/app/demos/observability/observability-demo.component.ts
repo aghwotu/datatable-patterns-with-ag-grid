@@ -36,7 +36,10 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   template: `
     <div class="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col">
       <!-- Header -->
-      <header class="border-b border-zinc-800/60 bg-zinc-950/90 backdrop-blur-sm sticky top-0 z-40">
+      <header
+        class="border-b border-zinc-800/60 bg-zinc-950/90 backdrop-blur-sm sticky top-0 z-40"
+        style="view-transition-name: demo-preview-observability"
+      >
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center gap-4">
           <a
             routerLink="/"
@@ -52,7 +55,10 @@ ModuleRegistry.registerModules([AllCommunityModule]);
             <span class="text-sm font-medium">Back to Demos</span>
           </a>
           <div class="flex-1"></div>
-          <div class="text-sm text-zinc-400">Observability Table</div>
+          <div
+            class="text-sm text-zinc-400"
+            style="view-transition-name: demo-title-observability"
+          >Observability Table</div>
         </div>
       </header>
 

@@ -221,13 +221,19 @@ const clientData: PortfolioClient[] = [
       </header>
 
       <!-- Demo Info Banner -->
-      <div class="bg-linear-to-br from-lime-500 via-green-600 to-emerald-700 relative">
+      <div
+        class="bg-linear-to-br from-lime-500 via-green-600 to-emerald-700 relative"
+        style="view-transition-name: demo-preview-grouped-columns"
+      >
         <div
           class="absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/50 to-transparent"
         ></div>
         <div class="relative max-w-7xl mx-auto px-6 py-12">
           <div class="max-w-3xl">
-            <h1 class="text-3xl md:text-4xl font-bold mb-3 text-white">Grouped Column Headers</h1>
+            <h1
+              class="text-3xl md:text-4xl font-bold mb-3 text-white"
+              style="view-transition-name: demo-title-grouped-columns"
+            >Grouped Column Headers</h1>
             <p class="text-zinc-200 text-lg mb-5">
               Organize related columns under shared headers using AG-Grid's ColGroupDef. Toggle
               entire column groups on/off with the visibility control. Perfect for complex data with

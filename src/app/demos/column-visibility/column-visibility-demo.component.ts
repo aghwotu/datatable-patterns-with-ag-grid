@@ -233,13 +233,19 @@ const transactionData: BankTransaction[] = [
       </header>
 
       <!-- Demo Info Banner -->
-      <div class="bg-linear-to-br from-emerald-500 via-teal-600 to-cyan-700 relative">
+      <div
+        class="bg-linear-to-br from-emerald-500 via-teal-600 to-cyan-700 relative"
+        style="view-transition-name: demo-preview-column-visibility"
+      >
         <div
           class="absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/50 to-transparent"
         ></div>
         <div class="relative max-w-7xl mx-auto px-6 py-12">
           <div class="max-w-3xl">
-            <h1 class="text-3xl md:text-4xl font-bold mb-3 text-white">Column Visibility Toggle</h1>
+            <h1
+              class="text-3xl md:text-4xl font-bold mb-3 text-white"
+              style="view-transition-name: demo-title-column-visibility"
+            >Column Visibility Toggle</h1>
             <p class="text-zinc-200 text-lg mb-5">
               A comprehensive transaction history table with many columns. Toggle which columns to
               display using the dropdown menu. Perfect for tables with extensive data where users
