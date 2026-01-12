@@ -19,6 +19,9 @@ import { StatusCellComponent } from './renderers/status-cell.component';
 import { LatencyCellComponent } from './renderers/latency-cell.component';
 import { TimingPhasesCellComponent } from './renderers/timing-phases-cell.component';
 
+// Note: StatusCellComponent and LatencyCellComponent are used as AG Grid cellRenderer references
+// in columnDefs, not in the template directly, so they don't need to be in the imports array.
+
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
@@ -29,8 +32,6 @@ ModuleRegistry.registerModules([AllCommunityModule]);
     FormsModule,
     RouterLink,
     AgGridAngular,
-    StatusCellComponent,
-    LatencyCellComponent,
     TimingPhasesCellComponent,
   ],
   template: `
