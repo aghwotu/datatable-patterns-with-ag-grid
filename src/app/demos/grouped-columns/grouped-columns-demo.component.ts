@@ -1,5 +1,4 @@
 import { Component, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
@@ -16,6 +15,7 @@ import { BadgeCellComponent } from '../custom-cell-renderers/renderers/badge-cel
 import { CurrencyCellComponent } from '../custom-cell-renderers/renderers/currency-cell.component';
 import { TrendCellComponent } from '../custom-cell-renderers/renderers/trend-cell.component';
 import { ProgressCellComponent } from '../custom-cell-renderers/renderers/progress-cell.component';
+import { DemoNavHeaderComponent } from '@shared/components/demo-nav-header/demo-nav-header.component';
 
 // Register AG-Grid modules
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -191,34 +191,10 @@ const clientData: PortfolioClient[] = [
 
 @Component({
   selector: 'app-grouped-columns-demo',
-  imports: [AgGridAngular, RouterLink, GroupVisibilityMenuComponent],
+  imports: [AgGridAngular, GroupVisibilityMenuComponent, DemoNavHeaderComponent],
   template: `
     <div class="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col">
-      <!-- Header -->
-      <header class="border-b border-zinc-800/50 backdrop-blur-sm bg-zinc-950/80 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4">
-          <div class="flex items-center gap-4">
-            <a
-              routerLink="/"
-              class="flex items-center gap-2 text-zinc-400 hover:text-zinc-100 transition-colors group"
-            >
-              <div
-                class="w-8 h-8 rounded-lg bg-zinc-800 group-hover:bg-zinc-700 flex items-center justify-center transition-colors"
-              >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                  />
-                </svg>
-              </div>
-              <span class="text-sm font-medium">Back to Demos</span>
-            </a>
-          </div>
-        </div>
-      </header>
+      <app-demo-nav-header [demoId]="'grouped-columns'" />
 
       <!-- Demo Info Banner -->
       <div

@@ -121,4 +121,20 @@ export class DemoService {
   getDemoById(id: string): Demo | undefined {
     return this.demos.find((demo) => demo.id === id);
   }
+
+  getDemoIndexById(id: string): number {
+    return this.demos.findIndex((demo) => demo.id === id);
+  }
+
+  getPrevDemo(id: string): Demo | undefined {
+    const idx = this.getDemoIndexById(id);
+    if (idx <= 0) return undefined;
+    return this.demos[idx - 1];
+  }
+
+  getNextDemo(id: string): Demo | undefined {
+    const idx = this.getDemoIndexById(id);
+    if (idx < 0 || idx >= this.demos.length - 1) return undefined;
+    return this.demos[idx + 1];
+  }
 }

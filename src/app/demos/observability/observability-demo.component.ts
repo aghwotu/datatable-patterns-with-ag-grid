@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, computed, effect, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { AgGridAngular } from 'ag-grid-angular';
@@ -18,6 +17,7 @@ import { ObservabilityApiService, ObservabilityEvent } from './services/observab
 import { StatusCellComponent } from './renderers/status-cell.component';
 import { LatencyCellComponent } from './renderers/latency-cell.component';
 import { TimingPhasesCellComponent } from './renderers/timing-phases-cell.component';
+import { DemoNavHeaderComponent } from '@shared/components/demo-nav-header/demo-nav-header.component';
 
 // Note: StatusCellComponent and LatencyCellComponent are used as AG Grid cellRenderer references
 // in columnDefs, not in the template directly, so they don't need to be in the imports array.
@@ -30,38 +30,13 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   imports: [
     CommonModule,
     FormsModule,
-    RouterLink,
     AgGridAngular,
     TimingPhasesCellComponent,
+    DemoNavHeaderComponent,
   ],
   template: `
     <div class="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col">
-      <!-- Header -->
-      <header
-        class="border-b border-zinc-800/60 bg-zinc-950/90 backdrop-blur-sm sticky top-0 z-40"
-        style="view-transition-name: demo-preview-observability"
-      >
-        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center gap-4">
-          <a
-            routerLink="/"
-            class="flex items-center gap-2 text-zinc-400 hover:text-zinc-100 transition-colors group"
-          >
-            <div
-              class="w-8 h-8 rounded-lg bg-zinc-800 group-hover:bg-zinc-700 flex items-center justify-center transition-colors"
-            >
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-              </svg>
-            </div>
-            <span class="text-sm font-medium">Back to Demos</span>
-          </a>
-          <div class="flex-1"></div>
-          <div
-            class="text-sm text-zinc-400"
-            style="view-transition-name: demo-title-observability"
-          >Observability Table</div>
-        </div>
-      </header>
+      <app-demo-nav-header [demoId]="'observability'" />
 
       <div class="flex flex-1 max-w-7xl w-full mx-auto gap-4 px-4 md:px-6 py-6">
         <!-- Filters rail -->
