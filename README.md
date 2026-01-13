@@ -1,59 +1,38 @@
-# AgGridTableDemos
+# Enterprise Data Table Patterns (AG Grid)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.4.
+Production-style data table reference implementations built with Angular + AG Grid.
 
-## Development server
+This repo focuses on **real-world UI constraints** (dense data, latency, conditional actions, progressive disclosure) rather than “feature tours”.
 
-To start a local development server, run:
+## What’s inside
 
-```bash
-ng serve
-```
+- **Trading Platform**: high-density table optimized for fast scanning, conditional actions, and latency-aware pagination.
+- **Observability Table**: operations dashboard table surfacing status, latency, and timing phases with external filters and drill-down details.
+- **Server-Driven Data & Filtering**: pagination/filtering under latency with loading states and debounced search.
+- **Column Management**: progressive disclosure for wide, dense datasets.
+- **Row Actions & Context Menus**: conditional actions that scale with state/permissions.
+- **Floating Filters**: fast column-level filtering without full filter panels.
+- **Grouped Column Headers**: wide-table grouping + group visibility controls.
+- **Custom Cell Renderers**: scan-friendly visual cells (avatars, badges, progress, trends).
+- **Baseline Grid**: a simple reference point for sort/filter/pagination.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Design notes (what this project is trying to demonstrate)
 
-## Code scaffolding
+- **Intent-first patterns**: each scenario has a user workflow, not a checklist of widgets.
+- **Constraint-aware UX**: loading states, debounce, progressive disclosure, scanability.
+- **Maintainable composition**: reusable components for menus/filters/renderers where it makes sense.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+## Run locally
 
 ```bash
-ng build
+npm install
+npm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Then open `http://localhost:4200/`.
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Build
 
 ```bash
-ng test
+npm run build
 ```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

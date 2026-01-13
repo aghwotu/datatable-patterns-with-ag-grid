@@ -4,8 +4,8 @@ export const basicGridDemo: Demo = {
   id: 'basic-grid',
   title: 'Basic Data Grid',
   description:
-    'A simple grid showcasing fundamental AG-Grid features with sorting, filtering, and pagination.',
-  tags: ['Basics', 'Sorting', 'Filtering'],
+    'A simple baseline table (sort/filter/pagination) to compare against the more advanced scenarios.',
+  tags: ['Baseline', 'Sorting', 'Pagination'],
   previewGradient: 'from-cyan-500 via-blue-600 to-purple-700',
   rowData: [
     { id: 1, name: 'Tesla Model S', make: 'Tesla', price: 79999, year: 2024 },

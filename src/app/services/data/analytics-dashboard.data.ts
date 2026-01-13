@@ -4,8 +4,8 @@ export const analyticsDashboardDemo: Demo = {
   id: 'analytics-dashboard',
   title: 'Analytics Dashboard',
   description:
-    'Real-time analytics data with sparklines, aggregations, and dynamic updates for monitoring metrics.',
-  tags: ['Analytics', 'Aggregation', 'Real-time'],
+    'A KPI summary table: today vs yesterday, percent change, and an at-a-glance trend direction.',
+  tags: ['KPIs', 'Deltas', 'Trends'],
   previewGradient: 'from-orange-500 via-rose-600 to-pink-700',
   rowData: [
     { metric: 'Page Views', today: 45230, yesterday: 42100, change: 7.4, trend: 'up' },

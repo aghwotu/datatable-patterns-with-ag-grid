@@ -4,8 +4,8 @@ export const employeeDirectoryDemo: Demo = {
   id: 'employee-directory',
   title: 'Employee Directory',
   description:
-    'An advanced employee management grid with editable cells, row selection, and custom cell renderers.',
-  tags: ['Editing', 'Selection', 'Custom Cells'],
+    'An internal admin-style directory: edit fields inline, select rows, and filter by role/department/status.',
+  tags: ['Internal Tools', 'Editable', 'Selection'],
   previewGradient: 'from-emerald-500 via-teal-600 to-cyan-700',
   rowData: [
     {

@@ -40,13 +40,13 @@ import { DemoService, Demo } from '../../services/demo.service';
           <h2
             class="text-3xl font-bold mb-3 bg-linear-to-r from-zinc-100 to-zinc-400 bg-clip-text text-transparent"
           >
-            Reference Scenarios or Implementation Scenarios
+            Reference Scenarios
           </h2>
           <p class="text-zinc-400 max-w-2xl">
             A collection of production-style
-            <a class="underline" href="https://ag-grid.com/">AG-Grid</a> implementations modeling
-            real-world use cases such as trading systems, observability dashboards, and large
-            server-driven datasets. Each scenario explores UX, performance, and customization
+            <a class="underline" href="https://ag-grid.com/">AG Grid</a> implementations modeling
+            real-world workflows (trading, observability, internal tools, and server-driven datasets).
+            Each scenario highlights UX constraints, performance considerations, and customization
             trade-offs.
           </p>
         </div>
@@ -92,9 +92,10 @@ import { DemoService, Demo } from '../../services/demo.service';
                 >
                   {{ demo.title }}
                 </h3>
-                <p class="text-sm text-zinc-400 mb-4 line-clamp-2">
+                <p class="text-sm text-zinc-400 mb-3 line-clamp-3">
                   {{ demo.description }}
                 </p>
+                <div class="text-xs text-zinc-500 mb-4">View details →</div>
 
                 <!-- Tags -->
                 <div class="flex flex-wrap gap-2 mt-auto">
