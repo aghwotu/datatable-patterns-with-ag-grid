@@ -23,6 +23,7 @@ const featureExplorerDemo: Demo = {
   tags: ['Feature Isolation', 'Table Density', 'UX Trade-offs'],
   previewGradient: 'from-cyan-500 via-blue-600 to-violet-700',
   hasCustomRoute: true,
+  isWip: true,
 };
 
 // Production-style observability table inspired by OpenStatus
