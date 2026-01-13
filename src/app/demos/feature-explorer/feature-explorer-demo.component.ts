@@ -1,5 +1,6 @@
-import { Component, computed, effect, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
@@ -9,6 +10,8 @@ import {
   GridReadyEvent,
   ColDef,
   ColGroupDef,
+  SelectionChangedEvent,
+  RowClickedEvent,
 } from 'ag-grid-community';
 import { DemoNavHeaderComponent } from '@shared/components/demo-nav-header/demo-nav-header.component';
 import { ColumnVisibilityMenuComponent } from '@shared/menus/column-visibility-menu/column-visibility-menu.component';
@@ -24,6 +27,8 @@ import {
   DropdownMenuItem,
 } from '@shared/menus/dropdown-menu/dropdown-menu.component';
 import { ToggleSwitchComponent } from '@shared/components/toggle-switch/toggle-switch.component';
+import { BottomSheetService } from '@shared/components/bottom-sheet/bottom-sheet.service';
+import { RowDetailsSheetComponent } from '@shared/components/bottom-sheet/row-details-sheet.component';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -358,15 +363,15 @@ const taskData: ProjectTask[] = [
         <div
           class="absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/50 to-transparent"
         ></div>
-        <div class="relative max-w-7xl mx-auto px-6 py-10">
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
           <div class="max-w-3xl">
             <h1
-              class="text-3xl md:text-4xl font-bold mb-3 text-white"
+              class="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3 text-white"
               style="view-transition-name: demo-title-feature-explorer"
             >
               Feature Explorer
             </h1>
-            <p class="text-zinc-200 text-lg">
+            <p class="text-zinc-200 text-sm sm:text-lg">
               This table isolates common AG-Grid features to make their UX and complexity costs
               visible. The goal is understanding how combinations of features affect readability,
               interaction cost, and maintainability.
@@ -375,11 +380,13 @@ const taskData: ProjectTask[] = [
         </div>
       </div>
 
-      <!-- Main Content: Sidebar + Grid -->
-      <div class="flex-1 flex w-full">
+      <!-- Main Content: Sidebar + Grid (responsive: stacked on mobile, side-by-side on lg+) -->
+      <div class="flex-1 flex flex-col lg:flex-row w-full">
         <!-- Sidebar: Feature Toggles -->
-        <aside class="w-72 shrink-0 border-r border-zinc-800/50 p-6">
-          <div class="flex items-center justify-between mb-6">
+        <aside
+          class="w-full lg:w-72 shrink-0 border-b lg:border-b-0 lg:border-r border-zinc-800/50 p-4 sm:p-6"
+        >
+          <div class="flex items-center justify-between mb-4 sm:mb-6">
             <h2 class="text-sm font-semibold text-zinc-400 uppercase tracking-wide">Features</h2>
             <div class="flex gap-1">
               <button
@@ -407,11 +414,13 @@ const taskData: ProjectTask[] = [
             </div>
           </div>
 
-          <!-- Toggle List -->
-          <div class="space-y-1">
+          <!-- Toggle List (horizontal scroll on mobile, vertical on lg+) -->
+          <div
+            class="flex lg:flex-col gap-2 lg:gap-1 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0 -mx-1 px-1 lg:mx-0 lg:px-0"
+          >
             @for (feature of features(); track feature.id; let i = $index) {
             <div
-              class="flex items-center justify-between py-3 px-3 rounded-lg transition-colors"
+              class="flex items-center justify-between py-2 sm:py-3 px-3 rounded-lg transition-colors shrink-0 lg:shrink min-w-[200px] lg:min-w-0"
               [class]="feature.enabled ? 'bg-cyan-500/5' : 'hover:bg-zinc-800/30'"
             >
               <div class="min-w-0 pr-3">
@@ -432,7 +441,7 @@ const taskData: ProjectTask[] = [
           </div>
 
           <!-- Active Count -->
-          <div class="mt-6 pt-6 border-t border-zinc-800/50">
+          <div class="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-zinc-800/50">
             <div class="text-xs text-zinc-500">
               <span class="text-cyan-400 font-semibold">{{ enabledFeatures().length }}</span>
               of {{ features().length }} features enabled
@@ -441,10 +450,11 @@ const taskData: ProjectTask[] = [
         </aside>
 
         <!-- Main Grid Area -->
-        <main class="flex-1 flex flex-col p-6">
+        <main class="flex-1 flex flex-col p-4 sm:p-6 min-w-0">
           <!-- Toolbar -->
-          <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
-            <div class="flex items-center gap-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
+            <!-- Left: Filters -->
+            <div class="flex items-center gap-2 sm:gap-4 flex-wrap">
               @if (isFeatureEnabled('floatingFilters')) {
               <div class="flex items-center gap-2">
                 <span class="text-xs text-zinc-500">Status:</span>
@@ -471,14 +481,40 @@ const taskData: ProjectTask[] = [
               }
             </div>
 
-            <div class="flex items-center gap-3">
+            <!-- Right: Selection info + Column visibility -->
+            <div class="flex items-center gap-3 flex-wrap">
+              <!-- Selection info & Export -->
+              @if (isFeatureEnabled('rowSelection')) {
+              <div class="flex items-center gap-2">
+                <span class="text-sm text-zinc-400">
+                  @if (selectedCount() === 0) { No rows selected } @else if (selectedCount() === 1)
+                  { 1 row selected } @else {
+                  {{ selectedCount() }} rows selected }
+                </span>
+                <button
+                  type="button"
+                  class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors border disabled:opacity-40 disabled:cursor-not-allowed"
+                  [class]="
+                    selectedCount() > 0
+                      ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/20'
+                      : 'bg-zinc-800 border-zinc-700 text-zinc-400'
+                  "
+                  [disabled]="selectedCount() === 0"
+                  (click)="exportSelected()"
+                >
+                  Export Selected
+                </button>
+              </div>
+              }
+
               <div class="text-sm text-zinc-400">
                 <span class="text-zinc-100 font-medium">{{ filteredData().length }}</span> tasks
               </div>
-              @if (isFeatureEnabled('columnVisibility') && gridApi()) {
+              @if (isFeatureEnabled('columnVisibility') && gridApi() && !isMobile()) {
               <app-column-visibility-menu
                 [gridApi]="gridApi()!"
                 [columnDefs]="activeColumnDefs()"
+                [excludeFields]="['select', 'actions']"
                 (columnVisibilityChanged)="onColumnVisibilityChanged($event)"
                 [size]="'sm'"
                 [variant]="'outline'"
@@ -487,21 +523,37 @@ const taskData: ProjectTask[] = [
             </div>
           </div>
 
+          <!-- Mobile hint -->
+          @if (isMobile()) {
+          <div
+            class="mb-3 px-3 py-2 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-xs text-cyan-200"
+          >
+            Tap a row to view details
+          </div>
+          }
+
           <!-- AG-Grid -->
           <div
-            class="flex-1 bg-zinc-900/50 border border-zinc-800/50 rounded-xl overflow-hidden min-h-[500px]"
+            class="flex-1 bg-zinc-900/50 border border-zinc-800/50 rounded-xl overflow-hidden min-h-[400px] sm:min-h-[500px]"
           >
-            <ag-grid-angular
-              class="w-full h-full"
-              [theme]="theme"
-              [rowData]="filteredData()"
-              [columnDefs]="activeColumnDefs()"
-              [defaultColDef]="defaultColDef"
-              [animateRows]="true"
-              [pagination]="isFeatureEnabled('pagination')"
-              [paginationPageSize]="10"
-              (gridReady)="onGridReady($event)"
-            />
+            <div class="w-full h-full overflow-x-auto">
+              <ag-grid-angular
+                class="w-full h-full"
+                [style.minWidth.px]="isMobile() ? 600 : undefined"
+                [theme]="theme"
+                [rowData]="filteredData()"
+                [columnDefs]="activeColumnDefs()"
+                [defaultColDef]="defaultColDef"
+                [animateRows]="true"
+                [pagination]="isFeatureEnabled('pagination')"
+                [paginationPageSize]="10"
+                [rowSelection]="isFeatureEnabled('rowSelection') ? 'multiple' : undefined"
+                [suppressRowClickSelection]="isFeatureEnabled('rowSelection')"
+                (gridReady)="onGridReady($event)"
+                (selectionChanged)="onSelectionChanged($event)"
+                (rowClicked)="onRowClicked($event)"
+              />
+            </div>
           </div>
         </main>
       </div>
@@ -515,11 +567,26 @@ const taskData: ProjectTask[] = [
   `,
 })
 export class FeatureExplorerDemoComponent {
+  private breakpointObserver = inject(BreakpointObserver);
+  private bottomSheet = inject(BottomSheetService);
+
   private _gridApi = signal<GridApi<ProjectTask> | null>(null);
   gridApi = this._gridApi.asReadonly();
 
+  // Mobile detection
+  isMobile = signal(false);
+
+  // Selection tracking
+  selectedCount = signal(0);
+
   // Feature toggles
   features = signal<FeatureToggle[]>([
+    {
+      id: 'rowSelection',
+      label: 'Row Selection',
+      description: 'Checkbox selection + bulk export',
+      enabled: true,
+    },
     {
       id: 'columnVisibility',
       label: 'Column Control',
@@ -661,6 +728,11 @@ export class FeatureExplorerDemoComponent {
   allDisabled = computed(() => this.features().every((f) => !f.enabled));
 
   constructor() {
+    // Mobile breakpoint detection
+    this.breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]).subscribe((result) => {
+      this.isMobile.set(result.matches);
+    });
+
     // Effect to update grid when features change
     effect(() => {
       const api = this._gridApi();
@@ -676,6 +748,29 @@ export class FeatureExplorerDemoComponent {
 
   onGridReady(event: GridReadyEvent<ProjectTask>): void {
     this._gridApi.set(event.api);
+  }
+
+  // Selection handling
+  onSelectionChanged(event: SelectionChangedEvent<ProjectTask>): void {
+    this.selectedCount.set(event.api.getSelectedNodes().length);
+  }
+
+  exportSelected(): void {
+    const api = this.gridApi();
+    if (!api || this.selectedCount() === 0) return;
+
+    api.exportDataAsCsv({
+      onlySelected: true,
+      fileName: 'selected_tasks.csv',
+    });
+  }
+
+  // Mobile row click → bottom sheet details
+  onRowClicked(event: RowClickedEvent<ProjectTask>): void {
+    // Only open bottom sheet on mobile
+    if (!this.isMobile() || !event.data) return;
+
+    this.bottomSheet.open(RowDetailsSheetComponent, { data: event.data });
   }
 
   isFeatureEnabled(featureId: string): boolean {
@@ -710,11 +805,30 @@ export class FeatureExplorerDemoComponent {
 
   // Flat column definitions (no grouping)
   private getFlatColumnDefs(): ColDef<ProjectTask>[] {
-    const columns: ColDef<ProjectTask>[] = [
+    const columns: ColDef<ProjectTask>[] = [];
+
+    // Checkbox selection column
+    if (this.isFeatureEnabled('rowSelection')) {
+      columns.push({
+        headerName: '',
+        colId: 'select',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        width: 44,
+        maxWidth: 52,
+        pinned: 'left',
+        suppressMovable: true,
+        sortable: false,
+        filter: false,
+        resizable: false,
+      });
+    }
+
+    columns.push(
       { field: 'id', headerName: 'ID', width: 100 },
       { field: 'title', headerName: 'Task', minWidth: 150 },
-      { field: 'assignee', headerName: 'Assignee', width: 130 },
-    ];
+      { field: 'assignee', headerName: 'Assignee', width: 130 }
+    );
 
     // Priority with badge renderer
     if (this.isFeatureEnabled('cellRenderers')) {
@@ -814,7 +928,26 @@ export class FeatureExplorerDemoComponent {
 
   // Grouped column definitions
   private getGroupedColumnDefs(): (ColDef<ProjectTask> | ColGroupDef<ProjectTask>)[] {
-    const columns: (ColDef<ProjectTask> | ColGroupDef<ProjectTask>)[] = [
+    const columns: (ColDef<ProjectTask> | ColGroupDef<ProjectTask>)[] = [];
+
+    // Checkbox selection column
+    if (this.isFeatureEnabled('rowSelection')) {
+      columns.push({
+        headerName: '',
+        colId: 'select',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        width: 44,
+        maxWidth: 52,
+        pinned: 'left',
+        suppressMovable: true,
+        sortable: false,
+        filter: false,
+        resizable: false,
+      });
+    }
+
+    columns.push(
       { field: 'id', headerName: 'ID', width: 100 },
       {
         headerName: 'Task Info',
@@ -900,8 +1033,8 @@ export class FeatureExplorerDemoComponent {
               },
         ],
       },
-      { field: 'dueDate', headerName: 'Due Date', width: 110 },
-    ];
+      { field: 'dueDate', headerName: 'Due Date', width: 110 }
+    );
 
     // Row actions
     if (this.isFeatureEnabled('rowActions')) {
