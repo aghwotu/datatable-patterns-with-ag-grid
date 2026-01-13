@@ -25,10 +25,8 @@ import { DemoService, Demo } from '../../services/demo.service';
               </svg>
             </div>
             <div>
-              <h1 class="text-xl font-semibold tracking-tight">AG-Grid Table Demos</h1>
-              <p class="text-sm text-zinc-500">
-                Production-style data grid implementations
-              </p>
+              <h1 class="text-xl font-semibold tracking-tight">AG-Grid Production Patterns</h1>
+              <p class="text-sm text-zinc-500">Real-world table design decisions, demonstrated</p>
             </div>
           </div>
         </div>
@@ -40,121 +38,149 @@ import { DemoService, Demo } from '../../services/demo.service';
           <h2
             class="text-4xl font-bold mb-4 bg-linear-to-r from-zinc-100 to-zinc-400 bg-clip-text text-transparent"
           >
-            Two Tables, Everything You Need
+            Two Tables. Real Decisions.
           </h2>
           <p class="text-zinc-400 max-w-2xl mx-auto text-lg">
-            Learn AG-Grid features interactively, then see them in action in a real-world ops dashboard.
+            Explore AG-Grid features in isolation, then see how they combine under real
+            constraints—dense data, conditional actions, and operational monitoring.
           </p>
         </div>
 
-        <!-- Demo Cards: 2-Column Layout -->
+        <!-- Table Cards: 2-Column Layout -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
           @for (demo of demos; track demo.id) {
-            <a
-              [routerLink]="['/demo', demo.id]"
-              class="group block h-full"
-              [style.view-transition-name]="'demo-card-' + demo.id"
+          <a
+            [routerLink]="['/demo', demo.id]"
+            class="group block h-full"
+            [style.view-transition-name]="'demo-card-' + demo.id"
+          >
+            <article
+              class="relative h-full flex flex-col bg-zinc-900/50 border border-zinc-800/50 rounded-2xl overflow-hidden transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-900/80 hover:shadow-2xl hover:shadow-cyan-500/10 hover:-translate-y-1"
             >
-              <article
-                class="relative h-full flex flex-col bg-zinc-900/50 border border-zinc-800/50 rounded-2xl overflow-hidden transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-900/80 hover:shadow-2xl hover:shadow-cyan-500/10 hover:-translate-y-1"
+              <!-- Preview Gradient -->
+              <div
+                class="h-52 bg-linear-to-br {{ demo.previewGradient }} relative overflow-hidden"
+                [style.view-transition-name]="'demo-preview-' + demo.id"
               >
-                <!-- Preview Gradient -->
-                <div
-                  class="h-52 bg-linear-to-br {{ demo.previewGradient }} relative overflow-hidden"
-                  [style.view-transition-name]="'demo-preview-' + demo.id"
-                >
-                  <!-- Grid Pattern Overlay -->
-                  <div class="absolute inset-0 opacity-20">
-                    <div class="grid grid-cols-5 gap-px h-full p-6">
-                      @for (i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]; track i) {
-                        <div class="bg-white/20 rounded-sm"></div>
-                      }
-                    </div>
-                  </div>
-                  <!-- Glow Effect -->
-                  <div
-                    class="absolute inset-0 bg-linear-to-t from-zinc-900 via-transparent to-transparent opacity-60"
-                  ></div>
-                  <div
-                    class="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-white/20 to-transparent"
-                  ></div>
-                </div>
-
-                <!-- Content -->
-                <div class="p-6 flex-1 flex flex-col">
-                  <h3
-                    class="text-xl font-semibold mb-3 text-zinc-100 group-hover:text-cyan-400 transition-colors"
-                    [style.view-transition-name]="'demo-title-' + demo.id"
-                  >
-                    {{ demo.title }}
-                  </h3>
-                  <p class="text-zinc-400 mb-4 leading-relaxed">
-                    {{ demo.description }}
-                  </p>
-
-                  <!-- Tags -->
-                  <div class="flex flex-wrap gap-2 mt-auto pt-4 border-t border-zinc-800/50">
-                    @for (tag of demo.tags; track tag) {
-                      <span
-                        class="px-3 py-1 text-xs font-medium rounded-full bg-zinc-800 text-zinc-400 border border-zinc-700/50"
-                      >
-                        {{ tag }}
-                      </span>
+                <!-- Grid Pattern Overlay -->
+                <div class="absolute inset-0 opacity-20">
+                  <div class="grid grid-cols-5 gap-px h-full p-6">
+                    @for (i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]; track i) {
+                    <div class="bg-white/20 rounded-sm"></div>
                     }
                   </div>
                 </div>
-
-                <!-- Arrow Indicator -->
+                <!-- Glow Effect -->
                 <div
-                  class="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/20 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                  class="absolute inset-0 bg-linear-to-t from-zinc-900 via-transparent to-transparent opacity-60"
+                ></div>
+                <div
+                  class="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-white/20 to-transparent"
+                ></div>
+              </div>
+
+              <!-- Content -->
+              <div class="p-6 flex-1 flex flex-col">
+                <h3
+                  class="text-xl font-semibold mb-3 text-zinc-100 group-hover:text-cyan-400 transition-colors"
+                  [style.view-transition-name]="'demo-title-' + demo.id"
                 >
-                  <svg
-                    class="w-5 h-5 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+                  {{ demo.title }}
+                </h3>
+                <p class="text-zinc-400 mb-4 leading-relaxed">
+                  {{ demo.description }}
+                </p>
+
+                <!-- Tags -->
+                <div class="flex flex-wrap gap-2 mt-auto pt-4 border-t border-zinc-800/50">
+                  @for (tag of demo.tags; track tag) {
+                  <span
+                    class="px-3 py-1 text-xs font-medium rounded-full bg-zinc-800 text-zinc-400 border border-zinc-700/50"
                   >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M14 5l7 7m0 0l-7 7m7-7H3"
-                    />
-                  </svg>
+                    {{ tag }}
+                  </span>
+                  }
                 </div>
-              </article>
-            </a>
+              </div>
+
+              <!-- Arrow Indicator -->
+              <div
+                class="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/20 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                <svg
+                  class="w-5 h-5 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  />
+                </svg>
+              </div>
+            </article>
+          </a>
           }
         </div>
 
         <!-- Feature Highlights -->
         <div class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6">
           <div class="text-center p-6">
-            <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center">
+            <div
+              class="w-12 h-12 mx-auto mb-4 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center"
+            >
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+                />
               </svg>
             </div>
-            <h3 class="text-lg font-medium text-zinc-100 mb-2">Interactive Toggles</h3>
-            <p class="text-sm text-zinc-500">Turn features on/off to understand exactly what each AG-Grid option does.</p>
+            <h3 class="text-lg font-medium text-zinc-100 mb-2">Feature Isolation</h3>
+            <p class="text-sm text-zinc-500">
+              Understand UX trade-offs by toggling features in a controlled environment.
+            </p>
           </div>
           <div class="text-center p-6">
-            <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center">
+            <div
+              class="w-12 h-12 mx-auto mb-4 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center"
+            >
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                />
               </svg>
             </div>
-            <h3 class="text-lg font-medium text-zinc-100 mb-2">Real-World Patterns</h3>
-            <p class="text-sm text-zinc-500">See how AG-Grid powers production ops dashboards like OpenStatus.</p>
+            <h3 class="text-lg font-medium text-zinc-100 mb-2">Production Constraints</h3>
+            <p class="text-sm text-zinc-500">
+              Dense data, conditional actions, and operational monitoring patterns.
+            </p>
           </div>
           <div class="text-center p-6">
-            <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-violet-500/10 text-violet-400 flex items-center justify-center">
+            <div
+              class="w-12 h-12 mx-auto mb-4 rounded-xl bg-violet-500/10 text-violet-400 flex items-center justify-center"
+            >
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                />
               </svg>
             </div>
-            <h3 class="text-lg font-medium text-zinc-100 mb-2">Modern Angular</h3>
-            <p class="text-sm text-zinc-500">Built with Angular 19+, signals, standalone components, and Tailwind.</p>
+            <h3 class="text-lg font-medium text-zinc-100 mb-2">Modern Stack</h3>
+            <p class="text-sm text-zinc-500">
+              Angular 21 · Signals · AG-Grid 35 · Angular CDK · Tailwind 4
+            </p>
           </div>
         </div>
       </main>
@@ -163,7 +189,18 @@ import { DemoService, Demo } from '../../services/demo.service';
       <footer class="border-t border-zinc-800/50 mt-10">
         <div class="max-w-6xl mx-auto px-6 py-8">
           <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p class="text-sm text-zinc-500">Built with Angular & AG-Grid</p>
+            <div class="flex items-center gap-3">
+              <p class="text-sm text-zinc-500">
+                Angular 21 · Signals · AG-Grid 35 · CDK · Tailwind 4
+              </p>
+              <span class="text-zinc-700">·</span>
+              <a
+                routerLink="/design-notes"
+                class="text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
+              >
+                Design Notes →
+              </a>
+            </div>
             <div class="flex items-center gap-4">
               <a
                 href="https://github.com/AghwOtu"

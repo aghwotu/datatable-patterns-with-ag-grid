@@ -12,24 +12,24 @@ export interface Demo {
   columnDefs?: any[];
 }
 
-// Feature Explorer - interactive feature toggles
+// Feature Explorer - controlled environment for isolating AG-Grid behaviors
 const featureExplorerDemo: Demo = {
   id: 'feature-explorer',
   title: 'Feature Explorer',
   description:
-    'Toggle AG-Grid features on and off to see exactly what each one does. Column visibility, row actions, filters, cell renderers, and grouped columns — all in one place.',
-  tags: ['Interactive', 'Learn Features', 'Toggles'],
+    'A controlled environment for isolating AG-Grid behaviors—column visibility, row actions, filters, renderers, and grouping—to understand how individual features affect table density, usability, and complexity.',
+  tags: ['Feature Isolation', 'Table Density', 'UX Trade-offs'],
   previewGradient: 'from-cyan-500 via-blue-600 to-violet-700',
   hasCustomRoute: true,
 };
 
-// Real-world showcase: Observability table inspired by OpenStatus
+// Production-style observability table inspired by OpenStatus
 const observabilityDemo: Demo = {
   id: 'observability',
   title: 'Observability Table',
   description:
-    'An ops dashboard inspired by data-table.openstatus.dev — status & latency highlighting, side filters, and a drill‑down panel for details.',
-  tags: ['Ops Dashboard', 'OpenStatus', 'Details Panel'],
+    'A production-style observability table inspired by OpenStatus, designed to surface status, latency, and trends without overwhelming operators. Focuses on dense data scanning, conditional highlighting, and drill-down workflows.',
+  tags: ['Operational Monitoring', 'High-Signal UI', 'Dense Data'],
   previewGradient: 'from-cyan-500 via-sky-600 to-indigo-700',
   hasCustomRoute: true,
 };

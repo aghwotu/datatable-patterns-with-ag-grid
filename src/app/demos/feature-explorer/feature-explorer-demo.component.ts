@@ -51,7 +51,7 @@ interface ProjectTask {
   variance: number;
 }
 
-// Sample data
+// Sample data - variance represents % budget remaining (positive = under budget)
 const taskData: ProjectTask[] = [
   {
     id: 'TSK-001',
@@ -65,7 +65,7 @@ const taskData: ProjectTask[] = [
     dueDate: '2026-01-15',
     budget: 5000,
     spent: 3250,
-    variance: 1750,
+    variance: 8.5,
   },
   {
     id: 'TSK-002',
@@ -79,7 +79,7 @@ const taskData: ProjectTask[] = [
     dueDate: '2026-01-12',
     budget: 3000,
     spent: 2400,
-    variance: 600,
+    variance: -3.2,
   },
   {
     id: 'TSK-003',
@@ -93,7 +93,7 @@ const taskData: ProjectTask[] = [
     dueDate: '2026-01-20',
     budget: 2000,
     spent: 0,
-    variance: 2000,
+    variance: 0,
   },
   {
     id: 'TSK-004',
@@ -107,7 +107,7 @@ const taskData: ProjectTask[] = [
     dueDate: '2026-01-08',
     budget: 4000,
     spent: 3800,
-    variance: 200,
+    variance: 5.0,
   },
   {
     id: 'TSK-005',
@@ -121,7 +121,7 @@ const taskData: ProjectTask[] = [
     dueDate: '2026-01-18',
     budget: 2500,
     spent: 625,
-    variance: 1875,
+    variance: -12.4,
   },
   {
     id: 'TSK-006',
@@ -135,7 +135,7 @@ const taskData: ProjectTask[] = [
     dueDate: '2026-01-14',
     budget: 3500,
     spent: 1575,
-    variance: 1925,
+    variance: 4.2,
   },
   {
     id: 'TSK-007',
@@ -149,7 +149,7 @@ const taskData: ProjectTask[] = [
     dueDate: '2026-01-25',
     budget: 1500,
     spent: 150,
-    variance: 1350,
+    variance: 0,
   },
   {
     id: 'TSK-008',
@@ -163,7 +163,7 @@ const taskData: ProjectTask[] = [
     dueDate: '2026-01-10',
     budget: 2200,
     spent: 2100,
-    variance: 100,
+    variance: 4.5,
   },
   {
     id: 'TSK-009',
@@ -177,7 +177,7 @@ const taskData: ProjectTask[] = [
     dueDate: '2026-01-16',
     budget: 4500,
     spent: 2475,
-    variance: 2025,
+    variance: -7.8,
   },
   {
     id: 'TSK-010',
@@ -191,7 +191,7 @@ const taskData: ProjectTask[] = [
     dueDate: '2026-01-22',
     budget: 1800,
     spent: 0,
-    variance: 1800,
+    variance: 0,
   },
   {
     id: 'TSK-011',
@@ -205,7 +205,7 @@ const taskData: ProjectTask[] = [
     dueDate: '2026-01-17',
     budget: 2800,
     spent: 1960,
-    variance: 840,
+    variance: 2.1,
   },
   {
     id: 'TSK-012',
@@ -219,7 +219,7 @@ const taskData: ProjectTask[] = [
     dueDate: '2026-01-09',
     budget: 2000,
     spent: 1850,
-    variance: 150,
+    variance: 7.5,
   },
   {
     id: 'TSK-013',
@@ -233,7 +233,7 @@ const taskData: ProjectTask[] = [
     dueDate: '2026-01-19',
     budget: 3800,
     spent: 1520,
-    variance: 2280,
+    variance: -5.3,
   },
   {
     id: 'TSK-014',
@@ -247,7 +247,7 @@ const taskData: ProjectTask[] = [
     dueDate: '2026-01-24',
     budget: 2200,
     spent: 330,
-    variance: 1870,
+    variance: 0,
   },
   {
     id: 'TSK-015',
@@ -261,7 +261,7 @@ const taskData: ProjectTask[] = [
     dueDate: '2026-01-21',
     budget: 3000,
     spent: 900,
-    variance: 2100,
+    variance: -9.2,
   },
   {
     id: 'TSK-016',
@@ -275,7 +275,7 @@ const taskData: ProjectTask[] = [
     dueDate: '2026-01-18',
     budget: 2500,
     spent: 1250,
-    variance: 1250,
+    variance: 3.6,
   },
   {
     id: 'TSK-017',
@@ -289,7 +289,7 @@ const taskData: ProjectTask[] = [
     dueDate: '2026-01-11',
     budget: 1200,
     spent: 1100,
-    variance: 100,
+    variance: 8.3,
   },
   {
     id: 'TSK-018',
@@ -303,7 +303,7 @@ const taskData: ProjectTask[] = [
     dueDate: '2026-01-23',
     budget: 3200,
     spent: 160,
-    variance: 3040,
+    variance: 0,
   },
   {
     id: 'TSK-019',
@@ -317,7 +317,7 @@ const taskData: ProjectTask[] = [
     dueDate: '2026-01-20',
     budget: 3500,
     spent: 2100,
-    variance: 1400,
+    variance: -2.8,
   },
   {
     id: 'TSK-020',
@@ -331,7 +331,7 @@ const taskData: ProjectTask[] = [
     dueDate: '2026-01-13',
     budget: 1500,
     spent: 1450,
-    variance: 50,
+    variance: 3.3,
   },
 ];
 
@@ -367,8 +367,9 @@ const taskData: ProjectTask[] = [
               Feature Explorer
             </h1>
             <p class="text-zinc-200 text-lg">
-              Toggle AG-Grid features on and off to see exactly what each one does. Explore column
-              visibility, row actions, filters, cell renderers, and grouped columns.
+              This table isolates common AG-Grid features to make their UX and complexity costs
+              visible. The goal is understanding how combinations of features affect readability,
+              interaction cost, and maintainability.
             </p>
           </div>
         </div>
@@ -521,44 +522,44 @@ export class FeatureExplorerDemoComponent {
   features = signal<FeatureToggle[]>([
     {
       id: 'columnVisibility',
-      label: 'Column Visibility',
-      description: 'Show/hide columns via menu',
+      label: 'Column Control',
+      description: 'User-driven column management',
       enabled: true,
     },
     {
       id: 'rowActions',
       label: 'Row Actions',
-      description: 'Ellipsis menu per row',
+      description: 'Contextual operations per row',
       enabled: true,
     },
     {
       id: 'floatingFilters',
-      label: 'Floating Filters',
-      description: 'Dropdown filters in toolbar',
+      label: 'Quick Filters',
+      description: 'Toolbar-level data filtering',
       enabled: true,
     },
     {
       id: 'cellRenderers',
-      label: 'Cell Renderers',
-      description: 'Badges, progress bars, trends',
+      label: 'Visual Encoding',
+      description: 'Badges, progress, trend indicators',
       enabled: true,
     },
     {
       id: 'groupedColumns',
-      label: 'Grouped Columns',
-      description: 'Nested column headers',
+      label: 'Column Grouping',
+      description: 'Hierarchical header organization',
       enabled: false,
     },
     {
       id: 'statusColors',
-      label: 'Status Colors',
-      description: 'Color-coded status cells',
+      label: 'Status Encoding',
+      description: 'Semantic color differentiation',
       enabled: true,
     },
     {
       id: 'pagination',
-      label: 'Pagination',
-      description: 'Paginate table rows',
+      label: 'Data Chunking',
+      description: 'Paginated data volume control',
       enabled: true,
     },
   ]);

@@ -27,7 +27,7 @@ import { DemoService } from '@app/services/demo.service';
                 />
               </svg>
             </div>
-            <span class="text-sm font-medium">Back to Demos</span>
+            <span class="text-sm font-medium">All Tables</span>
           </a>
 
           @if (currentTitle()) {
@@ -46,7 +46,7 @@ import { DemoService } from '@app/services/demo.service';
               [class.pointer-events-none]="!prevDemo()"
               [class.opacity-40]="!prevDemo()"
               class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-zinc-900/40 border border-zinc-800/60 hover:bg-zinc-900/70 hover:border-zinc-700 transition-colors text-sm"
-              [attr.title]="prevDemo() ? 'Prev: ' + prevDemo()!.title : 'Prev demo unavailable'"
+              [attr.title]="prevDemo() ? 'Prev: ' + prevDemo()!.title : 'No previous table'"
             >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -65,7 +65,7 @@ import { DemoService } from '@app/services/demo.service';
               [class.pointer-events-none]="!nextDemo()"
               [class.opacity-40]="!nextDemo()"
               class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-zinc-900/40 border border-zinc-800/60 hover:bg-zinc-900/70 hover:border-zinc-700 transition-colors text-sm"
-              [attr.title]="nextDemo() ? 'Next: ' + nextDemo()!.title : 'Next demo unavailable'"
+              [attr.title]="nextDemo() ? 'Next: ' + nextDemo()!.title : 'No next table'"
             >
               <span class="hidden sm:inline">Next</span>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

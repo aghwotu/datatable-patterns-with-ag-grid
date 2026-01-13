@@ -20,6 +20,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'design-notes',
+    loadComponent: () =>
+      import('./pages/design-notes/design-notes.component').then(
+        (m) => m.DesignNotesComponent
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },
