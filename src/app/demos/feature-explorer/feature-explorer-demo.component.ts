@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AgGridAngular } from 'ag-grid-angular';
 import {
@@ -9,8 +9,6 @@ import {
   GridReadyEvent,
   ColDef,
   ColGroupDef,
-  ICellRendererParams,
-  CellClickedEvent,
 } from 'ag-grid-community';
 import { DemoNavHeaderComponent } from '@shared/components/demo-nav-header/demo-nav-header.component';
 import { ColumnVisibilityMenuComponent } from '@shared/menus/column-visibility-menu/column-visibility-menu.component';
@@ -25,6 +23,7 @@ import {
   DropdownMenuComponent,
   DropdownMenuItem,
 } from '@shared/menus/dropdown-menu/dropdown-menu.component';
+import { ToggleSwitchComponent } from '@shared/components/toggle-switch/toggle-switch.component';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -44,7 +43,7 @@ interface ProjectTask {
   priority: 'Critical' | 'High' | 'Medium' | 'Low';
   status: 'Completed' | 'In Progress' | 'Pending' | 'Blocked';
   progress: number;
-  effort: number; // hours
+  effort: number;
   category: string;
   dueDate: string;
   budget: number;
@@ -113,7 +112,7 @@ const taskData: ProjectTask[] = [
   {
     id: 'TSK-005',
     title: 'Performance Audit',
-    assignee: 'Taylor Swift',
+    assignee: 'Taylor Morgan',
     priority: 'High',
     status: 'Blocked',
     progress: 25,
@@ -205,12 +204,13 @@ const taskData: ProjectTask[] = [
     DemoNavHeaderComponent,
     ColumnVisibilityMenuComponent,
     DropdownMenuComponent,
+    ToggleSwitchComponent,
   ],
   template: `
     <div class="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col">
       <app-demo-nav-header [demoId]="'feature-explorer'" />
 
-      <!-- Demo Info Banner -->
+      <!-- Hero Section -->
       <div
         class="bg-gradient-to-br from-cyan-500 via-blue-600 to-violet-700 relative"
         style="view-transition-name: demo-preview-feature-explorer"
@@ -226,118 +226,119 @@ const taskData: ProjectTask[] = [
             >
               Feature Explorer
             </h1>
-            <p class="text-zinc-200 text-lg mb-5">
+            <p class="text-zinc-200 text-lg">
               Toggle AG-Grid features on and off to see exactly what each one does.
-              A single table showcasing column visibility, row actions, floating filters,
-              custom cell renderers, and grouped columns.
+              Explore column visibility, row actions, filters, cell renderers, and grouped columns.
             </p>
           </div>
         </div>
       </div>
 
-      <!-- Feature Toggles -->
-      <div class="max-w-7xl w-full mx-auto px-6 py-5 border-b border-zinc-800/50">
-        <div class="flex items-center justify-between mb-4">
-          <h2 class="text-sm font-semibold text-zinc-300 uppercase tracking-wide">
-            Toggle Features
-          </h2>
-          <div class="flex gap-2">
-            <button
-              (click)="enableAll()"
-              class="px-3 py-1.5 text-xs font-medium rounded-lg bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 transition-colors"
-            >
-              Enable All
-            </button>
-            <button
-              (click)="disableAll()"
-              class="px-3 py-1.5 text-xs font-medium rounded-lg bg-zinc-700/50 text-zinc-400 hover:bg-zinc-700 transition-colors"
-            >
-              Disable All
-            </button>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-          @for (feature of features(); track feature.id) {
-            <button
-              (click)="toggleFeature(feature.id)"
-              class="flex flex-col items-start p-3 rounded-xl border transition-all"
-              [class]="feature.enabled
-                ? 'bg-cyan-500/10 border-cyan-500/30 hover:bg-cyan-500/20'
-                : 'bg-zinc-800/30 border-zinc-700/50 hover:bg-zinc-800/50'"
-            >
-              <div class="flex items-center gap-2 w-full mb-1">
-                <div
-                  class="w-3 h-3 rounded-full transition-colors"
-                  [class]="feature.enabled ? 'bg-cyan-400' : 'bg-zinc-600'"
-                ></div>
-                <span
-                  class="text-sm font-medium"
-                  [class]="feature.enabled ? 'text-cyan-100' : 'text-zinc-400'"
-                >
-                  {{ feature.label }}
-                </span>
-              </div>
-              <span class="text-xs text-zinc-500 text-left">{{ feature.description }}</span>
-            </button>
-          }
-        </div>
-      </div>
-
-      <!-- Toolbar -->
-      <div class="max-w-7xl w-full mx-auto px-6 py-4">
-        <div class="flex items-center justify-between flex-wrap gap-3">
-          <div class="flex items-center gap-4">
-            <!-- Floating Filter (if enabled) -->
-            @if (isFeatureEnabled('floatingFilters')) {
-              <div class="flex items-center gap-2">
-                <span class="text-xs text-zinc-500">Status:</span>
-                <app-dropdown-menu
-                  [label]="statusFilter() || 'All'"
-                  [items]="statusOptions"
-                  (itemSelected)="onStatusFilter($event)"
-                  [size]="'sm'"
-                  [variant]="'outline'"
-                  [menuWidth]="'w-36'"
-                />
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="text-xs text-zinc-500">Priority:</span>
-                <app-dropdown-menu
-                  [label]="priorityFilter() || 'All'"
-                  [items]="priorityOptions"
-                  (itemSelected)="onPriorityFilter($event)"
-                  [size]="'sm'"
-                  [variant]="'outline'"
-                  [menuWidth]="'w-36'"
-                />
-              </div>
-            }
-          </div>
-
-          <div class="flex items-center gap-3">
-            <div class="text-sm text-zinc-400">
-              <span class="text-zinc-100 font-medium">{{ filteredData().length }}</span> tasks
+      <!-- Main Content: Sidebar + Grid -->
+      <div class="flex-1 flex max-w-7xl w-full mx-auto">
+        <!-- Sidebar: Feature Toggles -->
+        <aside class="w-72 shrink-0 border-r border-zinc-800/50 p-6">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-sm font-semibold text-zinc-400 uppercase tracking-wide">
+              Features
+            </h2>
+            <div class="flex gap-1">
+              <button
+                (click)="enableAll()"
+                class="px-2 py-1 text-xs font-medium rounded bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 transition-colors"
+              >
+                All On
+              </button>
+              <button
+                (click)="disableAll()"
+                class="px-2 py-1 text-xs font-medium rounded bg-zinc-700/50 text-zinc-500 hover:bg-zinc-700 transition-colors"
+              >
+                All Off
+              </button>
             </div>
-            <!-- Column Visibility (if enabled) -->
-            @if (isFeatureEnabled('columnVisibility') && gridApi()) {
-              <app-column-visibility-menu
-                [gridApi]="gridApi()!"
-                (columnVisibilityChanged)="onColumnVisibilityChanged($event)"
-                [size]="'sm'"
-                [variant]="'outline'"
-              />
+          </div>
+
+          <!-- Toggle List -->
+          <div class="space-y-1">
+            @for (feature of features(); track feature.id; let i = $index) {
+              <div
+                class="flex items-center justify-between py-3 px-3 rounded-lg transition-colors"
+                [class]="feature.enabled ? 'bg-cyan-500/5' : 'hover:bg-zinc-800/30'"
+              >
+                <div class="min-w-0 pr-3">
+                  <div
+                    class="text-sm font-medium truncate"
+                    [class]="feature.enabled ? 'text-cyan-100' : 'text-zinc-300'"
+                  >
+                    {{ feature.label }}
+                  </div>
+                  <div class="text-xs text-zinc-500 truncate">{{ feature.description }}</div>
+                </div>
+                <app-toggle-switch
+                  [(checked)]="features()[i].enabled"
+                  (checkedChange)="onFeatureToggle(feature.id, $event)"
+                />
+              </div>
             }
           </div>
-        </div>
-      </div>
 
-      <!-- AG-Grid Container -->
-      <div class="flex-1 px-6 pb-6">
-        <div class="max-w-7xl mx-auto h-full">
-          <div
-            class="bg-zinc-900/50 border border-zinc-800/50 rounded-2xl overflow-hidden h-[500px]"
-          >
+          <!-- Active Count -->
+          <div class="mt-6 pt-6 border-t border-zinc-800/50">
+            <div class="text-xs text-zinc-500">
+              <span class="text-cyan-400 font-semibold">{{ enabledFeatures().length }}</span>
+              of {{ features().length }} features enabled
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Grid Area -->
+        <main class="flex-1 flex flex-col p-6">
+          <!-- Toolbar -->
+          <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+            <div class="flex items-center gap-4">
+              @if (isFeatureEnabled('floatingFilters')) {
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-zinc-500">Status:</span>
+                  <app-dropdown-menu
+                    [label]="statusFilter() || 'All'"
+                    [items]="statusOptions"
+                    (itemSelected)="onStatusFilter($event)"
+                    [size]="'sm'"
+                    [variant]="'outline'"
+                    [menuWidth]="'w-36'"
+                  />
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-zinc-500">Priority:</span>
+                  <app-dropdown-menu
+                    [label]="priorityFilter() || 'All'"
+                    [items]="priorityOptions"
+                    (itemSelected)="onPriorityFilter($event)"
+                    [size]="'sm'"
+                    [variant]="'outline'"
+                    [menuWidth]="'w-36'"
+                  />
+                </div>
+              }
+            </div>
+
+            <div class="flex items-center gap-3">
+              <div class="text-sm text-zinc-400">
+                <span class="text-zinc-100 font-medium">{{ filteredData().length }}</span> tasks
+              </div>
+              @if (isFeatureEnabled('columnVisibility') && gridApi()) {
+                <app-column-visibility-menu
+                  [gridApi]="gridApi()!"
+                  (columnVisibilityChanged)="onColumnVisibilityChanged($event)"
+                  [size]="'sm'"
+                  [variant]="'outline'"
+                />
+              }
+            </div>
+          </div>
+
+          <!-- AG-Grid -->
+          <div class="flex-1 bg-zinc-900/50 border border-zinc-800/50 rounded-xl overflow-hidden min-h-[500px]">
             <ag-grid-angular
               class="w-full h-full"
               [theme]="theme"
@@ -350,28 +351,7 @@ const taskData: ProjectTask[] = [
               (gridReady)="onGridReady($event)"
             />
           </div>
-        </div>
-      </div>
-
-      <!-- Active Features Summary -->
-      <div class="border-t border-zinc-800/50 bg-zinc-900/30">
-        <div class="max-w-7xl mx-auto px-6 py-6">
-          <h3 class="text-sm font-semibold text-zinc-400 uppercase tracking-wide mb-4">
-            Currently Active Features
-          </h3>
-          <div class="flex flex-wrap gap-2">
-            @for (feature of enabledFeatures(); track feature.id) {
-              <span
-                class="px-3 py-1.5 text-sm font-medium rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30"
-              >
-                {{ feature.label }}
-              </span>
-            }
-            @if (enabledFeatures().length === 0) {
-              <span class="text-sm text-zinc-500 italic">No features enabled — basic table mode</span>
-            }
-          </div>
-        </div>
+        </main>
       </div>
     </div>
   `,
@@ -391,7 +371,7 @@ export class FeatureExplorerDemoComponent {
     {
       id: 'columnVisibility',
       label: 'Column Visibility',
-      description: 'Show/hide columns',
+      description: 'Show/hide columns via menu',
       enabled: true,
     },
     {
@@ -403,25 +383,25 @@ export class FeatureExplorerDemoComponent {
     {
       id: 'floatingFilters',
       label: 'Floating Filters',
-      description: 'Header dropdowns',
+      description: 'Dropdown filters in toolbar',
       enabled: true,
     },
     {
       id: 'cellRenderers',
       label: 'Cell Renderers',
-      description: 'Badges, progress, etc.',
+      description: 'Badges, progress bars, trends',
       enabled: true,
     },
     {
       id: 'groupedColumns',
       label: 'Grouped Columns',
-      description: 'Nested headers',
+      description: 'Nested column headers',
       enabled: false,
     },
     {
       id: 'statusColors',
       label: 'Status Colors',
-      description: 'Colored status cells',
+      description: 'Color-coded status cells',
       enabled: true,
     },
   ]);
@@ -537,9 +517,9 @@ export class FeatureExplorerDemoComponent {
     return this.features().find((f) => f.id === featureId)?.enabled ?? false;
   }
 
-  toggleFeature(featureId: string): void {
+  onFeatureToggle(featureId: string, enabled: boolean): void {
     this.features.update((features) =>
-      features.map((f) => (f.id === featureId ? { ...f, enabled: !f.enabled } : f))
+      features.map((f) => (f.id === featureId ? { ...f, enabled } : f))
     );
   }
 

@@ -1,7 +1,4 @@
 import { Injectable } from '@angular/core';
-import { basicGridDemo } from './data/basic-grid.data';
-import { employeeDirectoryDemo } from './data/employee-directory.data';
-import { analyticsDashboardDemo } from './data/analytics-dashboard.data';
 
 export interface Demo {
   id: string;
@@ -26,34 +23,14 @@ const featureExplorerDemo: Demo = {
   hasCustomRoute: true,
 };
 
-// Real-world showcase demos (each with a unique UX pattern)
-const tradingPlatformDemo: Demo = {
-  id: 'trading-platform',
-  title: 'Trading Platform',
-  description:
-    'A high‑density trading orders table designed for fast scanning, quick filtering, and actions that depend on order state.',
-  tags: ['High Density', 'Fast Scanning', 'Row Actions'],
-  previewGradient: 'from-amber-500 via-orange-600 to-red-700',
-  hasCustomRoute: true,
-};
-
+// Real-world showcase: Observability table inspired by OpenStatus
 const observabilityDemo: Demo = {
   id: 'observability',
   title: 'Observability Table',
   description:
-    'An ops dashboard table that highlights status and latency, with side filters and a drill‑down panel for details.',
-  tags: ['Ops Dashboard', 'Filters', 'Details Panel'],
+    'An ops dashboard inspired by data-table.openstatus.dev — status & latency highlighting, side filters, and a drill‑down panel for details.',
+  tags: ['Ops Dashboard', 'OpenStatus', 'Details Panel'],
   previewGradient: 'from-cyan-500 via-sky-600 to-indigo-700',
-  hasCustomRoute: true,
-};
-
-const mobileResponsiveDemo: Demo = {
-  id: 'mobile-responsive',
-  title: 'Mobile Responsive Table',
-  description:
-    'Adaptive column layouts that respond to screen size. Columns collapse to essentials on mobile with a "View Details" action.',
-  tags: ['Responsive', 'Mobile-First', 'Bottom Sheet'],
-  previewGradient: 'from-indigo-500 via-purple-600 to-pink-600',
   hasCustomRoute: true,
 };
 
@@ -62,16 +39,8 @@ const mobileResponsiveDemo: Demo = {
 })
 export class DemoService {
   private demos: Demo[] = [
-    // Feature learning
     featureExplorerDemo,
-    // Real-world showcases
-    tradingPlatformDemo,
     observabilityDemo,
-    mobileResponsiveDemo,
-    // Simple starters
-    basicGridDemo,
-    employeeDirectoryDemo,
-    analyticsDashboardDemo,
   ];
 
   getDemos(): Demo[] {
