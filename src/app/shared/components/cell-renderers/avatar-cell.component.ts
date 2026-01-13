@@ -10,6 +10,7 @@ interface AvatarCellParams extends ICellRendererParams {
 
 @Component({
   selector: 'app-avatar-cell',
+  standalone: true,
   template: `
     <div class="flex items-center gap-3 h-full">
       <div

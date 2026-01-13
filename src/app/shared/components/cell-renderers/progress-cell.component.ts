@@ -4,6 +4,7 @@ import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
   selector: 'app-progress-cell',
+  standalone: true,
   template: `
     <div class="flex items-center gap-3 h-full">
       <div class="flex-1 h-2 bg-zinc-700 rounded-full overflow-hidden">

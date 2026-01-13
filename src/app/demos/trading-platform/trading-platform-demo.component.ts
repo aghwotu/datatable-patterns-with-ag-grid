@@ -23,9 +23,9 @@ import { OrderTypeFilterComponent } from './filters/order-type-filter.component'
 import { SideFilterComponent } from './filters/side-filter.component';
 import { StatusFilterComponent } from './filters/status-filter.component';
 import { OrderActionsComponent } from './components/order-actions.component';
-import { TrendCellComponent } from '../custom-cell-renderers/renderers/trend-cell.component';
-import { ProgressCellComponent } from '../custom-cell-renderers/renderers/progress-cell.component';
-import { BadgeCellComponent } from '../custom-cell-renderers/renderers/badge-cell.component';
+import { TrendCellComponent } from '@shared/components/cell-renderers/trend-cell.component';
+import { ProgressCellComponent } from '@shared/components/cell-renderers/progress-cell.component';
+import { BadgeCellComponent } from '@shared/components/cell-renderers/badge-cell.component';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 

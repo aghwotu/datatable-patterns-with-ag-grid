@@ -4,6 +4,7 @@ import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
   selector: 'app-currency-cell',
+  standalone: true,
   template: `
     <div class="flex items-center h-full">
       <span class="font-mono text-sm font-semibold" [style.color]="color">

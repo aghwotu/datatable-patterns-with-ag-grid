@@ -15,67 +15,18 @@ export interface Demo {
   columnDefs?: any[];
 }
 
-// Feature demos with custom routes (showcasing specific AG-Grid features)
-const columnVisibilityDemo: Demo = {
-  id: 'column-visibility',
-  title: 'Column Management',
+// Feature Explorer - interactive feature toggles
+const featureExplorerDemo: Demo = {
+  id: 'feature-explorer',
+  title: 'Feature Explorer',
   description:
-    'Let users show/hide columns so wide tables stay readable by default, without losing access to the full dataset.',
-  tags: ['Show/Hide Columns', 'Wide Tables', 'User Control'],
-  previewGradient: 'from-emerald-500 via-teal-600 to-cyan-700',
+    'Toggle AG-Grid features on and off to see exactly what each one does. Column visibility, row actions, filters, cell renderers, and grouped columns — all in one place.',
+  tags: ['Interactive', 'Learn Features', 'Toggles'],
+  previewGradient: 'from-cyan-500 via-blue-600 to-violet-700',
   hasCustomRoute: true,
 };
 
-const ellipsisActionsDemo: Demo = {
-  id: 'ellipsis-actions',
-  title: 'Row Actions & Context Menus',
-  description:
-    'A “three‑dot” row menu where actions change based on the row state (and can be hidden/disabled like a real product).',
-  tags: ['Row Menu', 'Conditional Actions', 'Permissions'],
-  previewGradient: 'from-violet-500 via-purple-600 to-fuchsia-700',
-  hasCustomRoute: true,
-};
-
-const floatingFiltersDemo: Demo = {
-  id: 'floating-filters',
-  title: 'Floating Filter Dropdowns',
-  description:
-    'Quick filter dropdowns directly in the header row, so users can narrow results without opening extra panels.',
-  tags: ['Quick Filters', 'Header Dropdowns', 'Client-Side'],
-  previewGradient: 'from-amber-500 via-orange-600 to-red-700',
-  hasCustomRoute: true,
-};
-
-const serverSideFilteringDemo: Demo = {
-  id: 'server-side-filtering',
-  title: 'Server-Driven Data & Filtering',
-  description:
-    'Pagination + filtering with a mock API to mimic “large dataset” behavior: loading states, debounce, and latency-friendly UX.',
-  tags: ['Large Datasets', 'Loading UX', 'Server Data'],
-  previewGradient: 'from-sky-500 via-blue-600 to-indigo-700',
-  hasCustomRoute: true,
-};
-
-const customCellRenderersDemo: Demo = {
-  id: 'custom-cell-renderers',
-  title: 'Custom Cell Renderers',
-  description:
-    'Readable “rich cells” (avatars, badges, progress, trends, currency) to make dense tables faster to scan.',
-  tags: ['Rich Cells', 'Fast Scanning', 'Formatting'],
-  previewGradient: 'from-rose-500 via-pink-600 to-fuchsia-700',
-  hasCustomRoute: true,
-};
-
-const groupedColumnsDemo: Demo = {
-  id: 'grouped-columns',
-  title: 'Grouped Column Headers',
-  description:
-    'Group related columns under shared headers so wide tables feel organized, and toggle whole groups on/off.',
-  tags: ['Column Groups', 'Wide Tables', 'Show/Hide Groups'],
-  previewGradient: 'from-lime-500 via-green-600 to-emerald-700',
-  hasCustomRoute: true,
-};
-
+// Real-world showcase demos (each with a unique UX pattern)
 const tradingPlatformDemo: Demo = {
   id: 'trading-platform',
   title: 'Trading Platform',
@@ -111,15 +62,13 @@ const mobileResponsiveDemo: Demo = {
 })
 export class DemoService {
   private demos: Demo[] = [
+    // Feature learning
+    featureExplorerDemo,
+    // Real-world showcases
     tradingPlatformDemo,
     observabilityDemo,
     mobileResponsiveDemo,
-    columnVisibilityDemo,
-    ellipsisActionsDemo,
-    floatingFiltersDemo,
-    serverSideFilteringDemo,
-    customCellRenderersDemo,
-    groupedColumnsDemo,
+    // Simple starters
     basicGridDemo,
     employeeDirectoryDemo,
     analyticsDashboardDemo,

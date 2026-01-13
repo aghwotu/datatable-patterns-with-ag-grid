@@ -10,6 +10,7 @@ interface BadgeConfig {
 
 @Component({
   selector: 'app-badge-cell',
+  standalone: true,
   template: `
     <div class="flex items-center h-full">
       <span

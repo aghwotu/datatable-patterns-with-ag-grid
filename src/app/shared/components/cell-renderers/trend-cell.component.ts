@@ -4,6 +4,7 @@ import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
   selector: 'app-trend-cell',
+  standalone: true,
   template: `
     <div class="flex items-center gap-2 h-full">
       <div class="flex items-center gap-1" [style.color]="color">
