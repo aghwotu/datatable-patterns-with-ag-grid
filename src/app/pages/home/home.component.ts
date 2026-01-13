@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DemoService, Demo } from '../../services/demo.service';
+import { BadgeComponent } from '@shared/components/badge/badge.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, BadgeComponent],
   template: `
     <div class="min-h-screen bg-zinc-950 text-zinc-100">
       <!-- Header -->
@@ -81,12 +82,17 @@ import { DemoService, Demo } from '../../services/demo.service';
 
               <!-- Content -->
               <div class="p-6 flex-1 flex flex-col">
-                <h3
-                  class="text-xl font-semibold mb-3 text-zinc-100 group-hover:text-cyan-400 transition-colors"
-                  [style.view-transition-name]="'demo-title-' + demo.id"
-                >
-                  {{ demo.title }}
-                </h3>
+                <div class="flex items-center gap-3 mb-3">
+                  <h3
+                    class="text-xl font-semibold text-zinc-100 group-hover:text-cyan-400 transition-colors"
+                    [style.view-transition-name]="'demo-title-' + demo.id"
+                  >
+                    {{ demo.title }}
+                  </h3>
+                  @if (demo.isWip) {
+                  <app-badge text="WIP" variant="yellow"></app-badge>
+                  }
+                </div>
                 <p class="text-zinc-400 mb-4 leading-relaxed">
                   {{ demo.description }}
                 </p>

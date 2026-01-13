@@ -1,11 +1,12 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DemoService } from '@app/services/demo.service';
+import { BadgeComponent } from '@shared/components/badge/badge.component';
 
 @Component({
   selector: 'app-demo-nav-header',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, BadgeComponent],
   template: `
     <header class="border-b border-zinc-800/50 backdrop-blur-sm bg-zinc-950/80 sticky top-0 z-50">
       <div class="w-full px-6 py-4">
@@ -31,8 +32,13 @@ import { DemoService } from '@app/services/demo.service';
           </a>
 
           @if (currentTitle()) {
-          <div class="hidden md:block flex-1 text-center text-sm text-zinc-500 truncate px-4">
-            {{ currentTitle() }}
+          <div
+            class="hidden md:flex flex-1 items-center justify-center gap-2 text-sm text-zinc-500 truncate px-4"
+          >
+            <span class="truncate">{{ currentTitle() }}</span>
+            @if (isWip()) {
+            <app-badge text="WIP" variant="yellow"></app-badge>
+            }
           </div>
           } @else {
           <div class="flex-1"></div>
@@ -88,7 +94,9 @@ export class DemoNavHeaderComponent {
 
   demoId = input.required<string>();
 
-  currentTitle = computed(() => this.demoService.getDemoById(this.demoId())?.title ?? '');
+  currentDemo = computed(() => this.demoService.getDemoById(this.demoId()));
+  currentTitle = computed(() => this.currentDemo()?.title ?? '');
+  isWip = computed(() => this.currentDemo()?.isWip ?? false);
   prevDemo = computed(() => this.demoService.getPrevDemo(this.demoId()));
   nextDemo = computed(() => this.demoService.getNextDemo(this.demoId()));
 }

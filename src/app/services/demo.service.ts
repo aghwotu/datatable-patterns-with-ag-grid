@@ -6,6 +6,8 @@ export interface Demo {
   description: string;
   tags: string[];
   previewGradient: string;
+  /** Marks a demo as work-in-progress so the UI can show a "WIP" label. */
+  isWip?: boolean;
   /** If true, this demo has a dedicated route at /demo/{id} */
   hasCustomRoute?: boolean;
   rowData?: any[];
@@ -32,16 +34,14 @@ const observabilityDemo: Demo = {
   tags: ['Operational Monitoring', 'High-Signal UI', 'Dense Data'],
   previewGradient: 'from-cyan-500 via-sky-600 to-indigo-700',
   hasCustomRoute: true,
+  isWip: true,
 };
 
 @Injectable({
   providedIn: 'root',
 })
 export class DemoService {
-  private demos: Demo[] = [
-    featureExplorerDemo,
-    observabilityDemo,
-  ];
+  private demos: Demo[] = [featureExplorerDemo, observabilityDemo];
 
   getDemos(): Demo[] {
     return this.demos;
