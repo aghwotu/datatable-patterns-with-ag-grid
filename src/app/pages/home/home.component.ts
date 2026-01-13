@@ -27,7 +27,9 @@ import { BadgeComponent } from '@shared/components/badge/badge.component';
             </div>
             <div>
               <h1 class="text-xl font-semibold tracking-tight">AG-Grid Production Patterns</h1>
-              <p class="text-sm text-zinc-500">Real-world table design decisions, demonstrated</p>
+              <p class="text-sm text-zinc-500">
+                Two reference tables exploring feature trade-offs and real-world usage
+              </p>
             </div>
           </div>
         </div>
@@ -39,11 +41,11 @@ import { BadgeComponent } from '@shared/components/badge/badge.component';
           <h2
             class="text-4xl font-bold mb-4 bg-linear-to-r from-zinc-100 to-zinc-400 bg-clip-text text-transparent"
           >
-            AG-Grid Tables.
+            Production Data Table Patterns with AG-Grid.
           </h2>
           <p class="text-zinc-400 max-w-2xl mx-auto text-lg">
-            Explore AG-Grid features in isolation, then see how they combine under real
-            constraints—dense data, conditional actions, and operational monitoring.
+            Evaluate AG-Grid features in isolation using simple on/off toggles, then see how they
+            work together in a dense, real-world table.
           </p>
         </div>
 
