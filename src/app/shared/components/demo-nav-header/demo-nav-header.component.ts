@@ -8,7 +8,7 @@ import { DemoService } from '@app/services/demo.service';
   imports: [RouterLink],
   template: `
     <header class="border-b border-zinc-800/50 backdrop-blur-sm bg-zinc-950/80 sticky top-0 z-50">
-      <div class="max-w-7xl mx-auto px-6 py-4">
+      <div class="w-full px-6 py-4">
         <div class="flex items-center justify-between gap-4">
           <!-- Back -->
           <a

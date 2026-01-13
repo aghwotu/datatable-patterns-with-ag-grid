@@ -38,7 +38,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
     <div class="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col">
       <app-demo-nav-header [demoId]="'observability'" />
 
-      <div class="flex flex-1 max-w-7xl w-full mx-auto gap-4 px-4 md:px-6 py-6">
+      <div class="flex flex-1 w-full gap-4 px-4 md:px-6 py-6">
         <!-- Filters rail -->
         @if (!controlsHidden()) {
           <aside

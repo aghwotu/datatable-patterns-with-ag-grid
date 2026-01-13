@@ -193,6 +193,146 @@ const taskData: ProjectTask[] = [
     spent: 0,
     variance: 1800,
   },
+  {
+    id: 'TSK-011',
+    title: 'Email Notifications',
+    assignee: 'Jamie Scott',
+    priority: 'High',
+    status: 'In Progress',
+    progress: 70,
+    effort: 22,
+    category: 'Backend',
+    dueDate: '2026-01-17',
+    budget: 2800,
+    spent: 1960,
+    variance: 840,
+  },
+  {
+    id: 'TSK-012',
+    title: 'Data Export Feature',
+    assignee: 'Avery Thompson',
+    priority: 'Medium',
+    status: 'Completed',
+    progress: 100,
+    effort: 16,
+    category: 'Frontend',
+    dueDate: '2026-01-09',
+    budget: 2000,
+    spent: 1850,
+    variance: 150,
+  },
+  {
+    id: 'TSK-013',
+    title: 'User Permissions',
+    assignee: 'Quinn Edwards',
+    priority: 'Critical',
+    status: 'In Progress',
+    progress: 40,
+    effort: 30,
+    category: 'Security',
+    dueDate: '2026-01-19',
+    budget: 3800,
+    spent: 1520,
+    variance: 2280,
+  },
+  {
+    id: 'TSK-014',
+    title: 'Search Optimization',
+    assignee: 'Blake Foster',
+    priority: 'High',
+    status: 'Pending',
+    progress: 15,
+    effort: 18,
+    category: 'Backend',
+    dueDate: '2026-01-24',
+    budget: 2200,
+    spent: 330,
+    variance: 1870,
+  },
+  {
+    id: 'TSK-015',
+    title: 'Accessibility Audit',
+    assignee: 'Reese Campbell',
+    priority: 'Medium',
+    status: 'Blocked',
+    progress: 30,
+    effort: 24,
+    category: 'QA',
+    dueDate: '2026-01-21',
+    budget: 3000,
+    spent: 900,
+    variance: 2100,
+  },
+  {
+    id: 'TSK-016',
+    title: 'Load Testing',
+    assignee: 'Skyler Brooks',
+    priority: 'High',
+    status: 'In Progress',
+    progress: 50,
+    effort: 20,
+    category: 'DevOps',
+    dueDate: '2026-01-18',
+    budget: 2500,
+    spent: 1250,
+    variance: 1250,
+  },
+  {
+    id: 'TSK-017',
+    title: 'Dark Mode Theme',
+    assignee: 'Peyton Reed',
+    priority: 'Low',
+    status: 'Completed',
+    progress: 100,
+    effort: 10,
+    category: 'Frontend',
+    dueDate: '2026-01-11',
+    budget: 1200,
+    spent: 1100,
+    variance: 100,
+  },
+  {
+    id: 'TSK-018',
+    title: 'API Rate Limiting',
+    assignee: 'Morgan Davis',
+    priority: 'Critical',
+    status: 'Pending',
+    progress: 5,
+    effort: 26,
+    category: 'Security',
+    dueDate: '2026-01-23',
+    budget: 3200,
+    spent: 160,
+    variance: 3040,
+  },
+  {
+    id: 'TSK-019',
+    title: 'Onboarding Flow',
+    assignee: 'Jordan Kim',
+    priority: 'Medium',
+    status: 'In Progress',
+    progress: 60,
+    effort: 28,
+    category: 'Frontend',
+    dueDate: '2026-01-20',
+    budget: 3500,
+    spent: 2100,
+    variance: 1400,
+  },
+  {
+    id: 'TSK-020',
+    title: 'Error Logging',
+    assignee: 'Alex Rivera',
+    priority: 'High',
+    status: 'Completed',
+    progress: 100,
+    effort: 12,
+    category: 'DevOps',
+    dueDate: '2026-01-13',
+    budget: 1500,
+    spent: 1450,
+    variance: 50,
+  },
 ];
 
 @Component({
@@ -212,11 +352,11 @@ const taskData: ProjectTask[] = [
 
       <!-- Hero Section -->
       <div
-        class="bg-gradient-to-br from-cyan-500 via-blue-600 to-violet-700 relative"
+        class="bg-linear-to-br from-cyan-500 via-blue-600 to-violet-700 relative"
         style="view-transition-name: demo-preview-feature-explorer"
       >
         <div
-          class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent"
+          class="absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/50 to-transparent"
         ></div>
         <div class="relative max-w-7xl mx-auto px-6 py-10">
           <div class="max-w-3xl">
@@ -227,31 +367,39 @@ const taskData: ProjectTask[] = [
               Feature Explorer
             </h1>
             <p class="text-zinc-200 text-lg">
-              Toggle AG-Grid features on and off to see exactly what each one does.
-              Explore column visibility, row actions, filters, cell renderers, and grouped columns.
+              Toggle AG-Grid features on and off to see exactly what each one does. Explore column
+              visibility, row actions, filters, cell renderers, and grouped columns.
             </p>
           </div>
         </div>
       </div>
 
       <!-- Main Content: Sidebar + Grid -->
-      <div class="flex-1 flex max-w-7xl w-full mx-auto">
+      <div class="flex-1 flex w-full">
         <!-- Sidebar: Feature Toggles -->
         <aside class="w-72 shrink-0 border-r border-zinc-800/50 p-6">
           <div class="flex items-center justify-between mb-6">
-            <h2 class="text-sm font-semibold text-zinc-400 uppercase tracking-wide">
-              Features
-            </h2>
+            <h2 class="text-sm font-semibold text-zinc-400 uppercase tracking-wide">Features</h2>
             <div class="flex gap-1">
               <button
                 (click)="enableAll()"
-                class="px-2 py-1 text-xs font-medium rounded bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 transition-colors"
+                class="px-2 py-1 text-xs font-medium rounded transition-colors"
+                [class]="
+                  allEnabled()
+                    ? 'bg-emerald-500 text-white cursor-default'
+                    : 'bg-zinc-700/50 text-zinc-500 hover:bg-zinc-700'
+                "
               >
                 All On
               </button>
               <button
                 (click)="disableAll()"
-                class="px-2 py-1 text-xs font-medium rounded bg-zinc-700/50 text-zinc-500 hover:bg-zinc-700 transition-colors"
+                class="px-2 py-1 text-xs font-medium rounded transition-colors"
+                [class]="
+                  allDisabled()
+                    ? 'bg-rose-500 text-white cursor-default'
+                    : 'bg-zinc-700/50 text-zinc-500 hover:bg-zinc-700'
+                "
               >
                 All Off
               </button>
@@ -261,24 +409,24 @@ const taskData: ProjectTask[] = [
           <!-- Toggle List -->
           <div class="space-y-1">
             @for (feature of features(); track feature.id; let i = $index) {
-              <div
-                class="flex items-center justify-between py-3 px-3 rounded-lg transition-colors"
-                [class]="feature.enabled ? 'bg-cyan-500/5' : 'hover:bg-zinc-800/30'"
-              >
-                <div class="min-w-0 pr-3">
-                  <div
-                    class="text-sm font-medium truncate"
-                    [class]="feature.enabled ? 'text-cyan-100' : 'text-zinc-300'"
-                  >
-                    {{ feature.label }}
-                  </div>
-                  <div class="text-xs text-zinc-500 truncate">{{ feature.description }}</div>
+            <div
+              class="flex items-center justify-between py-3 px-3 rounded-lg transition-colors"
+              [class]="feature.enabled ? 'bg-cyan-500/5' : 'hover:bg-zinc-800/30'"
+            >
+              <div class="min-w-0 pr-3">
+                <div
+                  class="text-sm font-medium truncate"
+                  [class]="feature.enabled ? 'text-cyan-100' : 'text-zinc-300'"
+                >
+                  {{ feature.label }}
                 </div>
-                <app-toggle-switch
-                  [(checked)]="features()[i].enabled"
-                  (checkedChange)="onFeatureToggle(feature.id, $event)"
-                />
+                <div class="text-xs text-zinc-500 truncate">{{ feature.description }}</div>
               </div>
+              <app-toggle-switch
+                [(checked)]="features()[i].enabled"
+                (checkedChange)="onFeatureToggle(feature.id, $event)"
+              />
+            </div>
             }
           </div>
 
@@ -297,28 +445,28 @@ const taskData: ProjectTask[] = [
           <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
             <div class="flex items-center gap-4">
               @if (isFeatureEnabled('floatingFilters')) {
-                <div class="flex items-center gap-2">
-                  <span class="text-xs text-zinc-500">Status:</span>
-                  <app-dropdown-menu
-                    [label]="statusFilter() || 'All'"
-                    [items]="statusOptions"
-                    (itemSelected)="onStatusFilter($event)"
-                    [size]="'sm'"
-                    [variant]="'outline'"
-                    [menuWidth]="'w-36'"
-                  />
-                </div>
-                <div class="flex items-center gap-2">
-                  <span class="text-xs text-zinc-500">Priority:</span>
-                  <app-dropdown-menu
-                    [label]="priorityFilter() || 'All'"
-                    [items]="priorityOptions"
-                    (itemSelected)="onPriorityFilter($event)"
-                    [size]="'sm'"
-                    [variant]="'outline'"
-                    [menuWidth]="'w-36'"
-                  />
-                </div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs text-zinc-500">Status:</span>
+                <app-dropdown-menu
+                  [label]="statusFilter() || 'All'"
+                  [items]="statusOptions"
+                  (itemSelected)="onStatusFilter($event)"
+                  [size]="'sm'"
+                  [variant]="'outline'"
+                  [menuWidth]="'w-36'"
+                />
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs text-zinc-500">Priority:</span>
+                <app-dropdown-menu
+                  [label]="priorityFilter() || 'All'"
+                  [items]="priorityOptions"
+                  (itemSelected)="onPriorityFilter($event)"
+                  [size]="'sm'"
+                  [variant]="'outline'"
+                  [menuWidth]="'w-36'"
+                />
+              </div>
               }
             </div>
 
@@ -327,18 +475,21 @@ const taskData: ProjectTask[] = [
                 <span class="text-zinc-100 font-medium">{{ filteredData().length }}</span> tasks
               </div>
               @if (isFeatureEnabled('columnVisibility') && gridApi()) {
-                <app-column-visibility-menu
-                  [gridApi]="gridApi()!"
-                  (columnVisibilityChanged)="onColumnVisibilityChanged($event)"
-                  [size]="'sm'"
-                  [variant]="'outline'"
-                />
+              <app-column-visibility-menu
+                [gridApi]="gridApi()!"
+                [columnDefs]="activeColumnDefs()"
+                (columnVisibilityChanged)="onColumnVisibilityChanged($event)"
+                [size]="'sm'"
+                [variant]="'outline'"
+              />
               }
             </div>
           </div>
 
           <!-- AG-Grid -->
-          <div class="flex-1 bg-zinc-900/50 border border-zinc-800/50 rounded-xl overflow-hidden min-h-[500px]">
+          <div
+            class="flex-1 bg-zinc-900/50 border border-zinc-800/50 rounded-xl overflow-hidden min-h-[500px]"
+          >
             <ag-grid-angular
               class="w-full h-full"
               [theme]="theme"
@@ -346,7 +497,7 @@ const taskData: ProjectTask[] = [
               [columnDefs]="activeColumnDefs()"
               [defaultColDef]="defaultColDef"
               [animateRows]="true"
-              [pagination]="true"
+              [pagination]="isFeatureEnabled('pagination')"
               [paginationPageSize]="10"
               (gridReady)="onGridReady($event)"
             />
@@ -402,6 +553,12 @@ export class FeatureExplorerDemoComponent {
       id: 'statusColors',
       label: 'Status Colors',
       description: 'Color-coded status cells',
+      enabled: true,
+    },
+    {
+      id: 'pagination',
+      label: 'Pagination',
+      description: 'Paginate table rows',
       enabled: true,
     },
   ]);
@@ -498,6 +655,10 @@ export class FeatureExplorerDemoComponent {
 
   enabledFeatures = computed(() => this.features().filter((f) => f.enabled));
 
+  // Computed signals for button states
+  allEnabled = computed(() => this.features().every((f) => f.enabled));
+  allDisabled = computed(() => this.features().every((f) => !f.enabled));
+
   constructor() {
     // Effect to update grid when features change
     effect(() => {
@@ -505,6 +666,9 @@ export class FeatureExplorerDemoComponent {
       const columns = this.activeColumnDefs();
       if (api) {
         api.setGridOption('columnDefs', columns);
+        // Force refresh all cells to apply style changes (e.g., status colors)
+        // We need to redraw rows to ensure cellStyle functions are re-evaluated
+        api.redrawRows();
       }
     });
   }
@@ -563,15 +727,15 @@ export class FeatureExplorerDemoComponent {
       columns.push({ field: 'priority', headerName: 'Priority', width: 100 });
     }
 
-    // Status with colors
-    const statusColumn: ColDef<ProjectTask> = {
+    // Status with colors - always include cellStyle function that checks feature state
+    columns.push({
       field: 'status',
       headerName: 'Status',
       width: 120,
-    };
-
-    if (this.isFeatureEnabled('statusColors')) {
-      statusColumn.cellStyle = (params) => {
+      cellStyle: (params) => {
+        if (!this.isFeatureEnabled('statusColors')) {
+          return null;
+        }
         const colors: Record<string, { bg: string; text: string }> = {
           Completed: { bg: '#14532d40', text: '#4ade80' },
           'In Progress': { bg: '#1e3a5f40', text: '#60a5fa' },
@@ -580,9 +744,8 @@ export class FeatureExplorerDemoComponent {
         };
         const style = colors[params.value];
         return style ? { backgroundColor: style.bg, color: style.text, fontWeight: '500' } : null;
-      };
-    }
-    columns.push(statusColumn);
+      },
+    });
 
     // Progress with renderer
     if (this.isFeatureEnabled('cellRenderers')) {
@@ -675,20 +838,21 @@ export class FeatureExplorerDemoComponent {
             field: 'status',
             headerName: 'Status',
             width: 120,
-            cellStyle: this.isFeatureEnabled('statusColors')
-              ? (params) => {
-                  const colors: Record<string, { bg: string; text: string }> = {
-                    Completed: { bg: '#14532d40', text: '#4ade80' },
-                    'In Progress': { bg: '#1e3a5f40', text: '#60a5fa' },
-                    Pending: { bg: '#78350f40', text: '#fbbf24' },
-                    Blocked: { bg: '#7f1d1d40', text: '#f87171' },
-                  };
-                  const style = colors[params.value];
-                  return style
-                    ? { backgroundColor: style.bg, color: style.text, fontWeight: '500' }
-                    : null;
-                }
-              : undefined,
+            cellStyle: (params) => {
+              if (!this.isFeatureEnabled('statusColors')) {
+                return null;
+              }
+              const colors: Record<string, { bg: string; text: string }> = {
+                Completed: { bg: '#14532d40', text: '#4ade80' },
+                'In Progress': { bg: '#1e3a5f40', text: '#60a5fa' },
+                Pending: { bg: '#78350f40', text: '#fbbf24' },
+                Blocked: { bg: '#7f1d1d40', text: '#f87171' },
+              };
+              const style = colors[params.value];
+              return style
+                ? { backgroundColor: style.bg, color: style.text, fontWeight: '500' }
+                : null;
+            },
           },
           this.isFeatureEnabled('cellRenderers')
             ? {

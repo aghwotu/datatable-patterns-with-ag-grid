@@ -25,6 +25,7 @@ export class DropdownMenuConfigDirective<T = unknown> {
 
 @Component({
   selector: 'app-dropdown-menu',
+  standalone: true,
   imports: [CommonModule, ButtonComponent, CdkMenu, CdkMenuItem, CdkMenuTrigger],
   hostDirectives: [
     {
