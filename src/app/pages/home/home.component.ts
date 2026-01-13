@@ -4,6 +4,7 @@ import { DemoService, Demo } from '../../services/demo.service';
 
 @Component({
   selector: 'app-home',
+  standalone: true,
   imports: [RouterLink],
   template: `
     <div class="min-h-screen bg-zinc-950 text-zinc-100">
@@ -55,11 +56,11 @@ import { DemoService, Demo } from '../../services/demo.service';
           @for (demo of demos; track demo.id) {
           <a
             [routerLink]="['/demo', demo.id]"
-            class="group block"
+            class="group block h-full"
             [style.view-transition-name]="'demo-card-' + demo.id"
           >
             <article
-              class="relative bg-zinc-900/50 border border-zinc-800/50 rounded-2xl overflow-hidden transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-900/80 hover:shadow-2xl hover:shadow-cyan-500/5 hover:-translate-y-1"
+              class="relative h-full flex flex-col bg-zinc-900/50 border border-zinc-800/50 rounded-2xl overflow-hidden transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-900/80 hover:shadow-2xl hover:shadow-cyan-500/5 hover:-translate-y-1"
             >
               <!-- Preview Gradient -->
               <div
@@ -84,7 +85,7 @@ import { DemoService, Demo } from '../../services/demo.service';
               </div>
 
               <!-- Content -->
-              <div class="p-5">
+              <div class="p-5 flex-1 flex flex-col">
                 <h3
                   class="text-lg font-semibold mb-2 text-zinc-100 group-hover:text-cyan-400 transition-colors"
                   [style.view-transition-name]="'demo-title-' + demo.id"
@@ -96,7 +97,7 @@ import { DemoService, Demo } from '../../services/demo.service';
                 </p>
 
                 <!-- Tags -->
-                <div class="flex flex-wrap gap-2">
+                <div class="flex flex-wrap gap-2 mt-auto">
                   @for (tag of demo.tags; track tag) {
                   <span
                     class="px-2.5 py-1 text-xs font-medium rounded-full bg-zinc-800 text-zinc-400 border border-zinc-700/50"
