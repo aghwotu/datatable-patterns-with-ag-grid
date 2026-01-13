@@ -37,6 +37,7 @@ export class CheckboxMenuConfigDirective<T = void> {
 
 @Component({
   selector: 'app-checkbox-menu',
+  standalone: true,
   imports: [CommonModule, FormsModule, ButtonComponent, CdkMenu, CdkMenuItem, CdkMenuTrigger],
   hostDirectives: [
     {

@@ -99,6 +99,7 @@ export class ButtonConfigDirective {
 
 @Component({
   selector: 'button[app-button]',
+  standalone: true,
   imports: [CommonModule],
   hostDirectives: [
     {

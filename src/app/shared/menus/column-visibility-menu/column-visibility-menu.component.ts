@@ -7,6 +7,7 @@ import { ButtonConfigDirective } from '@shared/components/button/button.componen
 
 @Component({
   selector: 'app-column-visibility-menu',
+  standalone: true,
   imports: [CommonModule, CheckboxMenuComponent],
   hostDirectives: [
     {

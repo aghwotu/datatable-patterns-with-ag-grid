@@ -14,7 +14,11 @@ import {
   ColDef,
 } from 'ag-grid-community';
 import { ColumnVisibilityMenuComponent } from '@shared/menus/column-visibility-menu/column-visibility-menu.component';
-import { TradingApiService, TradingOrder, TradingOrdersRequest } from './services/trading-api.service';
+import {
+  TradingApiService,
+  TradingOrder,
+  TradingOrdersRequest,
+} from './services/trading-api.service';
 import { OrderTypeFilterComponent } from './filters/order-type-filter.component';
 import { SideFilterComponent } from './filters/side-filter.component';
 import { StatusFilterComponent } from './filters/status-filter.component';
@@ -27,13 +31,8 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-trading-platform-demo',
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterLink,
-    AgGridAngular,
-    ColumnVisibilityMenuComponent,
-  ],
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterLink, AgGridAngular, ColumnVisibilityMenuComponent],
   template: `
     <div class="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col">
       <!-- Header -->
@@ -64,37 +63,40 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 
       <!-- Demo Info Banner -->
       <div
-        class="bg-gradient-to-br from-amber-500 via-orange-600 to-red-700 relative"
+        class="bg-linear-to-br from-amber-500 via-orange-600 to-red-700 relative"
         style="view-transition-name: demo-preview-trading-platform"
       >
         <div
-          class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/50 to-transparent"
+          class="absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/50 to-transparent"
         ></div>
         <div class="relative max-w-7xl mx-auto px-6 py-12">
           <div class="max-w-3xl">
             <h1
               class="text-3xl md:text-4xl font-bold mb-3 text-white"
               style="view-transition-name: demo-title-trading-platform"
-            >Trading Platform</h1>
+            >
+              Trading Platform
+            </h1>
             <p class="text-zinc-200 text-lg mb-5">
-              A comprehensive trading orders grid combining all AG-Grid features: column visibility,
-              ellipsis actions, floating filters, server-side pagination, and custom cell renderers.
+              A trading orders table showcasing server-driven pagination, column visibility
+              controls, inline header filters, contextual row actions, and rich cell renderers
+              (badges, progress, trends).
             </p>
             <div class="flex flex-wrap gap-2">
               <span
                 class="px-3 py-1.5 text-sm font-medium rounded-full bg-white/10 text-white backdrop-blur-sm border border-white/20"
               >
-                All Features
+                Server Pagination
               </span>
               <span
                 class="px-3 py-1.5 text-sm font-medium rounded-full bg-white/10 text-white backdrop-blur-sm border border-white/20"
               >
-                Server-Side Data
+                Column Visibility
               </span>
               <span
                 class="px-3 py-1.5 text-sm font-medium rounded-full bg-white/10 text-white backdrop-blur-sm border border-white/20"
               >
-                Trading Orders
+                Row Actions
               </span>
             </div>
           </div>
@@ -132,16 +134,15 @@ ModuleRegistry.registerModules([AllCommunityModule]);
           <div class="flex items-center gap-4">
             <div class="text-sm text-zinc-400">
               @if (isLoading()) {
-                <span class="text-amber-400">Loading...</span>
+              <span class="text-amber-400">Loading...</span>
               } @else {
-                <span class="text-zinc-100 font-medium">{{ totalRecords() }}</span> orders
-              }
+              <span class="text-zinc-100 font-medium">{{ totalRecords() }}</span> orders }
             </div>
             @if (gridApi()) {
-              <app-column-visibility-menu
-                [gridApi]="gridApi()!"
-                (columnVisibilityChanged)="onColumnVisibilityChanged($event)"
-              />
+            <app-column-visibility-menu
+              [gridApi]="gridApi()!"
+              (columnVisibilityChanged)="onColumnVisibilityChanged($event)"
+            />
             }
           </div>
         </div>
@@ -225,16 +226,16 @@ ModuleRegistry.registerModules([AllCommunityModule]);
               </button>
 
               @for (page of visiblePages(); track page) {
-                <button
-                  (click)="goToPage(page)"
-                  [disabled]="isLoading()"
-                  class="w-8 h-8 rounded text-sm font-medium transition-colors"
-                  [class.bg-amber-600]="page === currentPage()"
-                  [class.text-white]="page === currentPage()"
-                  [class.hover:bg-zinc-800]="page !== currentPage()"
-                >
-                  {{ page }}
-                </button>
+              <button
+                (click)="goToPage(page)"
+                [disabled]="isLoading()"
+                class="w-8 h-8 rounded text-sm font-medium transition-colors"
+                [class.bg-amber-600]="page === currentPage()"
+                [class.text-white]="page === currentPage()"
+                [class.hover:bg-zinc-800]="page !== currentPage()"
+              >
+                {{ page }}
+              </button>
               }
 
               <button
@@ -394,9 +395,7 @@ export class TradingPlatformDemoComponent implements OnInit, OnDestroy {
           Sell: { bg: '#7f1d1d40', text: '#f87171' },
         };
         const style = colors[params.value];
-        return style
-          ? { backgroundColor: style.bg, color: style.text, fontWeight: '600' }
-          : null;
+        return style ? { backgroundColor: style.bg, color: style.text, fontWeight: '600' } : null;
       },
     },
     {
@@ -442,9 +441,7 @@ export class TradingPlatformDemoComponent implements OnInit, OnDestroy {
           Cancelled: { bg: '#7f1d1d40', text: '#f87171' },
         };
         const style = colors[params.value];
-        return style
-          ? { backgroundColor: style.bg, color: style.text, fontWeight: '500' }
-          : null;
+        return style ? { backgroundColor: style.bg, color: style.text, fontWeight: '500' } : null;
       },
     },
     {
