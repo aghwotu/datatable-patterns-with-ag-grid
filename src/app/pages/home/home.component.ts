@@ -24,8 +24,10 @@ import { DemoService, Demo } from '../../services/demo.service';
               </svg>
             </div>
             <div>
-              <h1 class="text-xl font-semibold tracking-tight">AG-Grid Demos</h1>
-              <p class="text-sm text-zinc-500">Interactive table showcases</p>
+              <h1 class="text-xl font-semibold tracking-tight">Enterprise Data Table Patterns</h1>
+              <p class="text-sm text-zinc-500">
+                Production-style data grid implementations for data-heavy UIs
+              </p>
             </div>
           </div>
         </div>
@@ -37,11 +39,14 @@ import { DemoService, Demo } from '../../services/demo.service';
           <h2
             class="text-3xl font-bold mb-3 bg-linear-to-r from-zinc-100 to-zinc-400 bg-clip-text text-transparent"
           >
-            Explore Demos
+            Reference Scenarios or Implementation Scenarios
           </h2>
           <p class="text-zinc-400 max-w-2xl">
-            Discover powerful data grid implementations. Click any card to see the full demo in
-            action.
+            A collection of production-style
+            <a class="underline" href="https://ag-grid.com/">AG-Grid</a> implementations modeling
+            real-world use cases such as trading systems, observability dashboards, and large
+            server-driven datasets. Each scenario explores UX, performance, and customization
+            trade-offs.
           </p>
         </div>
 

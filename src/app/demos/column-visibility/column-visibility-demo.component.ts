@@ -245,7 +245,9 @@ const transactionData: BankTransaction[] = [
             <h1
               class="text-3xl md:text-4xl font-bold mb-3 text-white"
               style="view-transition-name: demo-title-column-visibility"
-            >Column Visibility Toggle</h1>
+            >
+              Column Management
+            </h1>
             <p class="text-zinc-200 text-lg mb-5">
               A comprehensive transaction history table with many columns. Toggle which columns to
               display using the dropdown menu. Perfect for tables with extensive data where users

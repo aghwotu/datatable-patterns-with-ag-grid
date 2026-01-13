@@ -18,7 +18,7 @@ export interface Demo {
 // Feature demos with custom routes (showcasing specific AG-Grid features)
 const columnVisibilityDemo: Demo = {
   id: 'column-visibility',
-  title: 'Column Visibility Toggle',
+  title: 'Column Management',
   description:
     'Toggle which columns to display using a checkbox dropdown menu. Built with Angular CDK Menu for accessibility and smooth UX.',
   tags: ['Column Management', 'Banking', 'CDK Menu'],
