@@ -96,6 +96,16 @@ const observabilityDemo: Demo = {
   hasCustomRoute: true,
 };
 
+const mobileResponsiveDemo: Demo = {
+  id: 'mobile-responsive',
+  title: 'Mobile Responsive Table',
+  description:
+    'Adaptive column layouts that respond to screen size. Columns collapse to essentials on mobile with a "View Details" action.',
+  tags: ['Responsive', 'Mobile-First', 'Bottom Sheet'],
+  previewGradient: 'from-indigo-500 via-purple-600 to-pink-600',
+  hasCustomRoute: true,
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -103,6 +113,7 @@ export class DemoService {
   private demos: Demo[] = [
     tradingPlatformDemo,
     observabilityDemo,
+    mobileResponsiveDemo,
     columnVisibilityDemo,
     ellipsisActionsDemo,
     floatingFiltersDemo,

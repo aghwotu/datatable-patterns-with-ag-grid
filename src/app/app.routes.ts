@@ -62,6 +62,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'demo/mobile-responsive',
+    loadComponent: () =>
+      import('./demos/mobile-responsive/mobile-responsive-demo.component').then(
+        (m) => m.MobileResponsiveDemoComponent
+      ),
+  },
+  {
     path: 'demo/:id',
     loadComponent: () =>
       import('./pages/demo-detail/demo-detail.component').then((m) => m.DemoDetailComponent),
