@@ -38,7 +38,7 @@ import { DemoService, Demo } from '../../services/demo.service';
           <h2
             class="text-4xl font-bold mb-4 bg-linear-to-r from-zinc-100 to-zinc-400 bg-clip-text text-transparent"
           >
-            Two Tables. Real Decisions.
+            AG-Grid Tables.
           </h2>
           <p class="text-zinc-400 max-w-2xl mx-auto text-lg">
             Explore AG-Grid features in isolation, then see how they combine under real
@@ -179,10 +179,95 @@ import { DemoService, Demo } from '../../services/demo.service';
             </div>
             <h3 class="text-lg font-medium text-zinc-100 mb-2">Modern Stack</h3>
             <p class="text-sm text-zinc-500">
-              Angular 21 · Signals · AG-Grid 35 · Angular CDK · Tailwind 4
+              Angular 21 · Signals ·
+              <a
+                href="https://ag-grid.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-cyan-400 hover:text-cyan-300 underline decoration-dotted"
+              >
+                AG-Grid Community 35
+              </a>
+              · Angular CDK · Tailwind 4
             </p>
           </div>
         </div>
+
+        <!-- Design Notes -->
+        <section class="mt-20">
+          <div
+            class="bg-zinc-900/40 border border-zinc-800/60 rounded-2xl overflow-hidden"
+            [style.view-transition-name]="'design-notes-teaser'"
+          >
+            <div class="p-8 md:p-10">
+              <div class="flex items-start justify-between gap-6 flex-wrap">
+                <div class="max-w-2xl">
+                  <h3 class="text-2xl font-semibold text-zinc-100 mb-2">Design Notes</h3>
+                  <p class="text-zinc-400">
+                    A quick overview of the architecture choices and trade-offs behind these tables.
+                  </p>
+                </div>
+                <a
+                  routerLink="/design-notes"
+                  class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-cyan-500/15 text-cyan-300 border border-cyan-400/20 hover:bg-cyan-500/20 hover:border-cyan-300/30 transition-colors text-sm font-medium"
+                >
+                  Read the full notes
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </a>
+              </div>
+
+              <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="rounded-xl border border-zinc-800/60 bg-zinc-950/30 p-5">
+                  <div class="text-sm font-semibold text-zinc-100 mb-2">AG-Grid Community</div>
+                  <div class="text-sm text-zinc-400 leading-relaxed">
+                    These tables use
+                    <a
+                      href="https://ag-grid.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-cyan-400 hover:text-cyan-300 underline decoration-dotted"
+                    >
+                      AG-Grid
+                    </a>
+                    <span class="text-zinc-200 font-medium">Community</span>
+                    (no Enterprise features), to keep the patterns broadly applicable.
+                  </div>
+                </div>
+                <div class="rounded-xl border border-zinc-800/60 bg-zinc-950/30 p-5">
+                  <div class="text-sm font-semibold text-zinc-100 mb-2">
+                    Signals as the state backbone
+                  </div>
+                  <div class="text-sm text-zinc-400 leading-relaxed">
+                    Grid configuration and filters are synchronous UI state; signals keep updates
+                    predictable and fine-grained without RxJS overhead.
+                  </div>
+                </div>
+                <div class="rounded-xl border border-zinc-800/60 bg-zinc-950/30 p-5">
+                  <div class="text-sm font-semibold text-zinc-100 mb-2">
+                    Reusable UI (CDK + Mango UI)
+                  </div>
+                  <div class="text-sm text-zinc-400 leading-relaxed">
+                    Menus and popovers are built with Angular CDK patterns and reuse components from
+                    Mango UI.
+                  </div>
+                </div>
+                <div class="rounded-xl border border-zinc-800/60 bg-zinc-950/30 p-5">
+                  <div class="text-sm font-semibold text-zinc-100 mb-2">Attribution</div>
+                  <div class="text-sm text-zinc-400 leading-relaxed">
+                    Observability table is inspired by the OpenStatus React data-table.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       <!-- Footer -->
@@ -191,7 +276,16 @@ import { DemoService, Demo } from '../../services/demo.service';
           <div class="flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-3">
               <p class="text-sm text-zinc-500">
-                Angular 21 · Signals · AG-Grid 35 · CDK · Tailwind 4
+                Angular 21 · Signals ·
+                <a
+                  href="https://ag-grid.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-cyan-400 hover:text-cyan-300 underline decoration-dotted"
+                >
+                  AG-Grid Community 35
+                </a>
+                · CDK · Tailwind 4
               </p>
               <span class="text-zinc-700">·</span>
               <a
@@ -203,7 +297,7 @@ import { DemoService, Demo } from '../../services/demo.service';
             </div>
             <div class="flex items-center gap-4">
               <a
-                href="https://github.com/AghwOtu"
+                href="https://github.com/aghwotu"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="flex items-center gap-2 text-zinc-400 hover:text-zinc-100 transition-colors"
@@ -216,7 +310,7 @@ import { DemoService, Demo } from '../../services/demo.service';
                 <span class="sr-only">GitHub</span>
               </a>
               <a
-                href="https://linkedin.com/in/aghwotu"
+                href="https://www.linkedin.com/in/aghwotu-ovuoke/"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="flex items-center gap-2 text-zinc-400 hover:text-zinc-100 transition-colors"
@@ -227,6 +321,14 @@ import { DemoService, Demo } from '../../services/demo.service';
                   />
                 </svg>
                 <span class="sr-only">LinkedIn</span>
+              </a>
+              <a
+                href="https://orvorkay.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-zinc-400 hover:text-zinc-100 transition-colors text-sm"
+              >
+                Portfolio
               </a>
             </div>
           </div>

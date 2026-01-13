@@ -38,6 +38,21 @@ ModuleRegistry.registerModules([AllCommunityModule]);
     <div class="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col">
       <app-demo-nav-header [demoId]="'observability'" />
 
+      <!-- Attribution -->
+      <div class="px-4 md:px-6 pt-4">
+        <div class="text-xs text-zinc-500">
+          Inspired by
+          <a
+            href="https://data-table.openstatus.dev/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-cyan-400 hover:text-cyan-300 underline decoration-dotted"
+          >
+            OpenStatus’ React data-table
+          </a>
+        </div>
+      </div>
+
       <div class="flex flex-1 w-full gap-4 px-4 md:px-6 py-6">
         <!-- Filters rail -->
         @if (!controlsHidden()) {
