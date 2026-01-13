@@ -451,10 +451,52 @@ const taskData: ProjectTask[] = [
 
         <!-- Main Grid Area -->
         <main class="flex-1 flex flex-col p-4 sm:p-6 min-w-0">
-          <!-- Toolbar -->
+          <!-- Toolbar: Search + Filters + Controls -->
           <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
-            <!-- Left: Filters -->
-            <div class="flex items-center gap-2 sm:gap-4 flex-wrap">
+            <!-- Left: Search + Filters -->
+            <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
+              <!-- Global Search -->
+              <div class="relative w-full sm:w-auto sm:min-w-[200px]">
+                <svg
+                  class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+                <input
+                  #searchInput
+                  type="text"
+                  placeholder="Search..."
+                  class="w-full sm:w-[200px] pl-9 pr-8 py-1.5 text-sm bg-zinc-900/60 border border-zinc-700/50 rounded-lg text-zinc-100 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50"
+                  [value]="searchInputValue()"
+                  (input)="onSearchInput($event)"
+                />
+                @if (searchInputValue()) {
+                <button
+                  type="button"
+                  class="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 text-zinc-500 hover:text-zinc-300 transition-colors"
+                  (click)="clearSearch()"
+                  title="Clear search"
+                >
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+                }
+              </div>
+
               @if (isFeatureEnabled('floatingFilters')) {
               <div class="flex items-center gap-2">
                 <span class="text-xs text-zinc-500">Status:</span>
@@ -479,6 +521,32 @@ const taskData: ProjectTask[] = [
                 />
               </div>
               }
+
+              <!-- Reset Button -->
+              <button
+                type="button"
+                class="p-1.5 rounded-lg transition-colors border"
+                [class]="
+                  hasActiveFilters()
+                    ? 'bg-amber-500/10 border-amber-500/30 text-amber-300 hover:bg-amber-500/20'
+                    : 'bg-zinc-800/50 border-zinc-700/50 text-zinc-500 hover:bg-zinc-800 hover:text-zinc-400'
+                "
+                (click)="resetTable()"
+                [title]="
+                  hasActiveFilters()
+                    ? 'Reset filters, search, and selection'
+                    : 'Table is already reset'
+                "
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                  />
+                </svg>
+              </button>
             </div>
 
             <!-- Right: Selection info + Column visibility -->
@@ -549,6 +617,7 @@ const taskData: ProjectTask[] = [
                 [paginationPageSize]="10"
                 [rowSelection]="isFeatureEnabled('rowSelection') ? 'multiple' : undefined"
                 [suppressRowClickSelection]="isFeatureEnabled('rowSelection')"
+                [quickFilterText]="searchText()"
                 (gridReady)="onGridReady($event)"
                 (selectionChanged)="onSelectionChanged($event)"
                 (rowClicked)="onRowClicked($event)"
@@ -635,6 +704,22 @@ export class FeatureExplorerDemoComponent {
   statusFilter = signal<string>('');
   priorityFilter = signal<string>('');
 
+  // Global search with debounce
+  searchInputValue = signal<string>(''); // Raw input value (what user sees)
+  searchText = signal<string>(''); // Debounced value (what filters the grid)
+  private searchDebounceTimer: ReturnType<typeof setTimeout> | null = null;
+  private readonly SEARCH_DEBOUNCE_MS = 200; // 200ms debounce
+
+  // Check if any filters/search are active (for reset button highlighting)
+  hasActiveFilters = computed(() => {
+    return (
+      this.searchInputValue() !== '' ||
+      this.statusFilter() !== '' ||
+      this.priorityFilter() !== '' ||
+      this.selectedCount() > 0
+    );
+  });
+
   statusOptions: DropdownMenuItem<string>[] = [
     { label: 'All', value: '' },
     { label: 'Completed', value: 'Completed' },
@@ -694,10 +779,11 @@ export class FeatureExplorerDemoComponent {
 
   rowData = taskData;
 
-  // Computed filtered data
+  // Computed filtered data (includes search + dropdown filters)
   filteredData = computed(() => {
     let data = this.rowData;
 
+    // Apply dropdown filters
     if (this.isFeatureEnabled('floatingFilters')) {
       const status = this.statusFilter();
       const priority = this.priorityFilter();
@@ -708,6 +794,14 @@ export class FeatureExplorerDemoComponent {
       if (priority) {
         data = data.filter((row) => row.priority === priority);
       }
+    }
+
+    // Apply search filter (matches AG Grid's quick filter behavior)
+    const search = this.searchText().toLowerCase().trim();
+    if (search) {
+      data = data.filter((row) =>
+        Object.values(row).some((value) => String(value).toLowerCase().includes(search))
+      );
     }
 
     return data;
@@ -801,6 +895,64 @@ export class FeatureExplorerDemoComponent {
 
   onColumnVisibilityChanged(event: { field: string; visible: boolean }): void {
     // Column visibility is handled by the menu component directly
+  }
+
+  // Search handling with debounce
+  onSearchInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = input.value;
+
+    // Update input value immediately (for responsive UI)
+    this.searchInputValue.set(value);
+
+    // Clear existing timer
+    if (this.searchDebounceTimer) {
+      clearTimeout(this.searchDebounceTimer);
+    }
+
+    // Debounce the actual filter update
+    this.searchDebounceTimer = setTimeout(() => {
+      this.searchText.set(value);
+      this.searchDebounceTimer = null;
+    }, this.SEARCH_DEBOUNCE_MS);
+  }
+
+  clearSearch(): void {
+    // Clear any pending debounce
+    if (this.searchDebounceTimer) {
+      clearTimeout(this.searchDebounceTimer);
+      this.searchDebounceTimer = null;
+    }
+    // Clear both immediately
+    this.searchInputValue.set('');
+    this.searchText.set('');
+  }
+
+  // Reset table to default state
+  resetTable(): void {
+    // Clear search (including any pending debounce)
+    if (this.searchDebounceTimer) {
+      clearTimeout(this.searchDebounceTimer);
+      this.searchDebounceTimer = null;
+    }
+    this.searchInputValue.set('');
+    this.searchText.set('');
+
+    // Clear filters
+    this.statusFilter.set('');
+    this.priorityFilter.set('');
+
+    // Clear selection
+    const api = this.gridApi();
+    if (api) {
+      api.deselectAll();
+    }
+    this.selectedCount.set(0);
+
+    // Reset to first page if pagination is enabled
+    if (api && this.isFeatureEnabled('pagination')) {
+      api.paginationGoToFirstPage();
+    }
   }
 
   // Flat column definitions (no grouping)
