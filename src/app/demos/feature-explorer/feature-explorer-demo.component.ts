@@ -1021,6 +1021,7 @@ export class FeatureExplorerDemoComponent {
         headerName: 'Progress',
         width: 150,
         cellRenderer: ProgressCellComponent,
+        hide: true,
       });
     } else {
       columns.push({
@@ -1028,17 +1029,19 @@ export class FeatureExplorerDemoComponent {
         headerName: 'Progress',
         width: 100,
         valueFormatter: (params) => `${params.value}%`,
+        hide: true,
       });
     }
 
     columns.push(
-      { field: 'category', headerName: 'Category', width: 100 },
+      { field: 'category', headerName: 'Category', width: 100, hide: true },
       { field: 'dueDate', headerName: 'Due Date', width: 110 },
       {
         field: 'budget',
         headerName: 'Budget',
         width: 100,
         valueFormatter: (params) => `$${params.value?.toLocaleString() || 0}`,
+        hide: true,
       }
     );
 
@@ -1049,6 +1052,7 @@ export class FeatureExplorerDemoComponent {
         headerName: 'Variance',
         width: 110,
         cellRenderer: TrendCellComponent,
+        hide: true,
       });
     } else {
       columns.push({
@@ -1056,6 +1060,7 @@ export class FeatureExplorerDemoComponent {
         headerName: 'Variance',
         width: 100,
         valueFormatter: (params) => `$${params.value?.toLocaleString() || 0}`,
+        hide: true,
       });
     }
 
@@ -1106,7 +1111,7 @@ export class FeatureExplorerDemoComponent {
         children: [
           { field: 'title', headerName: 'Task', minWidth: 150 },
           { field: 'assignee', headerName: 'Assignee', width: 130 },
-          { field: 'category', headerName: 'Category', width: 100 },
+          { field: 'category', headerName: 'Category', width: 100, hide: true },
         ],
       },
       {
@@ -1146,12 +1151,14 @@ export class FeatureExplorerDemoComponent {
                 headerName: 'Progress',
                 width: 150,
                 cellRenderer: ProgressCellComponent,
+                hide: true,
               }
             : {
                 field: 'progress',
                 headerName: 'Progress',
                 width: 100,
                 valueFormatter: (params) => `${params.value}%`,
+                hide: true,
               },
         ],
       },
@@ -1163,12 +1170,14 @@ export class FeatureExplorerDemoComponent {
             headerName: 'Budget',
             width: 100,
             valueFormatter: (params) => `$${params.value?.toLocaleString() || 0}`,
+            hide: true,
           },
           {
             field: 'spent',
             headerName: 'Spent',
             width: 100,
             valueFormatter: (params) => `$${params.value?.toLocaleString() || 0}`,
+            hide: true,
           },
           this.isFeatureEnabled('cellRenderers')
             ? {
@@ -1176,12 +1185,14 @@ export class FeatureExplorerDemoComponent {
                 headerName: 'Variance',
                 width: 110,
                 cellRenderer: TrendCellComponent,
+                hide: true,
               }
             : {
                 field: 'variance',
                 headerName: 'Variance',
                 width: 100,
                 valueFormatter: (params) => `$${params.value?.toLocaleString() || 0}`,
+                hide: true,
               },
         ],
       },
