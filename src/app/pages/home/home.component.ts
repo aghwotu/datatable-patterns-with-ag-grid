@@ -60,12 +60,22 @@ import { BadgeComponent } from '@shared/components/badge/badge.component';
             <article
               class="relative h-full flex flex-col bg-zinc-900/50 border border-zinc-800/50 rounded-2xl overflow-hidden transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-900/80 hover:shadow-2xl hover:shadow-cyan-500/10 hover:-translate-y-1"
             >
-              <!-- Preview Gradient -->
+              <!-- Preview: image or gradient -->
               <div
-                class="h-52 bg-linear-to-br {{ demo.previewGradient }} relative overflow-hidden"
+                class="h-52 relative overflow-hidden min-h-0"
+                [class]="!demo.previewImage ? 'bg-linear-to-br ' + demo.previewGradient : ''"
                 [style.view-transition-name]="'demo-preview-' + demo.id"
               >
-                <!-- Grid Pattern Overlay -->
+                @if (demo.previewImage) {
+                <img
+                  [src]="demo.previewImage"
+                  [alt]="demo.title + ' preview'"
+                  class="absolute inset-0 w-full h-full object-cover"
+                  loading="eager"
+                  onerror="this.style.display='none'"
+                />
+                } @else {
+                <!-- Grid Pattern Overlay (gradient fallback only) -->
                 <div class="absolute inset-0 opacity-20">
                   <div class="grid grid-cols-5 gap-px h-full p-6">
                     @for (i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]; track i) {
@@ -73,6 +83,7 @@ import { BadgeComponent } from '@shared/components/badge/badge.component';
                     }
                   </div>
                 </div>
+                }
                 <!-- Glow Effect -->
                 <div
                   class="absolute inset-0 bg-linear-to-t from-zinc-900 via-transparent to-transparent opacity-60"

@@ -6,6 +6,8 @@ export interface Demo {
   description: string;
   tags: string[];
   previewGradient: string;
+  /** Optional image path (under public/) for the card preview. */
+  previewImage?: string;
   /** Marks a demo as work-in-progress so the UI can show a "WIP" label. */
   isWip?: boolean;
   /** If true, this demo has a dedicated route at /demo/{id} */
@@ -22,6 +24,7 @@ const featureExplorerDemo: Demo = {
     'A controlled environment for isolating AG-Grid behaviors—column visibility, row actions, filters, renderers, and grouping—to understand how individual features affect table density, usability, and complexity.',
   tags: ['Feature Isolation', 'Table Density', 'UX Trade-offs'],
   previewGradient: 'from-cyan-500 via-blue-600 to-violet-700',
+  previewImage: '/feature-explorer.png',
   hasCustomRoute: true,
   isWip: true,
 };
@@ -34,6 +37,7 @@ const observabilityDemo: Demo = {
     'A production-style observability table inspired by OpenStatus, designed to surface status, latency, and trends without overwhelming operators. Focuses on dense data scanning, conditional highlighting, and drill-down workflows.',
   tags: ['Operational Monitoring', 'High-Signal UI', 'Dense Data'],
   previewGradient: 'from-cyan-500 via-sky-600 to-indigo-700',
+  previewImage: '/open-status.png',
   hasCustomRoute: true,
   isWip: true,
 };
