@@ -7,8 +7,14 @@ import { RouterOutlet } from '@angular/router';
   template: `<router-outlet />`,
   styles: `
     :host {
-      display: block;
+      display: flex;
+      flex-direction: column;
       min-height: 100vh;
+    }
+    router-outlet {
+      flex: 1;
+      min-height: 0;
+      display: block;
     }
   `,
 })

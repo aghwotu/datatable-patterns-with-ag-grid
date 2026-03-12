@@ -602,11 +602,12 @@ const taskData: ProjectTask[] = [
 
           <!-- AG-Grid -->
           <div
-            class="flex-1 bg-zinc-900/50 border border-zinc-800/50 rounded-xl overflow-hidden min-h-[400px] sm:min-h-[500px]"
+            class="flex-1 flex flex-col bg-zinc-900/50 border border-zinc-800/50 rounded-xl overflow-hidden min-h-[400px] sm:min-h-[500px]"
           >
-            <div class="w-full h-full overflow-x-auto">
+            <div class="flex-1 min-h-0 w-full overflow-x-auto">
               <ag-grid-angular
-                class="w-full h-full"
+                class="ag-theme-quartz-dark w-full h-full"
+                [style.minHeight.px]="400"
                 [style.minWidth.px]="isMobile() ? 600 : undefined"
                 [theme]="theme"
                 [rowData]="filteredData()"
