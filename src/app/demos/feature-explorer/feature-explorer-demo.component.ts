@@ -661,8 +661,8 @@ const taskData: ProjectTask[] = [
                 [animateRows]="true"
                 [pagination]="isFeatureEnabled('pagination')"
                 [paginationPageSize]="10"
-                [rowSelection]="isFeatureEnabled('rowSelection') ? 'multiple' : undefined"
-                [suppressRowClickSelection]="isFeatureEnabled('rowSelection')"
+                [paginationPageSizeSelector]="[10, 20, 50, 100]"
+                [rowSelection]="isFeatureEnabled('rowSelection') ? { mode: 'multiRow', enableClickSelection: false, checkboxes: true, headerCheckbox: true } : undefined"
                 (gridReady)="onGridReady($event)"
                 (selectionChanged)="onSelectionChanged($event)"
                 (rowClicked)="onRowClicked($event)"
@@ -833,6 +833,7 @@ export class FeatureExplorerDemoComponent {
     rowHoverColor: '#27272a',
     selectedRowBackgroundColor: '#164e63',
     accentColor: '#06b6d4',
+    pinnedColumnBorder: false,
   });
 
   defaultColDef: ColDef = {
@@ -1048,23 +1049,6 @@ export class FeatureExplorerDemoComponent {
   private getFlatColumnDefs(): ColDef<ProjectTask>[] {
     const columns: ColDef<ProjectTask>[] = [];
 
-    // Checkbox selection column
-    if (this.isFeatureEnabled('rowSelection')) {
-      columns.push({
-        headerName: '',
-        colId: 'select',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        width: 44,
-        maxWidth: 52,
-        pinned: 'left',
-        suppressMovable: true,
-        sortable: false,
-        filter: false,
-        resizable: false,
-      });
-    }
-
     columns.push(
       { field: 'id', headerName: 'ID', width: 100 },
       { field: 'title', headerName: 'Task', minWidth: 150 },
@@ -1158,6 +1142,7 @@ export class FeatureExplorerDemoComponent {
         width: 60,
         filter: false,
         sortable: false,
+        resizable: false,
         cellRenderer: AgGridEllipsisMenuComponent,
         cellRendererParams: {
           actions: this.gridActions,
@@ -1171,23 +1156,6 @@ export class FeatureExplorerDemoComponent {
   // Grouped column definitions
   private getGroupedColumnDefs(): (ColDef<ProjectTask> | ColGroupDef<ProjectTask>)[] {
     const columns: (ColDef<ProjectTask> | ColGroupDef<ProjectTask>)[] = [];
-
-    // Checkbox selection column
-    if (this.isFeatureEnabled('rowSelection')) {
-      columns.push({
-        headerName: '',
-        colId: 'select',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        width: 44,
-        maxWidth: 52,
-        pinned: 'left',
-        suppressMovable: true,
-        sortable: false,
-        filter: false,
-        resizable: false,
-      });
-    }
 
     columns.push(
       { field: 'id', headerName: 'ID', width: 100 },
@@ -1287,6 +1255,7 @@ export class FeatureExplorerDemoComponent {
         width: 60,
         filter: false,
         sortable: false,
+        resizable: false,
         cellRenderer: AgGridEllipsisMenuComponent,
         cellRendererParams: {
           actions: this.gridActions,
