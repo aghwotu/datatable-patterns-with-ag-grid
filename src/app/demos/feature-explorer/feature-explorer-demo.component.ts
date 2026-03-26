@@ -38,6 +38,8 @@ interface FeatureToggle {
   label: string;
   description: string;
   enabled: boolean;
+  category: 'interaction' | 'display' | 'layout';
+  complexity: 'low' | 'medium' | 'high';
 }
 
 // Sample data interface
@@ -357,227 +359,199 @@ const taskData: ProjectTask[] = [
 
       <!-- Hero Section -->
       <div
-        class="bg-linear-to-br from-cyan-500 via-blue-600 to-violet-700 relative"
+        class="relative overflow-hidden bg-linear-to-br from-cyan-500 via-blue-600 to-violet-700"
         style="view-transition-name: demo-preview-feature-explorer"
       >
-        <div
-          class="absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/50 to-transparent"
-        ></div>
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
-          <div class="max-w-3xl">
-            <h1
-              class="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3 text-white"
-              style="view-transition-name: demo-title-feature-explorer"
-            >
-              Feature Explorer
-            </h1>
-            <p class="text-zinc-200 text-sm sm:text-lg">
-              This table isolates common AG-Grid features to make their UX and complexity costs
-              visible. The goal is understanding how combinations of features affect readability,
-              interaction cost, and maintainability.
-            </p>
-          </div>
+        <div class="absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/60 to-transparent"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+          <h1
+            class="text-2xl sm:text-3xl font-bold text-white mb-2"
+            style="view-transition-name: demo-title-feature-explorer"
+          >
+            Feature Explorer
+          </h1>
+          <p class="text-sm sm:text-base text-zinc-300/80 max-w-2xl leading-relaxed">
+            Toggle AG-Grid features in isolation to evaluate their UX trade-offs. See how
+            combinations affect readability, interaction cost, and maintainability.
+          </p>
         </div>
       </div>
 
-      <!-- Main Content: Sidebar + Grid (responsive: stacked on mobile, side-by-side on lg+) -->
+      <!-- Main Content: Sidebar + Grid -->
       <div class="flex-1 flex flex-col lg:flex-row w-full">
-        <!-- Sidebar: Feature Toggles -->
-        <aside
-          class="w-full lg:w-72 shrink-0 border-b lg:border-b-0 lg:border-r border-zinc-800/50 p-4 sm:p-6"
-        >
-          <div class="flex items-center justify-between mb-4 sm:mb-6">
-            <h2 class="text-sm font-semibold text-zinc-400 uppercase tracking-wide">Features</h2>
-            <div class="flex gap-1">
-              <button
-                (click)="enableAll()"
-                class="px-2 py-1 text-xs font-medium rounded transition-colors"
-                [class]="
-                  allEnabled()
-                    ? 'bg-emerald-500 text-white cursor-default'
-                    : 'bg-zinc-700/50 text-zinc-500 hover:bg-zinc-700'
-                "
-              >
-                All On
-              </button>
-              <button
-                (click)="disableAll()"
-                class="px-2 py-1 text-xs font-medium rounded transition-colors"
-                [class]="
-                  allDisabled()
-                    ? 'bg-rose-500 text-white cursor-default'
-                    : 'bg-zinc-700/50 text-zinc-500 hover:bg-zinc-700'
-                "
-              >
-                All Off
-              </button>
-            </div>
-          </div>
 
-          <!-- Toggle List (horizontal scroll on mobile, vertical on lg+) -->
-          <div
-            class="flex lg:flex-col gap-2 lg:gap-1 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0 -mx-1 px-1 lg:mx-0 lg:px-0"
-          >
-            @for (feature of features(); track feature.id; let i = $index) {
-            <div
-              class="flex items-center justify-between py-2 sm:py-3 px-3 rounded-lg transition-colors shrink-0 lg:shrink min-w-[200px] lg:min-w-0"
-              [class]="feature.enabled ? 'bg-cyan-500/5' : 'hover:bg-zinc-800/30'"
-            >
-              <div class="min-w-0 pr-3">
-                <div
-                  class="text-sm font-medium truncate"
-                  [class]="feature.enabled ? 'text-cyan-100' : 'text-zinc-300'"
-                >
-                  {{ feature.label }}
-                </div>
-                <div class="text-xs text-zinc-500 truncate">{{ feature.description }}</div>
+        <!-- Sidebar: Feature Panel -->
+        <aside class="w-full lg:w-72 shrink-0 border-b lg:border-b-0 lg:border-r border-zinc-800/50 flex flex-col">
+
+          <!-- Panel Header -->
+          <div class="px-4 sm:px-5 pt-4 sm:pt-5 pb-4 border-b border-zinc-800/40">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-xs font-semibold text-zinc-400 uppercase tracking-widest">Features</h2>
+              <div class="flex gap-1">
+                <button
+                  (click)="enableAll()"
+                  class="px-2 py-1 text-xs font-medium rounded transition-colors"
+                  [class]="allEnabled() ? 'bg-emerald-500 text-white cursor-default' : 'bg-zinc-800 text-zinc-500 hover:bg-zinc-700 hover:text-zinc-300'"
+                >All On</button>
+                <button
+                  (click)="disableAll()"
+                  class="px-2 py-1 text-xs font-medium rounded transition-colors"
+                  [class]="allDisabled() ? 'bg-rose-500 text-white cursor-default' : 'bg-zinc-800 text-zinc-500 hover:bg-zinc-700 hover:text-zinc-300'"
+                >All Off</button>
               </div>
-              <app-toggle-switch
-                [(checked)]="features()[i].enabled"
-                (checkedChange)="onFeatureToggle(feature.id, $event)"
-              />
             </div>
-            }
+            <!-- Complexity Meter -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-zinc-500">Complexity</span>
+                <span
+                  class="text-xs font-mono"
+                  [class]="complexityScore().percent > 66 ? 'text-rose-400' : complexityScore().percent > 33 ? 'text-amber-400' : 'text-emerald-400'"
+                >{{ complexityScore().score }}/{{ complexityScore().max }}</span>
+              </div>
+              <div class="h-1 rounded-full bg-zinc-800 overflow-hidden">
+                <div
+                  class="h-full rounded-full transition-all duration-500"
+                  [style.width.%]="complexityScore().percent"
+                  [class]="complexityScore().percent > 66 ? 'bg-rose-500' : complexityScore().percent > 33 ? 'bg-amber-400' : 'bg-emerald-500'"
+                ></div>
+              </div>
+            </div>
           </div>
 
-          <!-- Active Count -->
-          <div class="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-zinc-800/50">
-            <div class="text-xs text-zinc-500">
-              <span class="text-cyan-400 font-semibold">{{ enabledFeatures().length }}</span>
-              of {{ features().length }} features enabled
+          <!-- Feature Groups (horizontal scroll on mobile, vertical on lg) -->
+          <div class="overflow-x-auto lg:overflow-x-visible overflow-y-visible lg:overflow-y-auto flex-1">
+            <div class="flex lg:flex-col gap-5 p-4 sm:p-5">
+              @for (group of featuresGrouped(); track group.id) {
+              <div class="shrink-0 lg:shrink min-w-52 lg:min-w-0">
+                <div class="flex items-center gap-2 mb-2 px-1">
+                  <span class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest">{{ group.label }}</span>
+                  <div class="flex-1 h-px bg-zinc-800/60"></div>
+                </div>
+                <div class="space-y-1">
+                  @for (feature of group.features; track feature.id) {
+                  <div
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg border transition-all"
+                    [class]="feature.enabled ? 'bg-cyan-500/[0.06] border-cyan-500/20' : 'border-transparent hover:bg-zinc-800/40'"
+                  >
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-center gap-1.5 mb-0.5">
+                        <span
+                          class="text-sm font-medium leading-tight"
+                          [class]="feature.enabled ? 'text-zinc-100' : 'text-zinc-400'"
+                        >{{ feature.label }}</span>
+                        <span
+                          class="shrink-0 px-1.5 py-px rounded text-[10px] font-semibold leading-tight"
+                          [class]="feature.complexity === 'high' ? 'bg-rose-500/10 text-rose-400' : feature.complexity === 'medium' ? 'bg-amber-500/10 text-amber-400' : 'bg-emerald-500/10 text-emerald-400'"
+                        >{{ feature.complexity }}</span>
+                      </div>
+                      <p class="text-[11px] text-zinc-600 leading-tight">{{ feature.description }}</p>
+                    </div>
+                    <app-toggle-switch
+                      [checked]="feature.enabled"
+                      (checkedChange)="onFeatureToggle(feature.id, $event)"
+                    />
+                  </div>
+                  }
+                </div>
+              </div>
+              }
             </div>
+          </div>
+
+          <!-- Panel Footer -->
+          <div class="px-4 sm:px-5 py-3 border-t border-zinc-800/40">
+            <p class="text-xs text-zinc-600">
+              <span class="text-cyan-400 font-semibold">{{ enabledFeatures().length }}</span>
+              of {{ features().length }} features active
+            </p>
           </div>
         </aside>
 
         <!-- Main Grid Area -->
         <main class="flex-1 flex flex-col p-4 sm:p-6 min-w-0">
+
           <!-- Toolbar: Search + Filters + Controls -->
           <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
-            <!-- Left: Search + Filters -->
-            <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
+            <!-- Left: Search + Filters + Reset -->
+            <div class="flex items-center gap-2 flex-wrap">
               <!-- Global Search -->
-              <div class="relative w-full sm:w-auto sm:min-w-[200px]">
+              <div class="relative">
                 <svg
-                  class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+                  class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500"
+                  fill="none" stroke="currentColor" viewBox="0 0 24 24"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
                 <input
-                  #searchInput
                   type="text"
-                  placeholder="Search..."
-                  class="w-full sm:w-[200px] pl-9 pr-8 py-1.5 text-sm bg-zinc-900/60 border border-zinc-700/50 rounded-lg text-zinc-100 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50"
+                  placeholder="Search tasks..."
+                  class="w-full sm:w-52 pl-8 pr-8 py-1.5 text-sm bg-zinc-900/60 border border-zinc-700/50 rounded-lg text-zinc-100 placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/50 transition-colors"
                   [value]="searchInputValue()"
                   (input)="onSearchInput($event)"
                 />
                 @if (searchInputValue()) {
                 <button
                   type="button"
-                  class="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 text-zinc-500 hover:text-zinc-300 transition-colors"
+                  class="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
                   (click)="clearSearch()"
                   title="Clear search"
                 >
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                   </svg>
                 </button>
                 }
               </div>
 
               @if (isFeatureEnabled('floatingFilters')) {
-              <div class="flex items-center gap-2">
-                <span class="text-xs text-zinc-500">Status:</span>
-                <app-dropdown-menu
-                  [label]="statusFilter() || 'All'"
-                  [items]="statusOptions"
-                  (itemSelected)="onStatusFilter($event)"
-                  [size]="'sm'"
-                  [variant]="'outline'"
-                  [menuWidth]="'w-36'"
-                />
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="text-xs text-zinc-500">Priority:</span>
-                <app-dropdown-menu
-                  [label]="priorityFilter() || 'All'"
-                  [items]="priorityOptions"
-                  (itemSelected)="onPriorityFilter($event)"
-                  [size]="'sm'"
-                  [variant]="'outline'"
-                  [menuWidth]="'w-36'"
-                />
-              </div>
+              <app-dropdown-menu
+                [label]="statusFilter() || 'Status'"
+                [items]="statusOptions"
+                (itemSelected)="onStatusFilter($event)"
+                [size]="'sm'"
+                [variant]="'outline'"
+                [menuWidth]="'w-36'"
+              />
+              <app-dropdown-menu
+                [label]="priorityFilter() || 'Priority'"
+                [items]="priorityOptions"
+                (itemSelected)="onPriorityFilter($event)"
+                [size]="'sm'"
+                [variant]="'outline'"
+                [menuWidth]="'w-36'"
+              />
               }
 
               <!-- Reset Button -->
               <button
                 type="button"
                 class="p-1.5 rounded-lg transition-colors border"
-                [class]="
-                  hasActiveFilters()
-                    ? 'bg-amber-500/10 border-amber-500/30 text-amber-300 hover:bg-amber-500/20'
-                    : 'bg-zinc-800/50 border-zinc-700/50 text-zinc-500 hover:bg-zinc-800 hover:text-zinc-400'
-                "
+                [class]="hasActiveFilters() ? 'bg-amber-500/10 border-amber-500/30 text-amber-300 hover:bg-amber-500/20' : 'bg-zinc-800/50 border-zinc-700/50 text-zinc-600 hover:bg-zinc-800 hover:text-zinc-400'"
                 (click)="resetTable()"
-                [title]="
-                  hasActiveFilters()
-                    ? 'Reset filters, search, and selection'
-                    : 'Table is already reset'
-                "
+                [title]="hasActiveFilters() ? 'Reset filters and selection' : 'Nothing to reset'"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                  />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                 </svg>
               </button>
             </div>
 
-            <!-- Right: Selection info + Column visibility -->
-            <div class="flex items-center gap-3 flex-wrap">
-              <!-- Selection info & Export -->
-              @if (isFeatureEnabled('rowSelection')) {
+            <!-- Right: Selection + Row count + Column visibility -->
+            <div class="flex items-center gap-3">
+              @if (isFeatureEnabled('rowSelection') && selectedCount() > 0) {
               <div class="flex items-center gap-2">
-                <span class="text-sm text-zinc-400">
-                  @if (selectedCount() === 0) { No rows selected } @else if (selectedCount() === 1)
-                  { 1 row selected } @else {
-                  {{ selectedCount() }} rows selected }
-                </span>
+                <span class="text-sm text-zinc-400">{{ selectedCount() }} selected</span>
                 <button
                   type="button"
-                  class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors border disabled:opacity-40 disabled:cursor-not-allowed"
-                  [class]="
-                    selectedCount() > 0
-                      ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/20'
-                      : 'bg-zinc-800 border-zinc-700 text-zinc-400'
-                  "
-                  [disabled]="selectedCount() === 0"
+                  class="px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/20 transition-colors"
                   (click)="exportSelected()"
-                >
-                  Export Selected
-                </button>
+                >Export CSV</button>
               </div>
               }
-
-              <div class="text-sm text-zinc-400">
-                <span class="text-zinc-100 font-medium">{{ filteredData().length }}</span> tasks
-              </div>
+              <span class="text-sm text-zinc-500">
+                <span class="text-zinc-200 font-medium">{{ filteredData().length }}</span> tasks
+              </span>
               @if (isFeatureEnabled('columnVisibility') && gridApi() && !isMobile()) {
               <app-column-visibility-menu
                 [gridApi]="gridApi()!"
@@ -593,17 +567,13 @@ const taskData: ProjectTask[] = [
 
           <!-- Mobile hint -->
           @if (isMobile()) {
-          <div
-            class="mb-3 px-3 py-2 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-xs text-cyan-200"
-          >
+          <div class="mb-3 px-3 py-2 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-xs text-cyan-300">
             Tap a row to view details
           </div>
           }
 
           <!-- AG-Grid -->
-          <div
-            class="flex-1 flex flex-col bg-zinc-900/50 border border-zinc-800/50 rounded-xl overflow-hidden min-h-[400px] sm:min-h-[500px]"
-          >
+          <div class="flex-1 flex flex-col bg-zinc-900/50 border border-zinc-800/50 rounded-xl overflow-hidden min-h-100 sm:min-h-125">
             <div class="flex-1 min-h-0 w-full overflow-x-auto">
               <ag-grid-angular
                 class="ag-theme-quartz-dark w-full h-full"
@@ -656,48 +626,64 @@ export class FeatureExplorerDemoComponent {
       label: 'Row Selection',
       description: 'Checkbox selection + bulk export',
       enabled: true,
+      category: 'interaction',
+      complexity: 'medium',
     },
     {
       id: 'columnVisibility',
       label: 'Column Control',
       description: 'User-driven column management',
       enabled: true,
+      category: 'interaction',
+      complexity: 'low',
     },
     {
       id: 'rowActions',
       label: 'Row Actions',
       description: 'Contextual operations per row',
       enabled: true,
+      category: 'interaction',
+      complexity: 'medium',
     },
     {
       id: 'floatingFilters',
       label: 'Quick Filters',
       description: 'Toolbar-level data filtering',
       enabled: true,
+      category: 'interaction',
+      complexity: 'low',
     },
     {
       id: 'cellRenderers',
       label: 'Visual Encoding',
       description: 'Badges, progress, trend indicators',
       enabled: true,
-    },
-    {
-      id: 'groupedColumns',
-      label: 'Column Grouping',
-      description: 'Hierarchical header organization',
-      enabled: false,
+      category: 'display',
+      complexity: 'medium',
     },
     {
       id: 'statusColors',
       label: 'Status Encoding',
       description: 'Semantic color differentiation',
       enabled: true,
+      category: 'display',
+      complexity: 'low',
+    },
+    {
+      id: 'groupedColumns',
+      label: 'Column Grouping',
+      description: 'Hierarchical header organization',
+      enabled: false,
+      category: 'layout',
+      complexity: 'high',
     },
     {
       id: 'pagination',
       label: 'Data Chunking',
       description: 'Paginated data volume control',
       enabled: true,
+      category: 'layout',
+      complexity: 'low',
     },
   ]);
 
@@ -822,6 +808,25 @@ export class FeatureExplorerDemoComponent {
   allEnabled = computed(() => this.features().every((f) => f.enabled));
   allDisabled = computed(() => this.features().every((f) => !f.enabled));
 
+  featuresGrouped = computed(() => {
+    const byCategory = (cat: FeatureToggle['category']) =>
+      this.features().filter((f) => f.category === cat);
+    return [
+      { id: 'interaction', label: 'Interaction', features: byCategory('interaction') },
+      { id: 'display', label: 'Display', features: byCategory('display') },
+      { id: 'layout', label: 'Layout', features: byCategory('layout') },
+    ];
+  });
+
+  complexityScore = computed(() => {
+    const weight = { low: 1, medium: 2, high: 3 } as const;
+    const score = this.features()
+      .filter((f) => f.enabled)
+      .reduce((acc, f) => acc + weight[f.complexity], 0);
+    const max = this.features().reduce((acc, f) => acc + weight[f.complexity], 0);
+    return { score, max, percent: max > 0 ? Math.round((score / max) * 100) : 0 };
+  });
+
   constructor() {
     // Mobile breakpoint detection
     this.breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]).subscribe((result) => {
@@ -894,7 +899,7 @@ export class FeatureExplorerDemoComponent {
     this.priorityFilter.set(value);
   }
 
-  onColumnVisibilityChanged(event: { field: string; visible: boolean }): void {
+  onColumnVisibilityChanged(_event: { field: string; visible: boolean }): void {
     // Column visibility is handled by the menu component directly
   }
 
