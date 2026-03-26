@@ -619,6 +619,7 @@ const taskData: ProjectTask[] = [
                     Export CSV
                   </button>
                 </div>
+                <div class="w-px h-5 bg-zinc-700"></div>
               }
               <span class="text-sm text-zinc-500">
                 <span class="text-zinc-200 font-medium">{{ filteredData().length }}</span> tasks
