@@ -1,4 +1,5 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AgGridAngular } from 'ag-grid-angular';
@@ -29,8 +30,6 @@ import {
 import { ToggleSwitchComponent } from '@shared/components/toggle-switch/toggle-switch.component';
 import { BottomSheetService } from '@shared/components/bottom-sheet/bottom-sheet.service';
 import { RowDetailsSheetComponent } from '@shared/components/bottom-sheet/row-details-sheet.component';
-
-ModuleRegistry.registerModules([AllCommunityModule]);
 
 // Feature toggle interface
 interface FeatureToggle {
@@ -390,11 +389,13 @@ const taskData: ProjectTask[] = [
               <div class="flex gap-1">
                 <button
                   (click)="enableAll()"
+                  [disabled]="allEnabled()"
                   class="px-2 py-1 text-xs font-medium rounded transition-colors"
                   [class]="allEnabled() ? 'bg-emerald-500 text-white cursor-default' : 'bg-zinc-800 text-zinc-500 hover:bg-zinc-700 hover:text-zinc-300'"
                 >All On</button>
                 <button
                   (click)="disableAll()"
+                  [disabled]="allDisabled()"
                   class="px-2 py-1 text-xs font-medium rounded transition-colors"
                   [class]="allDisabled() ? 'bg-rose-500 text-white cursor-default' : 'bg-zinc-800 text-zinc-500 hover:bg-zinc-700 hover:text-zinc-300'"
                 >All Off</button>
@@ -588,7 +589,6 @@ const taskData: ProjectTask[] = [
                 [paginationPageSize]="10"
                 [rowSelection]="isFeatureEnabled('rowSelection') ? 'multiple' : undefined"
                 [suppressRowClickSelection]="isFeatureEnabled('rowSelection')"
-                [quickFilterText]="searchText()"
                 (gridReady)="onGridReady($event)"
                 (selectionChanged)="onSelectionChanged($event)"
                 (rowClicked)="onRowClicked($event)"
@@ -679,8 +679,8 @@ export class FeatureExplorerDemoComponent {
     },
     {
       id: 'pagination',
-      label: 'Data Chunking',
-      description: 'Paginated data volume control',
+      label: 'Pagination',
+      description: 'Page through large datasets',
       enabled: true,
       category: 'layout',
       complexity: 'low',
@@ -702,8 +702,7 @@ export class FeatureExplorerDemoComponent {
     return (
       this.searchInputValue() !== '' ||
       this.statusFilter() !== '' ||
-      this.priorityFilter() !== '' ||
-      this.selectedCount() > 0
+      this.priorityFilter() !== ''
     );
   });
 
@@ -727,7 +726,7 @@ export class FeatureExplorerDemoComponent {
   private readonly gridActions: GridAction<ProjectTask>[] = [
     {
       label: 'View Details',
-      action: (row) => console.log('View:', row.title),
+      action: (row) => this.bottomSheet.open(RowDetailsSheetComponent, { data: row }),
     },
     {
       label: 'Edit Task',
@@ -745,6 +744,13 @@ export class FeatureExplorerDemoComponent {
       hidden: (row) => row.status !== 'Completed',
     },
   ];
+
+  private readonly statusColors: Record<string, { bg: string; text: string }> = {
+    Completed: { bg: '#14532d40', text: '#4ade80' },
+    'In Progress': { bg: '#1e3a5f40', text: '#60a5fa' },
+    Pending: { bg: '#78350f40', text: '#fbbf24' },
+    Blocked: { bg: '#7f1d1d40', text: '#f87171' },
+  };
 
   theme = themeQuartz.withParams({
     backgroundColor: '#18181b',
@@ -828,10 +834,15 @@ export class FeatureExplorerDemoComponent {
   });
 
   constructor() {
+    ModuleRegistry.registerModules([AllCommunityModule]);
+
     // Mobile breakpoint detection
-    this.breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]).subscribe((result) => {
-      this.isMobile.set(result.matches);
-    });
+    this.breakpointObserver
+      .observe([Breakpoints.XSmall, Breakpoints.Small])
+      .pipe(takeUntilDestroyed())
+      .subscribe((result) => {
+        this.isMobile.set(result.matches);
+      });
 
     // Effect to update grid when features change
     effect(() => {
@@ -985,7 +996,8 @@ export class FeatureExplorerDemoComponent {
     columns.push(
       { field: 'id', headerName: 'ID', width: 100 },
       { field: 'title', headerName: 'Task', minWidth: 150 },
-      { field: 'assignee', headerName: 'Assignee', width: 130 }
+      { field: 'assignee', headerName: 'Assignee', width: 130 },
+      { field: 'effort', headerName: 'Effort', width: 90, valueFormatter: (p) => `${p.value}h` },
     );
 
     // Priority with badge renderer
@@ -1006,16 +1018,8 @@ export class FeatureExplorerDemoComponent {
       headerName: 'Status',
       width: 120,
       cellStyle: (params) => {
-        if (!this.isFeatureEnabled('statusColors')) {
-          return null;
-        }
-        const colors: Record<string, { bg: string; text: string }> = {
-          Completed: { bg: '#14532d40', text: '#4ade80' },
-          'In Progress': { bg: '#1e3a5f40', text: '#60a5fa' },
-          Pending: { bg: '#78350f40', text: '#fbbf24' },
-          Blocked: { bg: '#7f1d1d40', text: '#f87171' },
-        };
-        const style = colors[params.value];
+        if (!this.isFeatureEnabled('statusColors')) return null;
+        const style = this.statusColors[params.value];
         return style ? { backgroundColor: style.bg, color: style.text, fontWeight: '500' } : null;
       },
     });
@@ -1027,7 +1031,6 @@ export class FeatureExplorerDemoComponent {
         headerName: 'Progress',
         width: 150,
         cellRenderer: ProgressCellComponent,
-        hide: true,
       });
     } else {
       columns.push({
@@ -1035,7 +1038,6 @@ export class FeatureExplorerDemoComponent {
         headerName: 'Progress',
         width: 100,
         valueFormatter: (params) => `${params.value}%`,
-        hide: true,
       });
     }
 
@@ -1048,7 +1050,14 @@ export class FeatureExplorerDemoComponent {
         width: 100,
         valueFormatter: (params) => `$${params.value?.toLocaleString() || 0}`,
         hide: true,
-      }
+      },
+      {
+        field: 'spent',
+        headerName: 'Spent',
+        width: 100,
+        valueFormatter: (params) => `$${params.value?.toLocaleString() || 0}`,
+        hide: true,
+      },
     );
 
     // Variance with trend renderer
@@ -1058,15 +1067,13 @@ export class FeatureExplorerDemoComponent {
         headerName: 'Variance',
         width: 110,
         cellRenderer: TrendCellComponent,
-        hide: true,
       });
     } else {
       columns.push({
         field: 'variance',
         headerName: 'Variance',
         width: 100,
-        valueFormatter: (params) => `$${params.value?.toLocaleString() || 0}`,
-        hide: true,
+        valueFormatter: (params) => `${params.value > 0 ? '+' : ''}${params.value}%`,
       });
     }
 
@@ -1117,6 +1124,7 @@ export class FeatureExplorerDemoComponent {
         children: [
           { field: 'title', headerName: 'Task', minWidth: 150 },
           { field: 'assignee', headerName: 'Assignee', width: 130 },
+          { field: 'effort', headerName: 'Effort', width: 90, valueFormatter: (p) => `${p.value}h` },
           { field: 'category', headerName: 'Category', width: 100, hide: true },
         ],
       },
@@ -1136,19 +1144,9 @@ export class FeatureExplorerDemoComponent {
             headerName: 'Status',
             width: 120,
             cellStyle: (params) => {
-              if (!this.isFeatureEnabled('statusColors')) {
-                return null;
-              }
-              const colors: Record<string, { bg: string; text: string }> = {
-                Completed: { bg: '#14532d40', text: '#4ade80' },
-                'In Progress': { bg: '#1e3a5f40', text: '#60a5fa' },
-                Pending: { bg: '#78350f40', text: '#fbbf24' },
-                Blocked: { bg: '#7f1d1d40', text: '#f87171' },
-              };
-              const style = colors[params.value];
-              return style
-                ? { backgroundColor: style.bg, color: style.text, fontWeight: '500' }
-                : null;
+              if (!this.isFeatureEnabled('statusColors')) return null;
+              const style = this.statusColors[params.value];
+              return style ? { backgroundColor: style.bg, color: style.text, fontWeight: '500' } : null;
             },
           },
           this.isFeatureEnabled('cellRenderers')
@@ -1157,14 +1155,12 @@ export class FeatureExplorerDemoComponent {
                 headerName: 'Progress',
                 width: 150,
                 cellRenderer: ProgressCellComponent,
-                hide: true,
               }
             : {
                 field: 'progress',
                 headerName: 'Progress',
                 width: 100,
                 valueFormatter: (params) => `${params.value}%`,
-                hide: true,
               },
         ],
       },
@@ -1191,14 +1187,12 @@ export class FeatureExplorerDemoComponent {
                 headerName: 'Variance',
                 width: 110,
                 cellRenderer: TrendCellComponent,
-                hide: true,
               }
             : {
                 field: 'variance',
                 headerName: 'Variance',
                 width: 100,
-                valueFormatter: (params) => `$${params.value?.toLocaleString() || 0}`,
-                hide: true,
+                valueFormatter: (params) => `${params.value > 0 ? '+' : ''}${params.value}%`,
               },
         ],
       },
