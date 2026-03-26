@@ -361,7 +361,9 @@ const taskData: ProjectTask[] = [
         class="relative overflow-hidden bg-linear-to-br from-cyan-500 via-blue-600 to-violet-700"
         style="view-transition-name: demo-preview-feature-explorer"
       >
-        <div class="absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/60 to-transparent"></div>
+        <div
+          class="absolute inset-0 bg-linear-to-t from-zinc-950 via-zinc-950/60 to-transparent"
+        ></div>
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
           <h1
             class="text-2xl sm:text-3xl font-bold text-white mb-2"
@@ -378,27 +380,41 @@ const taskData: ProjectTask[] = [
 
       <!-- Main Content: Sidebar + Grid -->
       <div class="flex-1 flex flex-col lg:flex-row w-full">
-
         <!-- Sidebar: Feature Panel -->
-        <aside class="w-full lg:w-72 shrink-0 border-b lg:border-b-0 lg:border-r border-zinc-800/50 flex flex-col">
-
+        <aside
+          class="w-full lg:w-72 shrink-0 border-b lg:border-b-0 lg:border-r border-zinc-800/50 flex flex-col"
+        >
           <!-- Panel Header -->
           <div class="px-4 sm:px-5 pt-4 sm:pt-5 pb-4 border-b border-zinc-800/40">
             <div class="flex items-center justify-between mb-4">
-              <h2 class="text-xs font-semibold text-zinc-400 uppercase tracking-widest">Features</h2>
+              <h2 class="text-xs font-semibold text-zinc-400 uppercase tracking-widest">
+                Features
+              </h2>
               <div class="flex gap-1">
                 <button
                   (click)="enableAll()"
                   [disabled]="allEnabled()"
                   class="px-2 py-1 text-xs font-medium rounded transition-colors"
-                  [class]="allEnabled() ? 'bg-emerald-500 text-white cursor-default' : 'bg-zinc-800 text-zinc-500 hover:bg-zinc-700 hover:text-zinc-300'"
-                >All On</button>
+                  [class]="
+                    allEnabled()
+                      ? 'bg-emerald-500 text-white cursor-default'
+                      : 'bg-zinc-800 text-zinc-500 hover:bg-zinc-700 hover:text-zinc-300'
+                  "
+                >
+                  All On
+                </button>
                 <button
                   (click)="disableAll()"
                   [disabled]="allDisabled()"
                   class="px-2 py-1 text-xs font-medium rounded transition-colors"
-                  [class]="allDisabled() ? 'bg-rose-500 text-white cursor-default' : 'bg-zinc-800 text-zinc-500 hover:bg-zinc-700 hover:text-zinc-300'"
-                >All Off</button>
+                  [class]="
+                    allDisabled()
+                      ? 'bg-rose-500 text-white cursor-default'
+                      : 'bg-zinc-800 text-zinc-500 hover:bg-zinc-700 hover:text-zinc-300'
+                  "
+                >
+                  All Off
+                </button>
               </div>
             </div>
             <!-- Complexity Meter -->
@@ -407,55 +423,87 @@ const taskData: ProjectTask[] = [
                 <span class="text-xs text-zinc-500">Complexity</span>
                 <span
                   class="text-xs font-mono"
-                  [class]="complexityScore().percent > 66 ? 'text-rose-400' : complexityScore().percent > 33 ? 'text-amber-400' : 'text-emerald-400'"
-                >{{ complexityScore().score }}/{{ complexityScore().max }}</span>
+                  [class]="
+                    complexityScore().percent > 66
+                      ? 'text-rose-400'
+                      : complexityScore().percent > 33
+                        ? 'text-amber-400'
+                        : 'text-emerald-400'
+                  "
+                  >{{ complexityScore().score }}/{{ complexityScore().max }}</span
+                >
               </div>
               <div class="h-1 rounded-full bg-zinc-800 overflow-hidden">
                 <div
                   class="h-full rounded-full transition-all duration-500"
                   [style.width.%]="complexityScore().percent"
-                  [class]="complexityScore().percent > 66 ? 'bg-rose-500' : complexityScore().percent > 33 ? 'bg-amber-400' : 'bg-emerald-500'"
+                  [class]="
+                    complexityScore().percent > 66
+                      ? 'bg-rose-500'
+                      : complexityScore().percent > 33
+                        ? 'bg-amber-400'
+                        : 'bg-emerald-500'
+                  "
                 ></div>
               </div>
             </div>
           </div>
 
           <!-- Feature Groups (horizontal scroll on mobile, vertical on lg) -->
-          <div class="overflow-x-auto lg:overflow-x-visible overflow-y-visible lg:overflow-y-auto flex-1">
+          <div
+            class="overflow-x-auto lg:overflow-x-visible overflow-y-visible lg:overflow-y-auto flex-1"
+          >
             <div class="flex lg:flex-col gap-5 p-4 sm:p-5">
               @for (group of featuresGrouped(); track group.id) {
-              <div class="shrink-0 lg:shrink min-w-52 lg:min-w-0">
-                <div class="flex items-center gap-2 mb-2 px-1">
-                  <span class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest">{{ group.label }}</span>
-                  <div class="flex-1 h-px bg-zinc-800/60"></div>
-                </div>
-                <div class="space-y-1">
-                  @for (feature of group.features; track feature.id) {
-                  <div
-                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg border transition-all"
-                    [class]="feature.enabled ? 'bg-cyan-500/[0.06] border-cyan-500/20' : 'border-transparent hover:bg-zinc-800/40'"
-                  >
-                    <div class="flex-1 min-w-0">
-                      <div class="flex items-center gap-1.5 mb-0.5">
-                        <span
-                          class="text-sm font-medium leading-tight"
-                          [class]="feature.enabled ? 'text-zinc-100' : 'text-zinc-400'"
-                        >{{ feature.label }}</span>
-                        <span
-                          class="shrink-0 px-1.5 py-px rounded text-[10px] font-semibold leading-tight"
-                          [class]="feature.complexity === 'high' ? 'bg-rose-500/10 text-rose-400' : feature.complexity === 'medium' ? 'bg-amber-500/10 text-amber-400' : 'bg-emerald-500/10 text-emerald-400'"
-                        >{{ feature.complexity }}</span>
-                      </div>
-                      <p class="text-[11px] text-zinc-600 leading-tight">{{ feature.description }}</p>
-                    </div>
-                    <app-toggle-switch
-                      [checked]="feature.enabled"
-                      (checkedChange)="onFeatureToggle(feature.id, $event)"
-                    />
+                <div class="shrink-0 lg:shrink min-w-52 lg:min-w-0">
+                  <div class="flex items-center gap-2 mb-2 px-1">
+                    <span
+                      class="text-[10px] font-semibold text-zinc-600 uppercase tracking-widest"
+                      >{{ group.label }}</span
+                    >
+                    <div class="flex-1 h-px bg-zinc-800/60"></div>
                   </div>
-                  }
+                  <div class="space-y-1">
+                    @for (feature of group.features; track feature.id) {
+                      <div
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg border transition-all"
+                        [class]="
+                          feature.enabled
+                            ? 'bg-cyan-500/6 border-cyan-500/20'
+                            : 'border-transparent hover:bg-zinc-800/40'
+                        "
+                      >
+                        <div class="flex-1 min-w-0">
+                          <div class="flex items-center gap-1.5 mb-0.5">
+                            <span
+                              class="text-sm font-medium leading-tight"
+                              [class]="feature.enabled ? 'text-zinc-100' : 'text-zinc-400'"
+                              >{{ feature.label }}</span
+                            >
+                            <span
+                              class="shrink-0 px-1.5 py-px rounded text-[10px] font-semibold leading-tight"
+                              [class]="
+                                feature.complexity === 'high'
+                                  ? 'bg-rose-500/10 text-rose-400'
+                                  : feature.complexity === 'medium'
+                                    ? 'bg-amber-500/10 text-amber-400'
+                                    : 'bg-emerald-500/10 text-emerald-400'
+                              "
+                              >{{ feature.complexity }}</span
+                            >
+                          </div>
+                          <p class="text-[11px] text-zinc-600 leading-tight">
+                            {{ feature.description }}
+                          </p>
+                        </div>
+                        <app-toggle-switch
+                          [checked]="feature.enabled"
+                          (checkedChange)="onFeatureToggle(feature.id, $event)"
+                        />
+                      </div>
+                    }
+                  </div>
                 </div>
-              </div>
               }
             </div>
           </div>
@@ -471,7 +519,6 @@ const taskData: ProjectTask[] = [
 
         <!-- Main Grid Area -->
         <main class="flex-1 flex flex-col p-4 sm:p-6 min-w-0">
-
           <!-- Toolbar: Search + Filters + Controls -->
           <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
             <!-- Left: Search + Filters + Reset -->
@@ -480,9 +527,16 @@ const taskData: ProjectTask[] = [
               <div class="relative">
                 <svg
                   class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500"
-                  fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
                 </svg>
                 <input
                   type="text"
@@ -492,48 +546,62 @@ const taskData: ProjectTask[] = [
                   (input)="onSearchInput($event)"
                 />
                 @if (searchInputValue()) {
-                <button
-                  type="button"
-                  class="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
-                  (click)="clearSearch()"
-                  title="Clear search"
-                >
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                  </svg>
-                </button>
+                  <button
+                    type="button"
+                    class="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
+                    (click)="clearSearch()"
+                    title="Clear search"
+                  >
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
                 }
               </div>
 
               @if (isFeatureEnabled('floatingFilters')) {
-              <app-dropdown-menu
-                [label]="statusFilter() || 'Status'"
-                [items]="statusOptions"
-                (itemSelected)="onStatusFilter($event)"
-                [size]="'sm'"
-                [variant]="'outline'"
-                [menuWidth]="'w-36'"
-              />
-              <app-dropdown-menu
-                [label]="priorityFilter() || 'Priority'"
-                [items]="priorityOptions"
-                (itemSelected)="onPriorityFilter($event)"
-                [size]="'sm'"
-                [variant]="'outline'"
-                [menuWidth]="'w-36'"
-              />
+                <app-dropdown-menu
+                  [label]="statusFilter() || 'Status'"
+                  [items]="statusOptions"
+                  (itemSelected)="onStatusFilter($event)"
+                  [size]="'sm'"
+                  [variant]="'outline'"
+                  [menuWidth]="'w-36'"
+                />
+                <app-dropdown-menu
+                  [label]="priorityFilter() || 'Priority'"
+                  [items]="priorityOptions"
+                  (itemSelected)="onPriorityFilter($event)"
+                  [size]="'sm'"
+                  [variant]="'outline'"
+                  [menuWidth]="'w-36'"
+                />
               }
 
               <!-- Reset Button -->
               <button
                 type="button"
                 class="p-1.5 rounded-lg transition-colors border"
-                [class]="hasActiveFilters() ? 'bg-amber-500/10 border-amber-500/30 text-amber-300 hover:bg-amber-500/20' : 'bg-zinc-800/50 border-zinc-700/50 text-zinc-600 hover:bg-zinc-800 hover:text-zinc-400'"
+                [class]="
+                  hasActiveFilters()
+                    ? 'bg-amber-500/10 border-amber-500/30 text-amber-300 hover:bg-amber-500/20'
+                    : 'bg-zinc-800/50 border-zinc-700/50 text-zinc-600 hover:bg-zinc-800 hover:text-zinc-400'
+                "
                 (click)="resetTable()"
                 [title]="hasActiveFilters() ? 'Reset filters and selection' : 'Nothing to reset'"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                  />
                 </svg>
               </button>
             </div>
@@ -541,40 +609,46 @@ const taskData: ProjectTask[] = [
             <!-- Right: Selection + Row count + Column visibility -->
             <div class="flex items-center gap-3">
               @if (isFeatureEnabled('rowSelection') && selectedCount() > 0) {
-              <div class="flex items-center gap-2">
-                <span class="text-sm text-zinc-400">{{ selectedCount() }} selected</span>
-                <button
-                  type="button"
-                  class="px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/20 transition-colors"
-                  (click)="exportSelected()"
-                >Export CSV</button>
-              </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-sm text-zinc-400">{{ selectedCount() }} selected</span>
+                  <button
+                    type="button"
+                    class="px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/20 transition-colors"
+                    (click)="exportSelected()"
+                  >
+                    Export CSV
+                  </button>
+                </div>
               }
               <span class="text-sm text-zinc-500">
                 <span class="text-zinc-200 font-medium">{{ filteredData().length }}</span> tasks
               </span>
               @if (isFeatureEnabled('columnVisibility') && gridApi() && !isMobile()) {
-              <app-column-visibility-menu
-                [gridApi]="gridApi()!"
-                [columnDefs]="activeColumnDefs()"
-                [excludeFields]="['select', 'actions']"
-                (columnVisibilityChanged)="onColumnVisibilityChanged($event)"
-                [size]="'sm'"
-                [variant]="'outline'"
-              />
+                <app-column-visibility-menu
+                  [gridApi]="gridApi()!"
+                  [columnDefs]="activeColumnDefs()"
+                  [excludeFields]="['select', 'actions']"
+                  (columnVisibilityChanged)="onColumnVisibilityChanged($event)"
+                  [size]="'sm'"
+                  [variant]="'outline'"
+                />
               }
             </div>
           </div>
 
           <!-- Mobile hint -->
           @if (isMobile()) {
-          <div class="mb-3 px-3 py-2 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-xs text-cyan-300">
-            Tap a row to view details
-          </div>
+            <div
+              class="mb-3 px-3 py-2 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-xs text-cyan-300"
+            >
+              Tap a row to view details
+            </div>
           }
 
           <!-- AG-Grid -->
-          <div class="flex-1 flex flex-col bg-zinc-900/50 border border-zinc-800/50 rounded-xl overflow-hidden min-h-100 sm:min-h-125">
+          <div
+            class="flex-1 flex flex-col bg-zinc-900/50 border border-zinc-800/50 rounded-xl overflow-hidden min-h-100 sm:min-h-125"
+          >
             <div class="flex-1 min-h-0 w-full overflow-x-auto">
               <ag-grid-angular
                 class="ag-theme-quartz-dark w-full h-full"
@@ -700,9 +774,7 @@ export class FeatureExplorerDemoComponent {
   // Check if any filters/search are active (for reset button highlighting)
   hasActiveFilters = computed(() => {
     return (
-      this.searchInputValue() !== '' ||
-      this.statusFilter() !== '' ||
-      this.priorityFilter() !== ''
+      this.searchInputValue() !== '' || this.statusFilter() !== '' || this.priorityFilter() !== ''
     );
   });
 
@@ -793,7 +865,7 @@ export class FeatureExplorerDemoComponent {
     const search = this.searchText().toLowerCase().trim();
     if (search) {
       data = data.filter((row) =>
-        Object.values(row).some((value) => String(value).toLowerCase().includes(search))
+        Object.values(row).some((value) => String(value).toLowerCase().includes(search)),
       );
     }
 
@@ -890,7 +962,7 @@ export class FeatureExplorerDemoComponent {
 
   onFeatureToggle(featureId: string, enabled: boolean): void {
     this.features.update((features) =>
-      features.map((f) => (f.id === featureId ? { ...f, enabled } : f))
+      features.map((f) => (f.id === featureId ? { ...f, enabled } : f)),
     );
   }
 
@@ -1124,7 +1196,12 @@ export class FeatureExplorerDemoComponent {
         children: [
           { field: 'title', headerName: 'Task', minWidth: 150 },
           { field: 'assignee', headerName: 'Assignee', width: 130 },
-          { field: 'effort', headerName: 'Effort', width: 90, valueFormatter: (p) => `${p.value}h` },
+          {
+            field: 'effort',
+            headerName: 'Effort',
+            width: 90,
+            valueFormatter: (p) => `${p.value}h`,
+          },
           { field: 'category', headerName: 'Category', width: 100, hide: true },
         ],
       },
@@ -1146,7 +1223,9 @@ export class FeatureExplorerDemoComponent {
             cellStyle: (params) => {
               if (!this.isFeatureEnabled('statusColors')) return null;
               const style = this.statusColors[params.value];
-              return style ? { backgroundColor: style.bg, color: style.text, fontWeight: '500' } : null;
+              return style
+                ? { backgroundColor: style.bg, color: style.text, fontWeight: '500' }
+                : null;
             },
           },
           this.isFeatureEnabled('cellRenderers')
@@ -1196,7 +1275,7 @@ export class FeatureExplorerDemoComponent {
               },
         ],
       },
-      { field: 'dueDate', headerName: 'Due Date', width: 110 }
+      { field: 'dueDate', headerName: 'Due Date', width: 110 },
     );
 
     // Row actions
