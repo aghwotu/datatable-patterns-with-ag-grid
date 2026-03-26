@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -613,7 +613,7 @@ const taskData: ProjectTask[] = [
                   <span class="text-sm text-zinc-400">{{ selectedCount() }} selected</span>
                   <button
                     type="button"
-                    class="px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/20 transition-colors"
+                    class="h-10 px-3 rounded-lg text-xs font-medium bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/20 transition-colors"
                     (click)="exportSelected()"
                   >
                     Export CSV
@@ -683,6 +683,7 @@ const taskData: ProjectTask[] = [
 export class FeatureExplorerDemoComponent {
   private breakpointObserver = inject(BreakpointObserver);
   private bottomSheet = inject(BottomSheetService);
+  private destroyRef = inject(DestroyRef);
 
   private _gridApi = signal<GridApi<ProjectTask> | null>(null);
   gridApi = this._gridApi.asReadonly();
@@ -692,6 +693,9 @@ export class FeatureExplorerDemoComponent {
 
   // Selection tracking
   selectedCount = signal(0);
+
+  // Column visibility overrides — persists across flat/grouped layout switches
+  private columnVisibility = signal<Record<string, boolean>>({});
 
   // Feature toggles
   features = signal<FeatureToggle[]>([
@@ -774,7 +778,10 @@ export class FeatureExplorerDemoComponent {
   // Check if any filters/search are active (for reset button highlighting)
   hasActiveFilters = computed(() => {
     return (
-      this.searchInputValue() !== '' || this.statusFilter() !== '' || this.priorityFilter() !== ''
+      this.searchInputValue() !== '' ||
+      this.statusFilter() !== '' ||
+      this.priorityFilter() !== '' ||
+      this.selectedCount() > 0
     );
   });
 
@@ -921,11 +928,23 @@ export class FeatureExplorerDemoComponent {
     effect(() => {
       const api = this._gridApi();
       const columns = this.activeColumnDefs();
+      const visibility = this.columnVisibility();
       if (api) {
         api.setGridOption('columnDefs', columns);
+        // Reapply user-set column visibility after layout switch
+        for (const [field, visible] of Object.entries(visibility)) {
+          api.setColumnsVisible([field], visible);
+        }
         // Force refresh all cells to apply style changes (e.g., status colors)
         // We need to redraw rows to ensure cellStyle functions are re-evaluated
         api.redrawRows();
+      }
+    });
+
+    // Clear any pending search debounce on destroy
+    this.destroyRef.onDestroy(() => {
+      if (this.searchDebounceTimer) {
+        clearTimeout(this.searchDebounceTimer);
       }
     });
 
@@ -974,6 +993,12 @@ export class FeatureExplorerDemoComponent {
     this.features.update((features) =>
       features.map((f) => (f.id === featureId ? { ...f, enabled } : f)),
     );
+
+    if (featureId === 'rowSelection' && !enabled) {
+      const api = this.gridApi();
+      if (api) api.deselectAll();
+      this.selectedCount.set(0);
+    }
   }
 
   enableAll(): void {
@@ -992,8 +1017,8 @@ export class FeatureExplorerDemoComponent {
     this.priorityFilter.set(value);
   }
 
-  onColumnVisibilityChanged(_event: { field: string; visible: boolean }): void {
-    // Column visibility is handled by the menu component directly
+  onColumnVisibilityChanged(event: { field: string; visible: boolean }): void {
+    this.columnVisibility.update((v) => ({ ...v, [event.field]: event.visible }));
   }
 
   // Search handling with debounce
@@ -1165,6 +1190,22 @@ export class FeatureExplorerDemoComponent {
   // Grouped column definitions
   private getGroupedColumnDefs(): (ColDef<ProjectTask> | ColGroupDef<ProjectTask>)[] {
     const columns: (ColDef<ProjectTask> | ColGroupDef<ProjectTask>)[] = [];
+
+    if (this.isFeatureEnabled('rowSelection')) {
+      columns.push({
+        headerName: '',
+        colId: 'select',
+        checkboxSelection: true,
+        headerCheckboxSelection: true,
+        width: 44,
+        maxWidth: 52,
+        pinned: 'left',
+        suppressMovable: true,
+        sortable: false,
+        filter: false,
+        resizable: false,
+      });
+    }
 
     columns.push(
       { field: 'id', headerName: 'ID', width: 100 },
