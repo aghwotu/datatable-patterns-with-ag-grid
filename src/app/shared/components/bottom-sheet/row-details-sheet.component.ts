@@ -23,7 +23,7 @@ interface RowField {
               <dt class="text-xs font-medium text-zinc-500 uppercase tracking-wide">
                 {{ field.label }}
               </dt>
-              <dd class="mt-1 text-sm text-zinc-100 break-words">
+              <dd class="mt-1 text-sm text-zinc-100 wrap-break-word">
                 {{ formatValue(field.value) }}
               </dd>
             </div>
