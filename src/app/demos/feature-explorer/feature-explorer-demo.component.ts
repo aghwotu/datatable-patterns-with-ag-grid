@@ -541,7 +541,7 @@ const taskData: ProjectTask[] = [
                 <input
                   type="text"
                   placeholder="Search tasks..."
-                  class="w-full sm:w-52 pl-8 pr-8 py-1.5 text-sm bg-zinc-900/60 border border-zinc-700/50 rounded-lg text-zinc-100 placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/50 transition-colors"
+                  class="w-full sm:w-52 pl-8 pr-8 h-10 text-sm bg-zinc-900/60 border border-zinc-700/50 rounded-lg text-zinc-100 placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/50 transition-colors"
                   [value]="searchInputValue()"
                   (input)="onSearchInput($event)"
                 />
@@ -586,7 +586,7 @@ const taskData: ProjectTask[] = [
               <!-- Reset Button -->
               <button
                 type="button"
-                class="p-1.5 rounded-lg transition-colors border"
+                class="h-10 w-10 flex items-center justify-center rounded-lg transition-colors border"
                 [class]="
                   hasActiveFilters()
                     ? 'bg-amber-500/10 border-amber-500/30 text-amber-300 hover:bg-amber-500/20'
