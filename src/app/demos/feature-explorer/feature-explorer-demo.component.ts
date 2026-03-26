@@ -928,6 +928,15 @@ export class FeatureExplorerDemoComponent {
         api.redrawRows();
       }
     });
+
+    // Reset to page 1 whenever filtered data changes to avoid landing on a blank page
+    effect(() => {
+      this.filteredData();
+      const api = this._gridApi();
+      if (api && this.isFeatureEnabled('pagination')) {
+        api.paginationGoToFirstPage();
+      }
+    });
   }
 
   onGridReady(event: GridReadyEvent<ProjectTask>): void {
