@@ -1231,22 +1231,6 @@ export class FeatureExplorerDemoComponent {
   private getGroupedColumnDefs(): (ColDef<ProjectTask> | ColGroupDef<ProjectTask>)[] {
     const columns: (ColDef<ProjectTask> | ColGroupDef<ProjectTask>)[] = [];
 
-    if (this.isFeatureEnabled('rowSelection')) {
-      columns.push({
-        headerName: '',
-        colId: 'select',
-        checkboxSelection: true,
-        headerCheckboxSelection: true,
-        width: 44,
-        maxWidth: 52,
-        pinned: 'left',
-        suppressMovable: true,
-        sortable: false,
-        filter: false,
-        resizable: false,
-      });
-    }
-
     columns.push(
       { field: 'id', headerName: 'ID', width: 100 },
       {
