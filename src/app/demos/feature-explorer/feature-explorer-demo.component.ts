@@ -30,6 +30,7 @@ import {
 import { ToggleSwitchComponent } from '@shared/components/toggle-switch/toggle-switch.component';
 import { BottomSheetService } from '@shared/components/bottom-sheet/bottom-sheet.service';
 import { RowDetailsSheetComponent } from '@shared/components/bottom-sheet/row-details-sheet.component';
+import { CodePanelComponent } from './code-panel.component';
 
 // Feature toggle interface
 interface FeatureToggle {
@@ -351,6 +352,7 @@ const taskData: ProjectTask[] = [
     ColumnVisibilityMenuComponent,
     DropdownMenuComponent,
     ToggleSwitchComponent,
+    CodePanelComponent,
   ],
   template: `
     <div class="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col">
@@ -634,6 +636,34 @@ const taskData: ProjectTask[] = [
                   [variant]="'outline'"
                 />
               }
+              <div class="w-px h-5 bg-zinc-700/60"></div>
+              <button
+                type="button"
+                class="h-10 px-3 flex items-center gap-1.5 rounded-lg text-xs font-medium border transition-colors"
+                [class]="
+                  codePanelOpen()
+                    ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-300'
+                    : 'bg-zinc-800/50 border-zinc-700/50 text-zinc-500 hover:bg-zinc-800 hover:text-zinc-300'
+                "
+                (click)="codePanelOpen.set(!codePanelOpen())"
+                title="Toggle generated code panel"
+              >
+                <svg
+                  class="w-3.5 h-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                  />
+                </svg>
+                Code
+              </button>
             </div>
           </div>
 
@@ -672,6 +702,12 @@ const taskData: ProjectTask[] = [
           </div>
         </main>
       </div>
+
+      <app-code-panel
+        [features]="features()"
+        [isOpen]="codePanelOpen()"
+        (closed)="codePanelOpen.set(false)"
+      />
     </div>
   `,
   styles: `
@@ -688,6 +724,9 @@ export class FeatureExplorerDemoComponent {
 
   private _gridApi = signal<GridApi<ProjectTask> | null>(null);
   gridApi = this._gridApi.asReadonly();
+
+  // Code panel visibility
+  codePanelOpen = signal(false);
 
   // Mobile detection
   isMobile = signal(false);
