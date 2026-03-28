@@ -26,7 +26,6 @@ const featureExplorerDemo: Demo = {
   previewGradient: 'from-cyan-500 via-blue-600 to-violet-700',
   previewImage: '/feature-explorer.png',
   hasCustomRoute: true,
-  isWip: true,
 };
 
 // Production-style observability table inspired by OpenStatus
@@ -39,7 +38,6 @@ const observabilityDemo: Demo = {
   previewGradient: 'from-cyan-500 via-sky-600 to-indigo-700',
   previewImage: '/open-status.png',
   hasCustomRoute: true,
-  isWip: true,
 };
 
 @Injectable({

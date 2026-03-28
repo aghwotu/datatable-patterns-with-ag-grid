@@ -77,8 +77,8 @@ interface Highlight {
               >
             </h1>
             <p class="text-zinc-400 text-lg md:text-xl leading-relaxed max-w-2xl mb-10">
-              Toggle features in isolation to evaluate their UX trade-offs, then see how they
-              compose into a dense, real-world data table.
+              A hands-on reference for visualizing AG-Grid features in a real Angular app —
+              composed under real UX constraints, with no Enterprise license required.
             </p>
             <div class="flex items-center gap-4">
               <a
@@ -251,6 +251,12 @@ interface Highlight {
           <div class="flex items-center justify-between mb-8">
             <h2 class="text-sm font-medium text-zinc-500 uppercase tracking-widest">About</h2>
           </div>
+
+          <!-- Why -->
+          <p class="text-sm text-zinc-500 leading-relaxed mb-8 max-w-2xl">
+            A visual reference for exploring how AG-Grid features look and behave when composed
+            together in a real Angular app.
+          </p>
 
           <!-- Tech stack -->
           <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 mb-5">

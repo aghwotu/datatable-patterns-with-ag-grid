@@ -1,14 +1,20 @@
 # AG-Grid Production Patterns
 
+**[Live demo →](https://datatable-patterns-with-ag-grid.vercel.app/)**
+
 Production-style data table reference implementations built with Angular + AG Grid Community.
 
-This repo focuses on **real-world UI constraints** (dense data, latency, conditional actions, progressive disclosure) rather than "feature tours". Each demo explores specific patterns and trade-offs for building maintainable, performant data tables.
+A hands-on visual reference for AG-Grid features — composed in a modern Angular codebase, with no Enterprise license required.
+
+Built to have a place to visualize and explore how AG-Grid features look and behave together.
 
 ## What's inside
 
 ### Feature Explorer
 
 A controlled environment for isolating AG-Grid behaviors—column visibility, row actions, filters, renderers, and grouping—to understand how individual features affect table density, usability, and complexity. Toggle features on/off to evaluate UX trade-offs in isolation.
+
+![Feature Explorer](src/public/feature-explorer.png)
 
 **Features demonstrated:**
 
@@ -22,6 +28,8 @@ A controlled environment for isolating AG-Grid behaviors—column visibility, ro
 ### Observability Table
 
 A production-style observability table inspired by [OpenStatus](https://data-table.openstatus.dev/), designed to surface status, latency, and trends without overwhelming operators. Focuses on dense data scanning, conditional highlighting, and drill-down workflows.
+
+![Observability Table](src/public/open-status.png)
 
 **Features demonstrated:**
 
@@ -63,4 +71,4 @@ npm run build
 
 ## Project Status
 
-Both demos are currently marked as **work-in-progress** (WIP) and are being actively developed. The project serves as a reference implementation for production data table patterns with AG-Grid.
+Actively developed. Feedback and contributions welcome — open an issue or reach out.
