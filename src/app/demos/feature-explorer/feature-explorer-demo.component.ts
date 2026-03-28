@@ -29,7 +29,7 @@ import {
 } from '@shared/menus/dropdown-menu/dropdown-menu.component';
 import { ToggleSwitchComponent } from '@shared/components/toggle-switch/toggle-switch.component';
 import { BottomSheetService } from '@shared/components/bottom-sheet/bottom-sheet.service';
-import { RowDetailsSheetComponent } from '@shared/components/bottom-sheet/row-details-sheet.component';
+import { TaskDetailsSheetComponent } from './task-details-sheet.component';
 import { CodePanelComponent } from './code-panel.component';
 
 // Feature toggle interface
@@ -672,7 +672,7 @@ const taskData: ProjectTask[] = [
             <div
               class="mb-3 px-3 py-2 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-xs text-cyan-300"
             >
-              Tap a row to view details
+              Tap a row or use ⋯ to view full details
             </div>
           }
 
@@ -680,11 +680,10 @@ const taskData: ProjectTask[] = [
           <div
             class="flex-1 flex flex-col bg-zinc-900/50 border border-zinc-800/50 rounded-xl overflow-hidden min-h-100 sm:min-h-125"
           >
-            <div class="flex-1 min-h-0 w-full overflow-x-auto">
+            <div class="w-full overflow-x-auto">
               <ag-grid-angular
-                class="ag-theme-quartz-dark w-full h-full"
-                [style.minHeight.px]="400"
-                [style.minWidth.px]="isMobile() ? 600 : undefined"
+                class="ag-theme-quartz-dark w-full"
+                domLayout="autoHeight"
                 [theme]="theme"
                 [rowData]="filteredData()"
                 [columnDefs]="activeColumnDefs()"
@@ -845,7 +844,7 @@ export class FeatureExplorerDemoComponent {
   private readonly gridActions: GridAction<ProjectTask>[] = [
     {
       label: 'View Details',
-      action: (row) => this.bottomSheet.open(RowDetailsSheetComponent, { data: row }),
+      action: (row) => this.bottomSheet.open(TaskDetailsSheetComponent, { data: row }),
     },
     {
       label: 'Edit Task',
@@ -922,6 +921,9 @@ export class FeatureExplorerDemoComponent {
 
   // Computed column definitions based on enabled features
   activeColumnDefs = computed(() => {
+    if (this.isMobile()) {
+      return this.getMobileColumnDefs();
+    }
     if (this.isFeatureEnabled('groupedColumns')) {
       return this.getGroupedColumnDefs();
     }
@@ -1022,7 +1024,7 @@ export class FeatureExplorerDemoComponent {
     // Only open bottom sheet on mobile
     if (!this.isMobile() || !event.data) return;
 
-    this.bottomSheet.open(RowDetailsSheetComponent, { data: event.data });
+    this.bottomSheet.open(TaskDetailsSheetComponent, { data: event.data });
   }
 
   isFeatureEnabled(featureId: string): boolean {
@@ -1117,6 +1119,51 @@ export class FeatureExplorerDemoComponent {
     if (api && this.isFeatureEnabled('pagination')) {
       api.paginationGoToFirstPage();
     }
+  }
+
+  // Mobile column definitions — minimal set, details in drawer
+  private getMobileColumnDefs(): ColDef<ProjectTask>[] {
+    const columns: ColDef<ProjectTask>[] = [];
+
+    columns.push({ field: 'title', headerName: 'Task', minWidth: 140 });
+
+    if (this.isFeatureEnabled('cellRenderers')) {
+      columns.push({
+        field: 'priority',
+        headerName: 'Priority',
+        width: 120,
+        cellRenderer: BadgeCellComponent,
+      });
+    } else {
+      columns.push({ field: 'priority', headerName: 'Priority', width: 100 });
+    }
+
+    columns.push({
+      field: 'status',
+      headerName: 'Status',
+      width: 120,
+      cellStyle: (params) => {
+        if (!this.isFeatureEnabled('statusColors')) return null;
+        const style = this.statusColors[params.value];
+        return style ? { backgroundColor: style.bg, color: style.text, fontWeight: '500' } : null;
+      },
+    });
+
+    if (this.isFeatureEnabled('rowActions')) {
+      columns.push({
+        headerName: '',
+        colId: 'actions',
+        pinned: 'right',
+        width: 60,
+        filter: false,
+        sortable: false,
+        resizable: false,
+        cellRenderer: AgGridEllipsisMenuComponent,
+        cellRendererParams: { actions: this.gridActions },
+      });
+    }
+
+    return columns;
   }
 
   // Flat column definitions (no grouping)
