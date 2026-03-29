@@ -18,6 +18,7 @@ import { StatusCellComponent } from './renderers/status-cell.component';
 import { LatencyCellComponent } from './renderers/latency-cell.component';
 import { TimingPhasesCellComponent } from './renderers/timing-phases-cell.component';
 import { DemoNavHeaderComponent } from '@shared/components/demo-nav-header/demo-nav-header.component';
+import { FooterComponent } from '@shared/components/footer/footer.component';
 
 // Note: StatusCellComponent and LatencyCellComponent are used as AG Grid cellRenderer references
 // in columnDefs, not in the template directly, so they don't need to be in the imports array.
@@ -33,6 +34,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
     AgGridAngular,
     TimingPhasesCellComponent,
     DemoNavHeaderComponent,
+    FooterComponent,
   ],
   template: `
     <div class="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col">
@@ -377,6 +379,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
           </div>
         </div>
       </div>
+      <app-footer />
     </div>
 
     @if (selectedEvent()) {

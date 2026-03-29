@@ -31,6 +31,7 @@ import { ToggleSwitchComponent } from '@shared/components/toggle-switch/toggle-s
 import { BottomSheetService } from '@shared/components/bottom-sheet/bottom-sheet.service';
 import { TaskDetailsSheetComponent } from './task-details-sheet.component';
 import { CodePanelComponent } from './code-panel.component';
+import { FooterComponent } from '@shared/components/footer/footer.component';
 
 // Feature toggle interface
 interface FeatureToggle {
@@ -353,6 +354,7 @@ const taskData: ProjectTask[] = [
     DropdownMenuComponent,
     ToggleSwitchComponent,
     CodePanelComponent,
+    FooterComponent,
   ],
   template: `
     <div class="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col">
@@ -706,6 +708,7 @@ const taskData: ProjectTask[] = [
         [isOpen]="codePanelOpen()"
         (closed)="codePanelOpen.set(false)"
       />
+      <app-footer />
     </div>
   `,
   styles: `

@@ -1,12 +1,10 @@
-# AG-Grid Production Patterns
+# AG-Grid Patterns Demo
 
 **[Live demo →](https://datatable-patterns-with-ag-grid.vercel.app/)**
 
-Production-style data table reference implementations built with Angular + AG Grid Community.
+A POC / visual reference for common AG-Grid features — patterns that come up repeatedly across real projects, shown in an Angular app with no Enterprise license required.
 
-A hands-on visual reference for AG-Grid features — composed in a modern Angular codebase, with no Enterprise license required.
-
-Built to have a place to visualize and explore how AG-Grid features look and behave together. Each demo includes source code you can browse inline.
+Built to have a place to see how AG-Grid features look and behave when composed together. Each demo includes source code you can browse inline.
 
 ## What's inside
 
@@ -39,12 +37,10 @@ A production-style observability table inspired by [OpenStatus](https://data-tab
 - Loading states and latency-aware pagination
 - High-signal UI optimized for operational monitoring
 
-## Design principles
+## Notes
 
-- **Intent-first patterns**: Each scenario has a user workflow, not a checklist of widgets.
-- **Constraint-aware UX**: Loading states, debounce, progressive disclosure, scanability.
-- **Maintainable composition**: Reusable components for menus/filters/renderers where it makes sense.
-- **AG-Grid Community only**: All patterns use AG-Grid Community (no Enterprise features) to keep implementations broadly applicable.
+- **AG-Grid Community only** — no Enterprise features, so the patterns apply to most projects.
+- This is a POC. The code is exploratory, not held to production standards.
 
 ## Tech Stack
 
