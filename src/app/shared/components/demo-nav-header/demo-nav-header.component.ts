@@ -28,7 +28,7 @@ import { BadgeComponent } from '@shared/components/badge/badge.component';
                 />
               </svg>
             </div>
-            <span class="text-sm font-medium">All Tables</span>
+            <span class="text-sm font-medium">All Demos</span>
           </a>
 
           @if (currentTitle()) {

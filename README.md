@@ -6,7 +6,7 @@ Production-style data table reference implementations built with Angular + AG Gr
 
 A hands-on visual reference for AG-Grid features — composed in a modern Angular codebase, with no Enterprise license required.
 
-Built to have a place to visualize and explore how AG-Grid features look and behave together.
+Built to have a place to visualize and explore how AG-Grid features look and behave together. Each demo includes source code you can browse inline.
 
 ## What's inside
 

@@ -102,6 +102,7 @@ interface Highlight {
                 About
               </a>
             </div>
+            <p class="text-xs text-zinc-600 mt-3">Each demo includes source code you can browse inline.</p>
           </div>
         </div>
       </section>
@@ -248,14 +249,10 @@ interface Highlight {
 
         <!-- About -->
         <section id="about" class="mt-10 scroll-mt-20">
-          <div class="flex items-center justify-between mb-8">
-            <h2 class="text-sm font-medium text-zinc-500 uppercase tracking-widest">About</h2>
-          </div>
 
           <!-- Why -->
           <p class="text-sm text-zinc-500 leading-relaxed mb-8 max-w-2xl">
-            A visual reference for exploring how AG-Grid features look and behave when composed
-            together in a real Angular app.
+            Hands-on AG-Grid feature demos, built with Angular.
           </p>
 
           <!-- Tech stack -->
