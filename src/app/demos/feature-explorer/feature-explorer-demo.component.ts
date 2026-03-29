@@ -680,10 +680,9 @@ const taskData: ProjectTask[] = [
           <div
             class="flex-1 flex flex-col bg-zinc-900/50 border border-zinc-800/50 rounded-xl overflow-hidden min-h-100 sm:min-h-125"
           >
-            <div class="w-full overflow-x-auto">
+            <div class="flex-1 w-full overflow-x-auto">
               <ag-grid-angular
-                class="ag-theme-quartz-dark w-full"
-                domLayout="autoHeight"
+                class="ag-theme-quartz-dark w-full h-full"
                 [theme]="theme"
                 [rowData]="filteredData()"
                 [columnDefs]="activeColumnDefs()"
