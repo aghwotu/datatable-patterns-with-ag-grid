@@ -71,22 +71,39 @@ ModuleRegistry.registerModules([AllCommunityModule]);
             </div>
 
             <details open class="group">
-              <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold text-zinc-200 py-2">
+              <summary
+                class="flex items-center justify-between cursor-pointer text-sm font-semibold text-zinc-200 py-2"
+              >
                 Level
               </summary>
               <div class="space-y-2 text-sm">
                 <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" class="accent-emerald-400" [checked]="statusFilters().success" (change)="toggleStatus('success')" />
+                  <input
+                    type="checkbox"
+                    class="accent-emerald-400"
+                    [checked]="statusFilters().success"
+                    (change)="toggleStatus('success')"
+                  />
                   <span class="text-emerald-200">Success (2xx)</span>
                   <span class="text-xs text-zinc-500 ml-auto">{{ statusCounts().success }}</span>
                 </label>
                 <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" class="accent-amber-400" [checked]="statusFilters().warning" (change)="toggleStatus('warning')" />
+                  <input
+                    type="checkbox"
+                    class="accent-amber-400"
+                    [checked]="statusFilters().warning"
+                    (change)="toggleStatus('warning')"
+                  />
                   <span class="text-amber-200">Warning (4xx)</span>
                   <span class="text-xs text-zinc-500 ml-auto">{{ statusCounts().warning }}</span>
                 </label>
                 <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" class="accent-rose-400" [checked]="statusFilters().error" (change)="toggleStatus('error')" />
+                  <input
+                    type="checkbox"
+                    class="accent-rose-400"
+                    [checked]="statusFilters().error"
+                    (change)="toggleStatus('error')"
+                  />
                   <span class="text-rose-200">Error (5xx)</span>
                   <span class="text-xs text-zinc-500 ml-auto">{{ statusCounts().error }}</span>
                 </label>
@@ -94,7 +111,9 @@ ModuleRegistry.registerModules([AllCommunityModule]);
             </details>
 
             <details open class="group">
-              <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold text-zinc-200 py-2">
+              <summary
+                class="flex items-center justify-between cursor-pointer text-sm font-semibold text-zinc-200 py-2"
+              >
                 Method
               </summary>
               <div class="space-y-2 text-sm">
@@ -114,7 +133,9 @@ ModuleRegistry.registerModules([AllCommunityModule]);
             </details>
 
             <details open class="group">
-              <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold text-zinc-200 py-2">
+              <summary
+                class="flex items-center justify-between cursor-pointer text-sm font-semibold text-zinc-200 py-2"
+              >
                 Regions
               </summary>
               <div class="space-y-2 text-sm">
@@ -134,7 +155,9 @@ ModuleRegistry.registerModules([AllCommunityModule]);
             </details>
 
             <details open class="group">
-              <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold text-zinc-200 py-2">
+              <summary
+                class="flex items-center justify-between cursor-pointer text-sm font-semibold text-zinc-200 py-2"
+              >
                 Latency (ms)
               </summary>
               <div class="space-y-3 text-sm">
@@ -195,7 +218,12 @@ ModuleRegistry.registerModules([AllCommunityModule]);
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
                 </svg>
                 <input
                   type="text"
@@ -254,7 +282,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 
               <div class="flex items-end gap-2 overflow-x-auto pb-1">
                 @for (bucket of timelineBuckets(); track bucket.date) {
-                  <div class="flex flex-col items-center gap-1 min-w-[42px]">
+                  <div class="flex flex-col items-center gap-1 min-w-10.5">
                     <div
                       class="w-8 rounded bg-linear-to-t from-cyan-500/40 via-sky-500/50 to-indigo-500/70 border border-cyan-500/30"
                       [style.height]="getTimelineHeight(bucket.count)"
@@ -353,7 +381,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 
     @if (selectedEvent()) {
       <div
-        class="fixed inset-y-0 right-0 w-full md:w-[420px] bg-zinc-950 border-l border-zinc-800 shadow-2xl z-50 flex flex-col"
+        class="fixed inset-y-0 right-0 w-full md:w-105 bg-zinc-950 border-l border-zinc-800 shadow-2xl z-50 flex flex-col"
       >
         <div class="flex items-center justify-between px-4 py-3 border-b border-zinc-800">
           <div>
@@ -414,10 +442,12 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 
           <div class="space-y-2">
             <div class="text-xs text-zinc-500">Headers</div>
-            <div class="bg-zinc-900 border border-zinc-800 rounded-lg text-sm divide-y divide-zinc-800">
+            <div
+              class="bg-zinc-900 border border-zinc-800 rounded-lg text-sm divide-y divide-zinc-800"
+            >
               @for (entry of selectedEvent()!.headers | keyvalue; track entry.key) {
                 <div class="px-3 py-2 flex items-start gap-2">
-                  <div class="text-xs uppercase text-zinc-500 min-w-[90px]">{{ entry.key }}</div>
+                  <div class="text-xs uppercase text-zinc-500 min-w-22.5">{{ entry.key }}</div>
                   <div class="text-zinc-100 break-all">{{ entry.value }}</div>
                 </div>
               }
@@ -490,7 +520,7 @@ export class ObservabilityDemoComponent implements OnInit, OnDestroy {
   });
 
   maxTimelineCount = computed(
-    () => this.timelineBuckets().reduce((max, b) => Math.max(max, b.count), 1) || 1
+    () => this.timelineBuckets().reduce((max, b) => Math.max(max, b.count), 1) || 1,
   );
 
   theme = themeQuartz.withParams({
@@ -752,7 +782,7 @@ export class ObservabilityDemoComponent implements OnInit, OnDestroy {
     const start = api.paginationGetPageSize() * currentPage + 1;
     const end = Math.min(api.paginationGetPageSize() * (currentPage + 1), displayed);
     this.paginationText.set(
-      `Rows ${start}-${end} of ${displayed} (Page ${currentPage + 1} of ${totalPages})`
+      `Rows ${start}-${end} of ${displayed} (Page ${currentPage + 1} of ${totalPages})`,
     );
   }
 
