@@ -16,7 +16,7 @@ export const menuPanelAnimation = trigger('menuPanelAnimation', [
   ]),
   transition(':leave', [
     animate(
-      '75ms ease-in',
+      '75ms cubic-bezier(0.23, 1, 0.32, 1)',
       style({
         opacity: 0,
         transform: 'scale(0.95)',

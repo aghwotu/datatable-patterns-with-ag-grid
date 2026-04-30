@@ -9,7 +9,7 @@ import { ICellRendererParams } from 'ag-grid-community';
     <div class="flex items-center gap-3 h-full">
       <div class="flex-1 h-2 bg-zinc-700 rounded-full overflow-hidden">
         <div
-          class="h-full rounded-full transition-all duration-300"
+          class="h-full rounded-full transition-[width,background-color] duration-300 ease-out"
           [style.width.%]="percentage"
           [style.backgroundColor]="progressColor"
         ></div>

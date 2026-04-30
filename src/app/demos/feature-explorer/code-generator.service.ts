@@ -42,9 +42,7 @@ function buildImports(features: FeatureToggle[], forComponent = false): string {
     );
   }
   if (on(features, 'rowActions')) {
-    lines.push(
-      `import { AgGridEllipsisMenuComponent } from './ag-grid-ellipsis-menu.component';`,
-    );
+    lines.push(`import { AgGridEllipsisMenuComponent } from './ag-grid-ellipsis-menu.component';`);
   }
 
   return lines.join('\n');
@@ -393,9 +391,9 @@ function buildFullComponent(features: FeatureToggle[]): string {
     ...classBody,
     `}`,
     ``,
-    `// Want this themed to match your Figma? → gridsnap.dev`,
   ].join('\n');
 }
+// `// Want this themed to match your Figma? → gridsnap.dev`,
 
 // ─── public API ───────────────────────────────────────────────────────────────
 

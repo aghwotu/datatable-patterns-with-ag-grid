@@ -18,7 +18,7 @@ import { FormsModule } from '@angular/forms';
         <!-- X icon (unchecked) -->
         <span
           aria-hidden="true"
-          class="absolute inset-0 flex size-full items-center justify-center transition-opacity duration-200 ease-in"
+          class="absolute inset-0 flex size-full items-center justify-center transition-opacity duration-200 ease-out"
           [class.opacity-100]="!checked()"
           [class.opacity-0]="checked()"
         >

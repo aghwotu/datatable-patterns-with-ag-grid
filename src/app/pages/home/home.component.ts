@@ -120,11 +120,12 @@ interface Highlight {
           @for (demo of demos; track demo.id; let idx = $index) {
             <a
               [routerLink]="['/demo', demo.id]"
-              class="group block h-full"
+              class="group block h-full [animation-fill-mode:both] [animation:card-enter_400ms_cubic-bezier(0.23,1,0.32,1)]"
+              [style.animation-delay]="idx * 60 + 'ms'"
               [style.view-transition-name]="'demo-card-' + demo.id"
             >
               <article
-                class="relative h-full flex flex-col bg-zinc-900/40 border border-zinc-800/60 rounded-2xl overflow-hidden transition-all duration-200 hover:border-zinc-700/80 hover:bg-zinc-900/70 hover:shadow-xl hover:shadow-black/40 hover:-translate-y-0.5"
+                class="relative h-full flex flex-col bg-zinc-900/40 border border-zinc-800/60 rounded-2xl overflow-hidden transition-[border-color,background-color,box-shadow,transform] duration-200 ease-out hover:border-zinc-700/80 hover:bg-zinc-900/70 hover:shadow-xl hover:shadow-black/40 hover:-translate-y-0.5"
               >
                 <!-- Preview -->
                 <div
@@ -162,7 +163,7 @@ interface Highlight {
                   </div>
                   <!-- Arrow -->
                   <div
-                    class="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center translate-x-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200"
+                    class="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center translate-x-1 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-[opacity,transform] duration-200 ease-out"
                   >
                     <svg
                       class="w-3.5 h-3.5 text-white"

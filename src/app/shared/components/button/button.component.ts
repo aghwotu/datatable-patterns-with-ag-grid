@@ -35,7 +35,7 @@ const buttonClasses: ButtonClasses = {
   base: 'flex justify-center leading-6 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
   variants: {
     default: {
-      base: 'bg-cyan-600 text-white hover:bg-cyan-500 hover:transition-colors focus-visible:outline-cyan-600',
+      base: 'bg-cyan-600 text-white hover:bg-cyan-500 transition-colors duration-150 focus-visible:outline-cyan-600',
       loading:
         'data-[loading=true]:bg-cyan-400 data-[loading=true]:text-white data-[loading=true]:cursor-progress',
       disabled: 'data-[disabled=true]:bg-cyan-400 data-[disabled=true]:text-white',
